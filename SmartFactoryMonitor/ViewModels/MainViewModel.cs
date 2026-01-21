@@ -1,0 +1,46 @@
+﻿using SmartFactoryMonitor.Model;
+using SmartFactoryMonitor.Repository;
+using SmartFactoryMonitor.Services;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Data;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Threading;
+
+namespace SmartFactoryMonitor.ViewModels 
+{
+    public class MainViewModel
+    {
+        private readonly EquipRepository Repository;
+
+        private readonly OracleService _dbService = new OracleService();
+        private readonly MonitoringService _mService = new MonitoringService();
+        private readonly EquipService _eService;
+
+        public MonitoringViewModel MonitorVM { get; }
+        public EquipManageViewModel EquipManageVM { get; }
+
+        public MainViewModel()
+        {
+            Repository = new EquipRepository(_dbService);
+            _eService = new EquipService(_dbService);
+
+            // Repository 의존성 주입
+            MonitorVM = new MonitoringViewModel(Repository, _mService);
+            EquipManageVM = new EquipManageViewModel(Repository, _eService);
+
+            // 초기 데이터 불러오기
+            InitializeData(Repository);
+        }
+
+        private async void InitializeData(EquipRepository repo)
+        {
+            await repo.LoadAll();
+        }
+    }
+}

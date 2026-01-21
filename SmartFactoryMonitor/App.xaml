@@ -1,0 +1,16 @@
+﻿<Application x:Class="SmartFactoryMonitor.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:local="clr-namespace:SmartFactoryMonitor"
+             xmlns:viewmodels="clr-namespace:SmartFactoryMonitor.ViewModels"
+             StartupUri="Views/MainWindow.xaml">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Styles/FormStyles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+            <viewmodels:MainViewModel x:Key="MainVM" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

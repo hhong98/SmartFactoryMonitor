@@ -1,0 +1,45 @@
+﻿<UserControl x:Class="SmartFactoryMonitor.EquipAddForm"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:SmartFactoryMonitor"
+             mc:Ignorable="d" Width="300">
+    <Grid Background="White" Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Text="설비 등록" FontWeight="Bold" FontSize="22" Margin="0,0,0,15" TextAlignment="Center"/>
+        
+        <StackPanel Grid.Row="1" Orientation="Vertical">
+            <Label Content="설비명" FontWeight="Bold" Margin="10,5,10,0"/>
+            <TextBox x:Name="EquipName" Height="28" VerticalContentAlignment="Center" Margin="10, 0"/>
+
+            <Label Content="IP 주소" FontWeight="Bold" Margin="10,5,10,0"/>
+            <TextBox x:Name="IpAddress" Height="28" VerticalContentAlignment="Center" Margin="10, 0"/>
+
+            <Label Content="포트" FontWeight="Bold" Margin="10,5,10,0"/>
+            <TextBox x:Name="Port" Height="28" VerticalContentAlignment="Center" Margin="10, 0"/>
+
+            <Label Content="최저 온도" FontWeight="Bold" Margin="10,5,10,0"/>
+            <TextBox x:Name="MinTemp" Height="28" VerticalContentAlignment="Center" Margin="10, 0"/>
+
+            <Label Content="최고 온도" FontWeight="Bold" Margin="10,5,10,0"/>
+            <TextBox x:Name="MaxTemp" Height="28" VerticalContentAlignment="Center" Margin="10, 0"/>
+
+            <Label Content="설치 위치" FontWeight="Bold" Margin="10,5,10,0"/>
+            <ComboBox x:Name="Location" Height="28" VerticalAlignment="Center" Margin="10, 0"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10">
+            <Button Content="완료" Width="80" Height="30" Margin="0,0,10,0" 
+                    Click="BtnConfirm_Click" Background="#2ECC71" Foreground="White" 
+                    BorderThickness="0"/>
+            <Button Content="초기화" Width="80" Height="30" Margin="0,0,10,0" 
+                    Click="BtnReset_Click"/>
+        </StackPanel>
+    </Grid>
+</UserControl>
