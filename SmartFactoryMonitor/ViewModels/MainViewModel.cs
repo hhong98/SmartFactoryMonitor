@@ -1,5 +1,6 @@
 ﻿using SmartFactoryMonitor.Model;
 using SmartFactoryMonitor.Repository;
+using SmartFactoryMonitor.Server;
 using SmartFactoryMonitor.Services;
 using System;
 using System.Collections.Generic;
@@ -12,7 +13,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace SmartFactoryMonitor.ViewModels 
+namespace SmartFactoryMonitor.ViewModels
 {
     public class MainViewModel
     {
@@ -25,6 +26,9 @@ namespace SmartFactoryMonitor.ViewModels
         public MonitoringViewModel MonitorVM { get; }
         public EquipManageViewModel EquipManageVM { get; }
 
+        // [TEMP] Android 앱 개발 용도 (REST API)
+        public HttpServer server { get; }
+
         public MainViewModel()
         {
             Repository = new EquipRepository(_dbService);
@@ -36,6 +40,10 @@ namespace SmartFactoryMonitor.ViewModels
 
             // 초기 데이터 불러오기
             InitializeData(Repository);
+
+            // [TEMP] Android 앱 개발 용도 (REST API)
+            server = new HttpServer(_dbService);
+            server.Start();
         }
 
         private async void InitializeData(EquipRepository repo)

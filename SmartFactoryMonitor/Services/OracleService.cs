@@ -51,7 +51,7 @@ namespace SmartFactoryMonitor.Services
                             {
                                 dt.Load(reader);
                             }
-                            // 조회 작업이므로 커밋 x 
+                            // 조회 작업이므로 커밋 x
                         }
                     }
                 }
@@ -138,7 +138,7 @@ namespace SmartFactoryMonitor.Services
         //                        {
         //                            dt.Load(reader);
         //                        }
-        //                        // 조회 작업이므로 커밋 x 
+        //                        // 조회 작업이므로 커밋 x
         //                    }
         //                }
         //            }
@@ -200,5 +200,31 @@ namespace SmartFactoryMonitor.Services
         //            return result;
         //        }
         //    }
+    }
+
+    public static class DataTableMapper
+    {
+        public static List<Dictionary<string, object>> ToRows(DataTable table)
+        {
+            var rows = new List<Dictionary<string, object>>();
+            if (table is null) return rows;
+
+            foreach (DataRow row in table.Rows)
+            {
+                var dict = new Dictionary<string, object>(StringComparer.OrdinalIgnoreCase);
+
+                foreach (DataColumn col in table.Columns)
+                {
+                    var value = row[col];
+                    dict[col.ColumnName] = value == DBNull.Value
+                        ? null
+                        : value;
+                }
+
+                rows.Add(dict);
+            }
+
+            return rows;
+        }
     }
 }
