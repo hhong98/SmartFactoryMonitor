@@ -27,7 +27,8 @@ namespace SmartFactoryMonitor.Server
             {
                 case "GET":
                     {
-                        string sql = "SELECT * FROM EQUIPMENT";
+                        //string sql = "select * from EQUIPMENT";
+                        string sql = @"select * from EQUIPMENT where IS_ACTIVE='Y'";
                         var dt = await db.SelectQuery(sql).ConfigureAwait(false);
 
                         var rows = DataTableMapper.ToRows(dt);
