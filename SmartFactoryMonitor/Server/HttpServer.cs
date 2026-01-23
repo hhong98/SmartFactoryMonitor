@@ -28,14 +28,19 @@ namespace SmartFactoryMonitor.Server
          * - WPF 서버는 localhost x, PC의 로컬 IP로 접근
          */
 
-        // 안드로이드 에뮬레이터에서는 접근 시 10.0.2.2로 접근할 것!
-        private string prefix = "http://localhost:8080/";
+        private static readonly HashSet<string> allowedHost = new HashSet<string> {
+                "http://127.0.0.1:8080/", // localhost
+            };
 
         public HttpServer(OracleService dbService)
         {
             db = dbService;
             listener = new HttpListener();
-            listener.Prefixes.Add(prefix);
+
+            foreach (var host in allowedHost)
+            {
+                listener.Prefixes.Add(host);
+            }
 
             logger = LogManager.GetLogger("SFM_Logger");
 

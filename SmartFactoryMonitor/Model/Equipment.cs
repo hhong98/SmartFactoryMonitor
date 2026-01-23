@@ -10,7 +10,7 @@ namespace SmartFactoryMonitor.Model
 {
     public class Equipment : ObservableModelBase
     {
-        public string EquipId { get; set; } // C#의 자동 구현 Property 
+        public string EquipId { get; set; } // C#의 자동 구현 Property
 
         private string _equipName; // 필드(실제 데이터가 메모리에 저장되는 저장소), 자동 구현 Property 사용 x
         public string EquipName { get => _equipName; set => SetProperty(ref _equipName, value); } // 프로퍼티(외부에서 저장소에 접근하는 경로)
@@ -34,6 +34,7 @@ namespace SmartFactoryMonitor.Model
         public string IsActive { get => _isActive; set => SetProperty(ref _isActive, value); }
 
         private double _currentTemp = 0d;
+
         public double CurrentTemp
         {
             get => _currentTemp;
@@ -52,6 +53,7 @@ namespace SmartFactoryMonitor.Model
         public bool IsChecked { get => _isChecked; set => SetProperty(ref _isChecked, value); }
 
         /* 설비 추가 DTO */
+
         public class Add_DTO
         {
             public string EquipName { get; set; }
@@ -63,6 +65,7 @@ namespace SmartFactoryMonitor.Model
         }
 
         /* 설비 수정 DTO */
+
         public class Update_DTO
         {
             public string EquipName { get; set; }
