@@ -20,8 +20,8 @@ namespace SmartFactoryMonitor.Server
         //public Task<ApiResult> Health(ApiRequest req)
         //    => Task.FromResult(ApiResult.Ok(new { ok = true, time = DateTime.Now }));
 
-        // GET /api/equipments
-        public async Task<ApiResult> GetEquipments(ApiRequest req)
+        // /api/equipments
+        public async Task<ApiResult> Equipments(ApiRequest req)
         {
             switch (req.Method)
             {
@@ -33,6 +33,26 @@ namespace SmartFactoryMonitor.Server
 
                         var rows = DataTableMapper.ToRows(dt);
                         return ApiResult.Ok(new { success = true, data = rows });
+                    }
+                default: break;
+            }
+
+            return null;
+        }
+
+        public async Task<ApiResult> EquipmentDetail(ApiRequest req)
+        {
+            string id = req.Query["id"];
+
+            switch (req.Method)
+            {
+                case "GET":
+                    {
+                        string sql = @$"select EQUIP_ID, EQUIP_NAME, IP_ADDRESS, PORT, MIN_TEMP, MAX_TEMP, LOCATION from EQUIPMENT where EQUIP_ID='{id}'";
+                        var dt = await db.SelectQuery(sql).ConfigureAwait(false);
+
+                        var rows = DataTableMapper.ToRows(dt);
+                        return ApiResult.Ok(new { success = true, data = rows.FirstOrDefault() });
                     }
                 default: break;
             }

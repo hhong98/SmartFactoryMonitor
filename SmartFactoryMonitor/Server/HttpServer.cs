@@ -29,7 +29,7 @@ namespace SmartFactoryMonitor.Server
          */
 
         private static readonly HashSet<string> allowedHost = new HashSet<string> {
-                "http://127.0.0.1:8080/", // localhost
+                "http://127.0.0.1:8888/", // localhost
             };
 
         public HttpServer(OracleService dbService)
@@ -47,7 +47,8 @@ namespace SmartFactoryMonitor.Server
             router = new ApiRouter();
             controller = new ApiController(db);
 
-            router.Map("GET", "/api/equipments", controller.GetEquipments);
+            router.Map("GET", "/api/equipments", controller.Equipments);
+            router.Map("GET", "api/equipments/detail", controller.EquipmentDetail);
         }
 
         public void Start()
