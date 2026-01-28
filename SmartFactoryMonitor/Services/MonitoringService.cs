@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace SmartFactoryMonitor.Services
 {
-    public class MonitoringService 
+    public class MonitoringService
     {
         private Random _random = new Random();
 

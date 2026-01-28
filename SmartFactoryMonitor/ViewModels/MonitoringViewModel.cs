@@ -49,6 +49,7 @@ namespace SmartFactoryMonitor.ViewModels
         }
 
         /* 설비 온도 모니터링 시작 */
+
         private async void StartMonitoring()
         {
             refreshTimer.Start();
@@ -59,8 +60,6 @@ namespace SmartFactoryMonitor.ViewModels
 
             try
             {
-                
-
                 while (!token.IsCancellationRequested)
                 {
                     // TODO : 이걸 필드 및 프로퍼티로 만들어도 될 듯
@@ -93,6 +92,7 @@ namespace SmartFactoryMonitor.ViewModels
         }
 
         /* 설비 온도 모니터링 종료 */
+
         public void StopMonitoring()
         {
             _cts?.Cancel();

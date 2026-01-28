@@ -72,6 +72,7 @@
       <DependentUpon>EquipList.xaml</DependentUpon>
     </Compile>
     <Compile Include="EquipListConverter.cs" />
+    <Compile Include="Model\SimulatorTempDto.cs" />
     <Compile Include="Server\Api.cs" />
     <Compile Include="Model\DbResult.cs" />
     <Compile Include="Model\Equipment.cs" />
