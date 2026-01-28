@@ -48,8 +48,7 @@ namespace SmartFactoryMonitor.ViewModels
             OnPropertyChanged(nameof(OverHeatCount));
         }
 
-        /* 설비 온도 모니터링 시작 */
-
+        // 설비 온도 모니터링 시작
         private async void StartMonitoring()
         {
             refreshTimer.Start();
@@ -64,16 +63,19 @@ namespace SmartFactoryMonitor.ViewModels
                 {
                     // TODO : 이걸 필드 및 프로퍼티로 만들어도 될 듯
                     var activeEquips = Equipments
-                        .Where(e => e.IsActive == "Y")
+                        .Where(e => e.IsActive is "Y")
                         .ToList();
 
                     if (activeEquips.Count > 0)
                     {
+                        var equipTempInfoList = await _mService.GetListTemp(activeEquips.Select(ae => ae.EquipId).ToList());
+
                         foreach (var equip in activeEquips)
                         {
-                            double newTemp = _mService.GetLiveTemp();
+                            var temp = equipTempInfoList
+                                .First(i => i.equipId == equip.EquipId).temperature;
 
-                            equip.CurrentTemp = newTemp;
+                            equip.CurrentTemp = temp;
                         }
 
                         RefreshDashboard();
@@ -91,8 +93,7 @@ namespace SmartFactoryMonitor.ViewModels
             }
         }
 
-        /* 설비 온도 모니터링 종료 */
-
+        // 설비 온도 모니터링 종료
         public void StopMonitoring()
         {
             _cts?.Cancel();

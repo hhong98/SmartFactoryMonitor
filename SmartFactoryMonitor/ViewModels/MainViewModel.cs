@@ -20,7 +20,7 @@ namespace SmartFactoryMonitor.ViewModels
         private readonly EquipRepository Repository;
 
         private readonly OracleService _dbService = new OracleService();
-        private readonly MonitoringService _mService = new MonitoringService();
+        private readonly MonitoringService _mService;
         private readonly EquipService _eService;
 
         public MonitoringViewModel MonitorVM { get; }
@@ -31,6 +31,9 @@ namespace SmartFactoryMonitor.ViewModels
 
         public MainViewModel()
         {
+            // DB 의존성 주입
+            _mService = new MonitoringService(_dbService);
+
             Repository = new EquipRepository(_dbService);
             _eService = new EquipService(_dbService);
 

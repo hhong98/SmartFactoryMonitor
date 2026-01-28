@@ -47,6 +47,9 @@ namespace SmartFactoryMonitor.Model
             }
         }
 
+        private string _status = "NO_DATA";
+        public string Status { get => _status; set => SetProperty(ref _status, value); }
+
         public bool IsOverHeat => CurrentTemp > MaxTemp;
 
         private bool _isChecked = false;
