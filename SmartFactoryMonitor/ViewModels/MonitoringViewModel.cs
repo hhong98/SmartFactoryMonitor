@@ -26,7 +26,7 @@ namespace SmartFactoryMonitor.ViewModels
         /* 대시보드 요약 */
         public int TotalCount => Equipments.Count;
         public int ActiveCount => Equipments.Count(e => string.Equals(e.IsActive, "Y"));
-        public int OverHeatCount => Equipments.Count(e => e.IsOverHeat);
+        public int OverHeatCount => Equipments.Count(e => string.Equals(e.IsActive, "Y") && e.Status is "ERROR");
 
         public MonitoringViewModel(EquipRepository equipRepository, MonitoringService mService)
         {
@@ -68,14 +68,16 @@ namespace SmartFactoryMonitor.ViewModels
 
                     if (activeEquips.Count > 0)
                     {
-                        var equipTempInfoList = await _mService.GetListTemp(activeEquips.Select(ae => ae.EquipId).ToList());
+                        var equipTempInfoList = await _mService.GetLatestTemp(activeEquips.Select(ae => ae.EquipId).ToList());
 
                         foreach (var equip in activeEquips)
                         {
-                            var temp = equipTempInfoList
-                                .First(i => i.equipId == equip.EquipId).temperature;
+                            var info = equipTempInfoList
+                                .FirstOrDefault(info => info.equipId == equip.EquipId);
+                            if (info.equipId is null) throw new Exception("수치를 수집하지 않은 장비입니다 (SIMULATOR)");
 
-                            equip.CurrentTemp = temp;
+                            equip.CurrentTemp = info.temperature;
+                            equip.Status = info.status;
                         }
 
                         RefreshDashboard();

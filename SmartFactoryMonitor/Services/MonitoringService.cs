@@ -17,11 +17,7 @@ namespace SmartFactoryMonitor.Services
             this.db = db;
         }
 
-        // 실시간 데이터를 랜덤으로 생성해서 반환
-        // 실제로는 PCL이나 DB에서 데이터를 가져오는 역할
-        public double GetLiveTemp() => Math.Round(_random.NextDouble() * 100, 1);
-
-        public async Task<List<(string equipId, double temperature, string status)>> GetListTemp(List<string> equipIds)
+        public async Task<List<(string equipId, double temperature, string status)>> GetLatestTemp(List<string> equipIds)
         {
             var ids = string.Join(", ", equipIds.Select(id => $"'{id}'"));
             var sql = @$"
@@ -47,19 +43,5 @@ namespace SmartFactoryMonitor.Services
                  status: row.Field<string>("STATUS")
              )).ToList();
         }
-
-        /*
-        SELECT EQUIP_ID, TEMPERATURE, STATUS
-        FROM (
-            SELECT
-                SL.EQUIP_ID,
-                SL.TEMPERATURE,
-                SL.STATUS,
-                ROW_NUMBER() OVER (PARTITION BY SL.EQUIP_ID ORDER BY SL.LOG_TIME DESC) AS RN
-            FROM SENSOR_LOG SL
-            WHERE SL.EQUIP_ID IN ('EQUIP_001', 'EQUIP_002', 'EQUIP_003')
-        )
-        WHERE RN = 1;
-         */
     }
 }

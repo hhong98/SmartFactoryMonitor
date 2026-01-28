@@ -38,19 +38,11 @@ namespace SmartFactoryMonitor.Model
         public double CurrentTemp
         {
             get => _currentTemp;
-            set
-            {
-                if (SetProperty(ref _currentTemp, value))
-                {
-                    OnPropertyChanged(nameof(IsOverHeat)); // 현재 온도 변경 시, 과열 여부 알림
-                }
-            }
+            set => SetProperty(ref _currentTemp, value);
         }
 
         private string _status = "NO_DATA";
         public string Status { get => _status; set => SetProperty(ref _status, value); }
-
-        public bool IsOverHeat => CurrentTemp > MaxTemp;
 
         private bool _isChecked = false;
         public bool IsChecked { get => _isChecked; set => SetProperty(ref _isChecked, value); }
