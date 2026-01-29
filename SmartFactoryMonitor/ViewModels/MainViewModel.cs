@@ -15,7 +15,7 @@ using System.Windows.Threading;
 
 namespace SmartFactoryMonitor.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel : IDisposable
     {
         private readonly EquipRepository Repository;
 
@@ -51,6 +51,12 @@ namespace SmartFactoryMonitor.ViewModels
         private async void InitializeData(EquipRepository repo)
         {
             await repo.LoadAll();
+        }
+
+        public void Dispose()
+        {
+            try { server?.Stop(); } catch { }
+            try { server?.Dispose(); } catch { }
         }
     }
 }

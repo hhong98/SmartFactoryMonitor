@@ -45,11 +45,12 @@ namespace SmartFactoryMonitor.Views
                 {
                     mainVm.MonitorVM?.StopMonitoring();
                     mainVm.server?.Stop();
-                    mainVm.server.Dispose();
+                    mainVm.server?.Dispose();
+
+                    mainVm?.Dispose();
                 }
             }
             catch { }
-
             base.OnClosing(e);
         }
     }
