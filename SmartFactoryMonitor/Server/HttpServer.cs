@@ -4,6 +4,7 @@ using SmartFactoryMonitor.Model;
 using SmartFactoryMonitor.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -56,11 +57,18 @@ namespace SmartFactoryMonitor.Server
 
         public void Start()
         {
-            if (listener.IsListening) return;
+            if (listener is null || listener.IsListening) return;
 
-            cts = new CancellationTokenSource();
-            listener.Start();
-            Task.Run(() => ListenLoop(cts.Token));
+            try
+            {
+                cts = new CancellationTokenSource();
+                listener.Start();
+                Task.Run(() => ListenLoop(cts.Token));
+            }
+            catch (HttpListenerException ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         public void Stop()

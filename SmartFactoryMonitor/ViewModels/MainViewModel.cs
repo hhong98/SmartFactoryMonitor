@@ -26,7 +26,6 @@ namespace SmartFactoryMonitor.ViewModels
         public MonitoringViewModel MonitorVM { get; }
         public EquipManageViewModel EquipManageVM { get; }
 
-        // [TEMP] Android 앱 개발 용도 (REST API)
         public HttpServer server { get; }
 
         public MainViewModel()
