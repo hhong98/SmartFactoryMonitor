@@ -29,7 +29,7 @@ namespace SmartFactoryMonitor.Server
          */
 
         private static readonly HashSet<string> allowedHost = new HashSet<string> {
-                "http://127.0.0.1:8888/", // localhost
+                "http://127.0.0.1:49150/", // localhost
             };
 
         public HttpServer(OracleService dbService)
