@@ -39,10 +39,18 @@ namespace SmartFactoryMonitor.Views
 
         protected override void OnClosing(CancelEventArgs e)
         {
-            if (DataContext is MainViewModel mainVm)
+            try
             {
-                mainVm.MonitorVM.StopMonitoring();
+                if (DataContext is MainViewModel mainVm)
+                {
+                    mainVm.MonitorVM?.StopMonitoring();
+                    mainVm.server?.Stop();
+                    mainVm.server?.Dispose();
+
+                    mainVm?.Dispose();
+                }
             }
+            catch { }
             base.OnClosing(e);
         }
     }

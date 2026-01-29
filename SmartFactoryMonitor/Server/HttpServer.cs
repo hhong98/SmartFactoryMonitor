@@ -4,6 +4,7 @@ using SmartFactoryMonitor.Model;
 using SmartFactoryMonitor.Services;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -29,7 +30,7 @@ namespace SmartFactoryMonitor.Server
          */
 
         private static readonly HashSet<string> allowedHost = new HashSet<string> {
-                "http://127.0.0.1:8888/", // localhost
+                "http://127.0.0.1:49150/", // localhost
             };
 
         public HttpServer(OracleService dbService)
@@ -56,43 +57,50 @@ namespace SmartFactoryMonitor.Server
 
         public void Start()
         {
-            cts = new CancellationTokenSource();
-            listener.Start();
-            Task.Run(() => ListenLoop(cts.Token));
+            if (listener is null || listener.IsListening) return;
+
+            try
+            {
+                cts = new CancellationTokenSource();
+                listener.Start();
+                Task.Run(() => ListenLoop(cts.Token));
+            }
+            catch (HttpListenerException ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         public void Stop()
         {
-            cts.Cancel();
-            listener.Stop();
+            if (listener is null) return;
+            if (!listener.IsListening) return;
+
+            try { cts?.Cancel(); } catch { }
+            try { listener.Stop(); } catch { }
+            try { listener.Close(); } catch { }
         }
 
         public void Dispose()
         {
-            Stop();
-            listener.Close();
+            try { Stop(); } catch { }
+            try { listener?.Close(); } catch { }
+            try { cts?.Dispose(); } catch { }
         }
 
         private async Task ListenLoop(CancellationToken token)
         {
-            while (!cts.IsCancellationRequested)
+            while (!token.IsCancellationRequested)
             {
-                HttpListenerContext context = null;
-
                 try
                 {
-                    context = await listener.GetContextAsync();
+                    var context = await listener.GetContextAsync();
                     _ = Task.Run(() => RequestHandler(context), token);
                 }
-                catch (HttpListenerException)
-                {
-                    break;
-                }
-                catch (Exception ex)
-                {
-                    // 로그 남기기
-                    logger.Error(ex.Message);
-                }
+                catch (ObjectDisposedException) { break; }
+                catch (HttpListenerException) { break; }
+                catch (OperationCanceledException) when (token.IsCancellationRequested) { break; }
+                catch (Exception ex) { logger.Error(ex, $"ListenLoop error: {ex.Message}"); }
             }
         }
 

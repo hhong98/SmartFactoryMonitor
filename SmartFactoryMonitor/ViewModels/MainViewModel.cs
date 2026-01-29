@@ -15,7 +15,7 @@ using System.Windows.Threading;
 
 namespace SmartFactoryMonitor.ViewModels
 {
-    public class MainViewModel
+    public class MainViewModel : IDisposable
     {
         private readonly EquipRepository Repository;
 
@@ -26,7 +26,6 @@ namespace SmartFactoryMonitor.ViewModels
         public MonitoringViewModel MonitorVM { get; }
         public EquipManageViewModel EquipManageVM { get; }
 
-        // [TEMP] Android 앱 개발 용도 (REST API)
         public HttpServer server { get; }
 
         public MainViewModel()
@@ -52,6 +51,12 @@ namespace SmartFactoryMonitor.ViewModels
         private async void InitializeData(EquipRepository repo)
         {
             await repo.LoadAll();
+        }
+
+        public void Dispose()
+        {
+            try { server?.Stop(); } catch { }
+            try { server?.Dispose(); } catch { }
         }
     }
 }
