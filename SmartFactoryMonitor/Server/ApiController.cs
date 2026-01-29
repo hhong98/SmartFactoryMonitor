@@ -22,14 +22,14 @@ namespace SmartFactoryMonitor.Server
         // =========================
         // GET /api/equipments
         // =========================
-        public async Task<ApiResult> Equipments(ApiRequest req)
+        public async Task<ApiResult> ActiveEquipments(ApiRequest req)
         {
             switch (req.Method)
             {
                 case "GET":
                     {
                         //string sql = "select * from EQUIPMENT";
-                        string sql = @"select * from EQUIPMENT where IS_ACTIVE='Y'";
+                        string sql = @"select EQUIP_ID, EQUIP_NAME, MIN_TEMP, MAX_TEMP, LOCATION from EQUIPMENT where IS_ACTIVE='Y'";
                         var dt = await db.SelectQuery(sql).ConfigureAwait(false);
 
                         var rows = DataTableMapper.ToRows(dt);
@@ -44,7 +44,7 @@ namespace SmartFactoryMonitor.Server
         // =========================
         // GET /api/equipments/meta
         // =========================
-        public async Task<ApiResult> EquipmentsMeta(ApiRequest req)
+        public async Task<ApiResult> ActiveEquipmentsMeta(ApiRequest req)
         {
             switch (req.Method)
             {

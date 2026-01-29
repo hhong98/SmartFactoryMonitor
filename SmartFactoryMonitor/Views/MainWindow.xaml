@@ -12,23 +12,22 @@
     <Grid>
         <Grid.RowDefinitions>
             <!--화면을 가로로 두 영역으로 나누기-->
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
             <!--내용물만큼 차지-->
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="*" />
             <!--나머지 전체 차지-->
         </Grid.RowDefinitions>
 
         <Border Grid.Row="0" Background="#007ACC" Padding="10">
-            <TextBlock Text="SMART FACTORY MONITOR" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center"/>
+            <TextBlock Text="SMART FACTORY MONITOR" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" />
         </Border>
-        <StackPanel Orientation="Horizontal" Grid.Row="1" 
+        <StackPanel Orientation="Horizontal" Grid.Row="1"
                     VerticalAlignment="Top">
-            <Button Content="HOME" Click="BtnHome_Click"/>
-            <Button  
-                Padding="10, 5" Content="설비 목록 보기" Click="BtnShowList_Click"/>
-            <Button  
-                Padding="10, 5" Content="실시간 모니터링" Click="BtnMonitor_Click"/>
+            <Button
+                Padding="10, 5" Content="설비 모니터링" Click="BtnMonitor_Click" />
+            <Button
+                Padding="10, 5" Content="설비 관리" Click="BtnShowList_Click" />
         </StackPanel>
-        <Frame Grid.Row="1" Margin="0,30,0,0" x:Name="MainFrame" NavigationUIVisibility="Hidden"/>
+        <Frame Grid.Row="1" Margin="0,30,0,0" x:Name="MainFrame" NavigationUIVisibility="Hidden" />
     </Grid>
 </Window>

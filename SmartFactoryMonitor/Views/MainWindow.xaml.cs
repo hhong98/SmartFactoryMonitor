@@ -28,16 +28,13 @@ namespace SmartFactoryMonitor.Views
         public MainWindow()
         {
             InitializeComponent();
-            BtnHome_Click(null, null); // 켜지자마자 홈 페이지 표시
+            BtnMonitor_Click();
         }
 
-        private void BtnShowList_Click(object sender, RoutedEventArgs e)
+        private void BtnShowList_Click(object sender = null, RoutedEventArgs e = null)
             => MainFrame.Navigate(new EquipListPage());
 
-        private void BtnHome_Click(object sender, RoutedEventArgs e)
-            => MainFrame.Navigate(new MainPage());
-
-        private void BtnMonitor_Click(object sender, RoutedEventArgs e)
+        private void BtnMonitor_Click(object sender = null, RoutedEventArgs e = null)
             => MainFrame.Navigate(new MonitorPage());
 
         protected override void OnClosing(CancelEventArgs e)
