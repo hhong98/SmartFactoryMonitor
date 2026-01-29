@@ -19,7 +19,9 @@ namespace SmartFactoryMonitor.Server
             db = dbService ?? throw new ArgumentNullException(nameof(db));
         }
 
-        // /api/equipments
+        // =========================
+        // GET /api/equipments
+        // =========================
         public async Task<ApiResult> Equipments(ApiRequest req)
         {
             switch (req.Method)
@@ -39,7 +41,58 @@ namespace SmartFactoryMonitor.Server
             return null;
         }
 
-        // /api/equipments/detail?equipid=id
+        // =========================
+        // GET /api/equipments/meta
+        // =========================
+        public async Task<ApiResult> EquipmentsMeta(ApiRequest req)
+        {
+            switch (req.Method)
+            {
+                case "GET":
+                    {
+                        //string sql = "select * from EQUIPMENT";
+                        string sql = @"
+                            SELECT
+                                E.EQUIP_ID,
+                                E.EQUIP_NAME,
+                                E.LOCATION,
+                                L.TEMPERATURE,
+                                L.STATUS
+                            FROM EQUIPMENT E
+                            LEFT JOIN (
+                                SELECT EQUIP_ID, TEMPERATURE, STATUS
+                                FROM (
+                                    SELECT
+                                        SL.EQUIP_ID,
+                                        SL.TEMPERATURE,
+                                        SL.STATUS,
+                                        ROW_NUMBER() OVER (
+                                            PARTITION BY SL.EQUIP_ID
+                                            ORDER BY SL.LOG_TIME DESC
+                                        ) AS RN
+                                    FROM SENSOR_LOG SL
+                                )
+                                WHERE RN = 1
+                            ) L
+                                ON L.EQUIP_ID = E.EQUIP_ID
+                            WHERE E.IS_ACTIVE = 'Y'
+                            ORDER BY E.EQUIP_ID
+                            ";
+
+                        var dt = await db.SelectQuery(sql).ConfigureAwait(false);
+
+                        var rows = DataTableMapper.ToRows(dt);
+                        return ApiResult.Ok(new { success = true, data = rows });
+                    }
+                default: break;
+            }
+
+            return null;
+        }
+
+        // =========================
+        // GET /api/android/equipments/detail?equipid=id
+        // =========================
         public async Task<ApiResult> EquipmentDetail(ApiRequest req)
         {
             string id = req.Query["id"];
@@ -62,6 +115,9 @@ namespace SmartFactoryMonitor.Server
 
         #region Simulator
 
+        // =========================
+        // GET /api/simulator/equipments
+        // =========================
         public async Task<ApiResult> SimulatorEquipments(ApiRequest req)
         {
             if (req.Method != "GET")
@@ -69,9 +125,9 @@ namespace SmartFactoryMonitor.Server
 
             // 필요 최소 컬럼만
             string sql = @"
-                SELECT EQUIP_ID, EQUIP_NAME, MIN_TEMP, MAX_TEMP, LOCATION, IS_ACTIVE
-                FROM HHONG.EQUIPMENT
-                WHERE IS_ACTIVE = 'Y'
+                select EQUIP_ID, EQUIP_NAME, MIN_TEMP, MAX_TEMP, LOCATION, IS_ACTIVE
+                from EQUIPMENT
+                where IS_ACTIVE = 'Y'
                 ";
 
             var dt = await db.SelectQuery(sql).ConfigureAwait(false);
@@ -118,27 +174,24 @@ namespace SmartFactoryMonitor.Server
             if (dto == null || string.IsNullOrWhiteSpace(dto.EquipId))
                 return ApiResult.BadRequest("equipId_required");
 
-            // logTime 파싱은 해두되, DB에는 일단 SYSTIMESTAMP로 박아도 됨(안정적)
-            // (원하면 다음 단계에서 파라미터 바인딩으로 dto.LogTime을 그대로 넣게 개선 가능)
             if (!DateTime.TryParse(dto.LogTime, null, DateTimeStyles.RoundtripKind, out var parsedLogTime))
                 parsedLogTime = DateTime.Now;
 
             // 설비 상태 검증
             var status = (dto.Status ?? "STABLE").ToUpperInvariant();
-            var allowed = new HashSet<string> { "STABLE", "WARN", "ERROR", "NO_DATA" };
+            var allowed = new HashSet<string> { "STABLE", "WARN", "ERROR", "NO DATA" };
             if (!allowed.Contains(status))
                 return ApiResult.BadRequest("invalid_status");
 
             // 설비 온도 INSERT
             string sql = $@"
-                INSERT INTO HHONG.SENSOR_LOG (EQUIP_ID, TEMPERATURE, LOG_TIME, STATUS)
-                VALUES ('{EscapeSql(dto.EquipId)}',
+                insert into SENSOR_LOG (EQUIP_ID, TEMPERATURE, LOG_TIME, STATUS)
+                values ('{EscapeSql(dto.EquipId)}',
                         {dto.Temperature.Value.ToString(CultureInfo.InvariantCulture)},
                         SYSTIMESTAMP,
                         '{EscapeSql(status)}')
                 ";
 
-            // 네 OracleService에서 DML은 ExecuteQuery가 담당합니다. :contentReference[oaicite:4]{index=4}
             var execResult = await db.ExecuteQuery(sql).ConfigureAwait(false);
 
             // ExecuteQuery는 성공 시 "영향받은 row 수" 문자열, 실패 시 "에러 메시지" 문자열

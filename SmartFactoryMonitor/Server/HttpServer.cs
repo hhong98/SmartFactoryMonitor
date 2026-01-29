@@ -48,6 +48,7 @@ namespace SmartFactoryMonitor.Server
             controller = new ApiController(db);
 
             router.Map("GET", "/api/equipments", controller.Equipments);
+            router.Map("GET", "/api/equipments/meta", controller.EquipmentsMeta);
             router.Map("GET", "/api/equipments/detail", controller.EquipmentDetail);
             router.Map("GET", "/api/simulator/equipments", controller.SimulatorEquipments);
             router.Map("POST", "/api/simulator/temperature", controller.SimulatorTemperature);

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -41,7 +42,7 @@ namespace SmartFactoryMonitor.Model
             set => SetProperty(ref _currentTemp, value);
         }
 
-        private string _status = "NO_DATA";
+        private string _status = "NO DATA";
         public string Status { get => _status; set => SetProperty(ref _status, value); }
 
         private bool _isChecked = false;

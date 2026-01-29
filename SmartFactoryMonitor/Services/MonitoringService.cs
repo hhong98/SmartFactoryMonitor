@@ -21,17 +21,17 @@ namespace SmartFactoryMonitor.Services
         {
             var ids = string.Join(", ", equipIds.Select(id => $"'{id}'"));
             var sql = @$"
-                SELECT EQUIP_ID, TEMPERATURE, STATUS
-                FROM (
-                    SELECT
+                select EQUIP_ID, TEMPERATURE, STATUS
+                from (
+                    select
                         SL.EQUIP_ID,
                         SL.TEMPERATURE,
                         SL.STATUS,
                         ROW_NUMBER() OVER (PARTITION BY SL.EQUIP_ID ORDER BY SL.LOG_TIME DESC) AS RN
-                    FROM SENSOR_LOG SL
-                    WHERE SL.EQUIP_ID IN ({ids})
+                    from SENSOR_LOG SL
+                    where SL.EQUIP_ID in ({ids})
                 )
-                WHERE RN = 1
+                where RN = 1
             ";
 
             var dt = await db.SelectQuery(sql).ConfigureAwait(false);
