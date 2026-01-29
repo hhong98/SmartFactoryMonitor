@@ -56,6 +56,8 @@ namespace SmartFactoryMonitor.Server
 
         public void Start()
         {
+            if (listener.IsListening) return;
+
             cts = new CancellationTokenSource();
             listener.Start();
             Task.Run(() => ListenLoop(cts.Token));
@@ -63,6 +65,8 @@ namespace SmartFactoryMonitor.Server
 
         public void Stop()
         {
+            if (!listener.IsListening) return;
+
             cts.Cancel();
             listener.Stop();
         }
