@@ -6,7 +6,6 @@
         xmlns:local="clr-namespace:SmartFactoryMonitor"
         xmlns:viewmodels="clr-namespace:SmartFactoryMonitor.ViewModels"
         DataContext="{StaticResource MainVM}"
-
         mc:Ignorable="d"
         Title="실시간 설비 모니터링" Height="500" Width="700"
         Background="#F5F5F5">
