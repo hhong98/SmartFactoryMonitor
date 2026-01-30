@@ -38,21 +38,14 @@ namespace SmartFactoryMonitor.Views
             }
         }
 
-        public void BtnAdd_Click(object sender, RoutedEventArgs args)
-        {
-            EquipFormWindow equipFormWindow = new EquipFormWindow
-            {
-                Owner = Application.Current.MainWindow
-            };
-
-            // DataContext로 MainViewModel 전달
-            equipFormWindow.EquipAddForm.DataContext = DataContext;
-
-            equipFormWindow.ShowDialog();
-        }
-
         private void PanelToggle_Click(object sender, MouseButtonEventArgs e)
         {
+            PanelToggle.IsOpened = !PanelToggle.IsOpened;
+        }
+
+        public void BtnAdd_Click(object sender, RoutedEventArgs args)
+        {
+            PanelToggle.IsOpened = !PanelToggle.IsOpened;
         }
     }
 
@@ -69,4 +62,19 @@ namespace SmartFactoryMonitor.Views
            코드 깔끔: Page의 비하인드 코드(.xaml.cs)는
                가급적 비워두는 것이 유지보수에 유리
         */
+
+    /* BtnAdd_Click - Open Form Window
+           public void BtnAdd_Click(object sender, RoutedEventArgs args)
+           {
+               EquipFormWindow equipFormWindow = new EquipFormWindow
+               {
+                   Owner = Application.Current.MainWindow
+               };
+
+               // DataContext로 MainViewModel 전달
+               equipFormWindow.EquipAddForm.DataContext = DataContext;
+
+               equipFormWindow.ShowDialog();
+           }
+       */
 }

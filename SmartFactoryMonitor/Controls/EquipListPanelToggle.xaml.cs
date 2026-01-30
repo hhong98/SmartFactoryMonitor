@@ -37,10 +37,5 @@ namespace SmartFactoryMonitor.Controls
         {
             InitializeComponent();
         }
-
-        private void Switch_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-        {
-            IsOpened = !IsOpened;
-        }
     }
 }

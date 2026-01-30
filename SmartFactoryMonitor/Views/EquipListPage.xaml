@@ -3,7 +3,7 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-      xmlns:local="clr-namespace:SmartFactoryMonitor.Views"
+      xmlns:root="clr-namespace:SmartFactoryMonitor"
       xmlns:custom="clr-namespace:SmartFactoryMonitor.Controls"
       DataContext="{StaticResource MainVM}"
       mc:Ignorable="d"
@@ -52,7 +52,6 @@
                 <Style TargetType="Grid">
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding ElementName=PanelToggle, Path=IsOpened}" Value="True">
-
                             <Setter Property="HorizontalAlignment" Value="Left" />
                         </DataTrigger>
                     </Style.Triggers>
@@ -67,12 +66,6 @@
                             <Style TargetType="TextBox">
                                 <Setter Property="Height" Value="30" />
                                 <Setter Property="Width" Value="250" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=PanelToggle, Path=IsOpened}"
-                                                Value="False">
-                                        <Setter Property="Width" Value="300" />
-                                    </DataTrigger>
-                                </Style.Triggers>
                             </Style>
                         </TextBox.Style>
                     </TextBox>
@@ -83,35 +76,9 @@
                             <Style TargetType="ToggleButton">
                                 <Setter Property="Width" Value="70" />
                                 <Setter Property="Height" Value="30" />
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding ElementName=PanelToggle, Path=IsOpened}"
-                                                Value="False">
-                                        <Setter Property="Width" Value="100" />
-                                    </DataTrigger>
-                                </Style.Triggers>
                             </Style>
                         </ToggleButton.Style>
                     </ToggleButton>
-                    <Popup PlacementTarget="{Binding ElementName=FilterToggle}"
-                        Placement="Bottom"
-                        Width="100"
-                        IsOpen="{Binding IsChecked, ElementName=FilterToggle}"
-                        StaysOpen="True"
-                        AllowsTransparency="True"
-                        PopupAnimation="None">
-                        <Border Background="White"
-                            BorderBrush="#C7CCD1"
-                            BorderThickness="1"
-                            CornerRadius="6"
-                            Padding="10">
-                            <StackPanel>
-                                <Button x:Name="BtnFilterStable" Content="정상" BorderThickness="0" />
-                                <Button x:Name="BtnFilterWarn" Content="주의" BorderThickness="0" />
-                                <Button x:Name="BtnFilterError" Content="위험" BorderThickness="0" />
-                                <Button x:Name="BtnFilterNoData" Content="오류" BorderThickness="0" />
-                            </StackPanel>
-                        </Border>
-                    </Popup>
                     <!--#endregion Filter Toggle-->
 
                     <!--#region Panel Toggle -->
@@ -131,11 +98,29 @@
                         </StackPanel>
                     </Border>
                     <!--#endregion Panel Toggle-->
+
+                    <!--#region Filter Popup-->
+                    <Popup PlacementTarget="{Binding ElementName=FilterToggle}" Placement="Bottom"
+                            IsOpen="{Binding IsChecked, ElementName=FilterToggle}" StaysOpen="True"
+                            AllowsTransparency="True" PopupAnimation="None"
+                            Width="100">
+                        <Border Background="White"
+                            BorderBrush="#C7CCD1" BorderThickness="1"
+                            CornerRadius="6" Padding="10">
+                            <StackPanel>
+                                <Button x:Name="BtnFilterStable" Content="정상" BorderThickness="0" />
+                                <Button x:Name="BtnFilterWarn" Content="주의" BorderThickness="0" />
+                                <Button x:Name="BtnFilterError" Content="위험" BorderThickness="0" />
+                                <Button x:Name="BtnFilterNoData" Content="오류" BorderThickness="0" />
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                    <!--#endregion Filter Popup-->
                 </StackPanel>
             </Border>
 
             <!-- Content List -->
-            <custom:EquipTable Grid.Row="1" x:Name="ContentList" Height="450" />
+            <custom:EquipTable Grid.Row="1" x:Name="ContentList" Height="480" />
             <!--#endregion Content Filter-->
         </Grid>
         <!--#endregion Content Body-->

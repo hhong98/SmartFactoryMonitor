@@ -1,6 +1,7 @@
 ﻿using Oracle.DataAccess.Client;
 using SmartFactoryMonitor.Services;
 using SmartFactoryMonitor.ViewModels;
+using SmartFactoryMonitor.Views;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,7 +19,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Threading;
 
-namespace SmartFactoryMonitor.Views
+namespace SmartFactoryMonitor
 {
     /// <summary>
     /// Interaction logic for MainWindow.xaml
