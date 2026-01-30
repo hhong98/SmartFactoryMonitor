@@ -7,7 +7,7 @@
       xmlns:custom="clr-namespace:SmartFactoryMonitor.Controls"
       DataContext="{StaticResource MainVM}"
       mc:Ignorable="d"
-      d:DesignWidth="800" d:DesignHeight="650"
+      d:DesignWidth="650" d:DesignHeight="650"
       Title="EquipListPage">
     <Grid Background="{StaticResource MainBackgroundBrush}" Margin="20,5,20,15">
         <Grid.RowDefinitions>
@@ -30,14 +30,19 @@
                         <Setter Property="Height" Value="30" />
                         <Setter Property="Width" Value="100" />
                         <Setter Property="Cursor" Value="Hand" />
+                        <Setter Property="FontWeight" Value="Bold" />
                     </Style>
                 </StackPanel.Resources>
                 <Button Content="추가 " Click ="BtnAdd_Click"
-                    Background="LightBlue" />
+                        Foreground="{StaticResource StatusStableTextBrush}"
+                        Background="{StaticResource StatusStableBackgroundBrush}" />
                 <Button Content="선택 삭제" Click="BtnDelete_Click"
                         Margin="5,0"
-                        Background="#FFF0F0" />
-                <Button Content="내보내기" />
+                        Foreground="{StaticResource StatusErrorTextBrush}"
+                        Background="{StaticResource StatusErrorBackgroundBrush}" />
+                <Button Content="내보내기"
+                        Foreground="{StaticResource StatusNoDataTextBrush}"
+                        Background="{StaticResource StatusNoDataBackgroundBrush}" />
             </StackPanel>
         </Grid>
         <!--#endregion Content Header-->
@@ -127,22 +132,26 @@
             </Border>
 
             <!-- Content List -->
-            <DataGrid x:Name="EquipList" Grid.Row="1" BorderThickness="0">
+            <DataGrid x:Name="EquipList" Grid.Row="1" BorderThickness="0"
+                      GridLinesVisibility="None" VerticalGridLinesBrush="Transparent" HorizontalGridLinesBrush="Transparent"
+                      ItemsSource="{Binding EquipManageVM.Equipments}" AutoGenerateColumns="False">
                 <DataGrid.Resources>
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="FontSize" Value="15" />
                         <Setter Property="FontWeight" Value="SemiBold" />
-                        <Setter Property="HorizontalAlignment" Value="Stretch" />
-                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
                         <Setter Property="Padding" Value="10,0" />
                         <Setter Property="Height" Value="40" />
+
+                        <Setter Property="Background" Value="Transparent" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
                         <Setter Property="BorderThickness" Value="0" />
-                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch" />
                     </Style>
                 </DataGrid.Resources>
                 <DataGrid.Columns>
-                    <DataGridTextColumn Header="설비명" Width="*" />
-                    <DataGridTextColumn Header="IP 주소" Width="200" />
+                    <DataGridTextColumn Header="설비명" Width="200" />
+                    <DataGridTextColumn Header="IP 주소" Width="150" />
                     <DataGridTextColumn Header="포트" Width="100" />
                     <DataGridTextColumn Header="사용 유무" Width="100" />
                     <DataGridTextColumn Header="선택" Width="50" />

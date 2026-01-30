@@ -26,20 +26,20 @@
     <!-- 상태 -->
     <!-- ========================= -->
     <!-- STABLE -->
-    <Color x:Key="StatusStableBackground">#E6F4EA</Color>
-    <Color x:Key="StatusStableText">#2E7D32</Color>
+    <Color x:Key="StatusStableBackground">#5cb85c</Color>
+    <Color x:Key="StatusStableText">#E6F4EA</Color>
 
     <!-- WARN -->
-    <Color x:Key="StatusWarnBackground">#FFF4E5</Color>
-    <Color x:Key="StatusWarnText">#EF6C00</Color>
+    <Color x:Key="StatusWarnBackground">#f0ad4e</Color>
+    <Color x:Key="StatusWarnText">#FFF4E5</Color>
 
     <!-- ERROR -->
-    <Color x:Key="StatusErrorBackground">#FDECEA</Color>
-    <Color x:Key="StatusErrorText">#D32F2F</Color>
+    <Color x:Key="StatusErrorBackground">#d9534f</Color>
+    <Color x:Key="StatusErrorText">#FDECEA</Color>
 
     <!-- NO DATA -->
-    <Color x:Key="StatusNoDataBackground">#ECEFF1</Color>
-    <Color x:Key="StatusNoDataText">#546E7A</Color>
+    <Color x:Key="StatusNoDataBackground">#546E7A</Color>
+    <Color x:Key="StatusNoDataText">#ECEFF1</Color>
 
     <!-- ========================= -->
     <!-- 온도 -->
