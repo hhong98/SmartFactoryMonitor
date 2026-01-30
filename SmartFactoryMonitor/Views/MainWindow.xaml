@@ -7,27 +7,117 @@
         xmlns:viewmodels="clr-namespace:SmartFactoryMonitor.ViewModels"
         DataContext="{StaticResource MainVM}"
         mc:Ignorable="d"
-        Title="실시간 설비 모니터링" Height="500" Width="700"
+        Width="1000" Height="700"
         Background="#F5F5F5">
     <Grid>
-        <Grid.RowDefinitions>
-            <!--화면을 가로로 두 영역으로 나누기-->
-            <RowDefinition Height="Auto" />
-            <!--내용물만큼 차지-->
-            <RowDefinition Height="*" />
-            <!--나머지 전체 차지-->
-        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="200" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <!--#region Sidebar-->
+        <Grid Grid.Column="0" Background="{StaticResource SidebarBackgroundBrush}">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" BorderBrush="{StaticResource SidebarHoverBrush}" BorderThickness="0,0,0,1">
+                <TextBlock
+                Text="🏭 SMART FACOTRY MONITOR"
+                TextAlignment="Center"
+                VerticalAlignment="Center"
+                Foreground="{StaticResource TextOnPrimaryBrush}" />
+            </Border>
+            <Grid Grid.Row="1" Margin="0,10,0,0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*" />
+                    <RowDefinition Height="150" />
+                </Grid.RowDefinitions>
+                <Grid.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="Background" Value="{StaticResource SidebarBackgroundBrush}" />
+                        <Setter Property="Foreground" Value="{StaticResource TextOnPrimaryBrush}" />
+                        <Setter Property="Padding" Value="15,10" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="HorizontalContentAlignment" Value="Left" />
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate TargetType="Button">
+                                    <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
+                                        <ContentPresenter Margin="{TemplateBinding Padding}"
+                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                                          RecognizesAccessKey="True" />
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <Trigger Property="IsMouseOver" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource SidebarHoverBrush}" />
+                                            <Setter Property="FontSize" Value="14" />
+                                        </Trigger>
+                                        <Trigger Property="IsPressed" Value="True">
+                                            <Setter Property="Background" Value="{StaticResource PrimaryBlueDarkBrush}" />
+                                        </Trigger>
+                                        <Trigger Property="IsEnabled" Value="False">
+                                            <Setter Property="Opacity" Value="0.5" />
+                                        </Trigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Grid.Resources>
+                <!--#region Navigation-->
+                <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Top">
+                    <Button x:Name="BtnMonitor" Content="🖥  설비 모니터링" Click="BtnMonitor_Click" />
+                    <Button x:Name="BtnShowList" Content="🔧  설비 관리" Click="BtnShowList_Click" />
+                </StackPanel>
+                <!--#endregion Navigation-->
+                <!--#region System-->
+                <Border Grid.Row="1" BorderBrush="{StaticResource SidebarHoverBrush}" BorderThickness="0,1,0,0">
+                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="0,10,0,0">
+                        <Button Content="⚙️  설정" />
+                    </StackPanel>
+                </Border>
+                <!--#endregion System-->
+            </Grid>
+        </Grid>
+        <!--#endregion Sidebar-->
 
-        <Border Grid.Row="0" Background="#007ACC" Padding="10">
-            <TextBlock Text="SMART FACTORY MONITOR" Foreground="White" FontWeight="Bold" HorizontalAlignment="Center" />
-        </Border>
-        <StackPanel Orientation="Horizontal" Grid.Row="1"
-                    VerticalAlignment="Top">
-            <Button
-                Padding="10, 5" Content="설비 모니터링" Click="BtnMonitor_Click" />
-            <Button
-                Padding="10, 5" Content="설비 관리" Click="BtnShowList_Click" />
-        </StackPanel>
-        <Frame Grid.Row="1" Margin="0,30,0,0" x:Name="MainFrame" NavigationUIVisibility="Hidden" />
+        <!--#region Content-->
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0" Background="#007ACC">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="80" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.Resources>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="HorizontalAlignment" Value="Center" />
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                            <Setter Property="Foreground" Value="{StaticResource TextOnPrimaryBrush}" />
+                        </Style>
+                    </Grid.Resources>
+                    <TextBlock Text="SMART FACTORY MONITOR"
+                               Grid.Column="0"
+                               Foreground="White"
+                               FontWeight="Bold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center" />
+                    <StackPanel
+                        Grid.Column="1"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Center">
+                        <TextBlock Text="●" Foreground="Yellow" Margin="0,0,5,0" />
+                        <TextBlock Text="Online" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+            <Frame Grid.Row="1" x:Name="MainFrame" NavigationUIVisibility="Hidden" />
+        </Grid>
+        <!--#endregion Content-->
     </Grid>
 </Window>

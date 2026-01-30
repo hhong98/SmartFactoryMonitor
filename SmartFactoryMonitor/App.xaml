@@ -8,7 +8,8 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/FormStyles.xaml"/>
+                <ResourceDictionary Source="/Styles/FormStyles.xaml" />
+                <ResourceDictionary Source="/Styles/ThemeColor.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <viewmodels:MainViewModel x:Key="MainVM" />
         </ResourceDictionary>
