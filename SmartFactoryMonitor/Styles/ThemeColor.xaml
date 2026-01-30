@@ -94,4 +94,8 @@
     <SolidColorBrush x:Key="TempNormalTextBrush" Color="{StaticResource TempNormalText}" />
     <SolidColorBrush x:Key="TempHighTextBrush" Color="{StaticResource TempHighText}" />
     <SolidColorBrush x:Key="TempUnitTextBrush" Color="{StaticResource TempUnitText}" />
+
+    <!-- 이외의 요소 -->
+    <SolidColorBrush x:Key="PanelToggleBackgroundBrush" Color="#5f6f97" />
+    <SolidColorBrush x:Key="PanelToggleOpenBackgroundBrush" Color="#aebdd0" />
 </ResourceDictionary>

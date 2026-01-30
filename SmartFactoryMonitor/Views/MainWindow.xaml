@@ -7,7 +7,7 @@
         xmlns:viewmodels="clr-namespace:SmartFactoryMonitor.ViewModels"
         DataContext="{StaticResource MainVM}"
         mc:Ignorable="d"
-        Width="1000" Height="700"
+        Width="900" Height="700"
         Background="#F5F5F5">
     <Grid>
         <Grid.ColumnDefinitions>

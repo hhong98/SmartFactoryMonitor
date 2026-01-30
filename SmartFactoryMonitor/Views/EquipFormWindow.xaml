@@ -4,11 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartFactoryMonitor.Views"
-        xmlns:root="clr-namespace:SmartFactoryMonitor"
+        xmlns:custom="clr-namespace:SmartFactoryMonitor.Controls"
         mc:Ignorable="d"
         Title="신규 설비 등록" Height="450" Width="800"
         WindowStartupLocation="CenterOwner" ResizeMode="NoResize" SizeToContent="WidthAndHeight">
     <Grid>
-        <root:EquipAddForm x:Name="EquipAddForm" Loaded="EquipAddForm_Loaded"/> 
+        <custom:EquipAddForm x:Name="EquipAddForm" Loaded="EquipAddForm_Loaded" />
     </Grid>
 </Window>

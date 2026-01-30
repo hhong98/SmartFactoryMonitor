@@ -68,13 +68,16 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\AppConstants.cs" />
-    <Compile Include="EquipAddForm.xaml.cs">
+    <Compile Include="Controls\EquipListPanelToggle.xaml.cs">
+      <DependentUpon>EquipListPanelToggle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EquipAddForm.xaml.cs">
       <DependentUpon>EquipAddForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EquipList.xaml.cs">
-      <DependentUpon>EquipList.xaml</DependentUpon>
+    <Compile Include="Controls\EquipTable.xaml.cs">
+      <DependentUpon>EquipTable.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EquipListConverter.cs" />
+    <Compile Include="Controls\EquipListConverter.cs" />
     <Compile Include="Model\SimulatorTempDto.cs" />
     <Compile Include="Server\Api.cs" />
     <Compile Include="Model\DbResult.cs" />
@@ -99,11 +102,15 @@
     <Compile Include="Views\MonitorPage.xaml.cs">
       <DependentUpon>MonitorPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="EquipAddForm.xaml">
+    <Page Include="Controls\EquipListPanelToggle.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EquipList.xaml">
+    <Page Include="Controls\EquipAddForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EquipTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -191,5 +198,6 @@
   <ItemGroup>
     <Resource Include="monitor.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
