@@ -61,28 +61,35 @@
             <!--#region Content Filter-->
             <Border Grid.Row="0" BorderBrush="LightGray" BorderThickness="1">
                 <StackPanel Background="White" Orientation="Horizontal">
-                    <TextBox x:Name="SearchBox" Margin="12,0,0,0" FontSize="18">
-                        <TextBox.Style>
-                            <Style TargetType="TextBox">
-                                <Setter Property="Height" Value="30" />
-                                <Setter Property="Width" Value="250" />
-                            </Style>
-                        </TextBox.Style>
-                    </TextBox>
+                    <custom:SearchBox x:Name="SearchBox" Margin="12,0,0,0" />
 
                     <!--#region Filter Toggle-->
-                    <ToggleButton x:Name="FilterToggle" Content="전체 ▼" Background="{StaticResource MainBackgroundBrush}" Margin="5,0">
+                    <ToggleButton x:Name="FilterToggle" Content="전체 ▼" Margin="5,0">
                         <ToggleButton.Style>
                             <Style TargetType="ToggleButton">
                                 <Setter Property="Width" Value="70" />
                                 <Setter Property="Height" Value="30" />
+                                <Setter Property="Template">
+                                    <Setter.Value>
+                                        <ControlTemplate TargetType="ToggleButton">
+                                            <Border Background="{StaticResource MainBackgroundBrush}"
+                                                    BorderBrush="#C7CCD1"
+                                                    BorderThickness="1"
+                                                    CornerRadius="5">
+                                                <ContentPresenter
+                                                    HorizontalAlignment="Center"
+                                                    VerticalAlignment="Center" />
+                                            </Border>
+                                        </ControlTemplate>
+                                    </Setter.Value>
+                                </Setter>
                             </Style>
                         </ToggleButton.Style>
                     </ToggleButton>
                     <!--#endregion Filter Toggle-->
 
                     <!--#region Panel Toggle -->
-                    <Border BorderBrush="#C7CCD1" BorderThickness="1" Height="30">
+                    <Border BorderBrush="#C7CCD1" BorderThickness="1" Height="30" CornerRadius="5">
                         <StackPanel Orientation="Horizontal">
                             <StackPanel.Resources>
                                 <Style TargetType="TextBlock">
@@ -120,7 +127,27 @@
             </Border>
 
             <!-- Content List -->
-            <custom:EquipTable Grid.Row="1" x:Name="ContentList" Height="480" />
+            <DataGrid x:Name="EquipList" Grid.Row="1" BorderThickness="0">
+                <DataGrid.Resources>
+                    <Style TargetType="DataGridColumnHeader">
+                        <Setter Property="FontSize" Value="15" />
+                        <Setter Property="FontWeight" Value="SemiBold" />
+                        <Setter Property="HorizontalAlignment" Value="Stretch" />
+                        <Setter Property="BorderBrush" Value="Transparent" />
+                        <Setter Property="Padding" Value="10,0" />
+                        <Setter Property="Height" Value="40" />
+                        <Setter Property="BorderThickness" Value="0" />
+                        <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
+                    </Style>
+                </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Header="설비명" Width="*" />
+                    <DataGridTextColumn Header="IP 주소" Width="200" />
+                    <DataGridTextColumn Header="포트" Width="100" />
+                    <DataGridTextColumn Header="사용 유무" Width="100" />
+                    <DataGridTextColumn Header="선택" Width="50" />
+                </DataGrid.Columns>
+            </DataGrid>
             <!--#endregion Content Filter-->
         </Grid>
         <!--#endregion Content Body-->

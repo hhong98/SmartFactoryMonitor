@@ -78,6 +78,9 @@
       <DependentUpon>EquipTable.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\EquipListConverter.cs" />
+    <Compile Include="Controls\SearchBox.xaml.cs">
+      <DependentUpon>SearchBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\SimulatorTempDto.cs" />
     <Compile Include="Server\Api.cs" />
     <Compile Include="Model\DbResult.cs" />
@@ -111,6 +114,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\EquipTable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
