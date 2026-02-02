@@ -36,15 +36,16 @@
                         </Style>
                     </StackPanel.Resources>
                     <Button Content="추가 " Click ="BtnAdd_Click"
-                        Foreground="{StaticResource StatusStableTextBrush}"
-                        Background="{StaticResource StatusStableBackgroundBrush}" />
+                            Foreground="{StaticResource StatusStableTextBrush}"
+                            Background="{StaticResource StatusStableBackgroundBrush}" />
+                    <Button Content="내보내기" Margin="5,0"
+                            Foreground="{StaticResource StatusNoDataTextBrush}"
+                            Background="{StaticResource StatusNoDataBackgroundBrush}" />
                     <Button Content="선택 삭제" Click="BtnDelete_Click"
-                        Margin="5,0"
-                        Foreground="{StaticResource StatusErrorTextBrush}"
-                        Background="{StaticResource StatusErrorBackgroundBrush}" />
-                    <Button Content="내보내기"
-                        Foreground="{StaticResource StatusNoDataTextBrush}"
-                        Background="{StaticResource StatusNoDataBackgroundBrush}" />
+                            Foreground="{StaticResource StatusErrorTextBrush}"
+                            Background="{StaticResource StatusErrorBackgroundBrush}"
+                            Height="30" Width="100" Cursor="Hand" FontWeight="Bold"
+                            Style="{StaticResource HideWhenPanelOpened}" />
                 </StackPanel>
             </Grid>
             <!--#endregion Content Header-->
@@ -147,8 +148,18 @@
                                 <ColumnDefinition Width="140" />
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="80" />
-                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition>
+                                    <ColumnDefinition.Style>
+                                        <Style TargetType="ColumnDefinition">
+                                            <Setter Property="Width" Value="80" />
+                                            <Style.Triggers>
+                                                <DataTrigger Binding="{Binding IsPanelOpened}" Value="True">
+                                                    <Setter Property="Width" Value="0" />
+                                                </DataTrigger>
+                                            </Style.Triggers>
+                                        </Style>
+                                    </ColumnDefinition.Style>
+                                </ColumnDefinition>
                             </Grid.ColumnDefinitions>
 
                             <Grid.Resources>
@@ -170,9 +181,10 @@
 
                     <!--List Body-->
                     <ListView x:Name="EquipListContent" Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Background="Transparent"
-                      ItemsSource="{Binding EquipManageVM.Equipments}"
-                      ScrollViewer.HorizontalScrollBarVisibility="Disabled"
-                      ScrollViewer.VerticalScrollBarVisibility="Auto">
+                              ItemsSource="{Binding EquipManageVM.Equipments}"
+
+                              ScrollViewer.HorizontalScrollBarVisibility="Disabled"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Padding" Value="0" />
@@ -196,7 +208,9 @@
         <!--#endregion Main Body-->
 
         <!--#region Side Panel-->
-        <Border BorderThickness="1" BorderBrush="LightGray" Width="270" Height="500" Margin="5,0">
+        <Border BorderThickness="1" BorderBrush="LightGray"
+                Width="270" Height="500" Margin="5,0"
+                Style="{StaticResource ShowWhenPanelOpened}">
             <StackPanel x:Name="EquipSidePanel" Background="White">
                 <StackPanel.Resources>
                     <Style TargetType="Grid">
@@ -213,6 +227,7 @@
                         <Setter Property="Margin" Value="8,0,0,0" />
                         <Setter Property="Foreground" Value="{StaticResource TextSecondaryBrush}" />
                     </Style>
+
                     <Style TargetType="TextBox">
                         <Setter Property="Height" Value="28" />
                         <Setter Property="VerticalContentAlignment" Value="Center" />
