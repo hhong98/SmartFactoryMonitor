@@ -71,8 +71,8 @@
     <Compile Include="Controls\EquipListItem.xaml.cs">
       <DependentUpon>EquipListItem.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EquipListPanelToggle.xaml.cs">
-      <DependentUpon>EquipListPanelToggle.xaml</DependentUpon>
+    <Compile Include="Controls\TobbleButton.xaml.cs">
+      <DependentUpon>TobbleButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\EquipAddForm.xaml.cs">
       <DependentUpon>EquipAddForm.xaml</DependentUpon>
@@ -112,7 +112,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Controls\EquipListPanelToggle.xaml">
+    <Page Include="Controls\TobbleButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

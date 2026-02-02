@@ -5,32 +5,39 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:SmartFactoryMonitor.Controls"
              mc:Ignorable="d">
-    <StackPanel Orientation="Horizontal" Background="White">
-        <StackPanel.Resources>
+    <Grid Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3" />
+            <ColumnDefinition Width="210" />
+            <ColumnDefinition Width="140" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="100" />
+            <ColumnDefinition Width="80" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Grid.Resources>
             <Style TargetType="TextBlock">
                 <Setter Property="FontSize" Value="15" />
                 <Setter Property="FontWeight" Value="SemiBold" />
-                <Setter Property="Padding" Value="5" />
                 <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="Padding" Value="0,10" />
             </Style>
-            <Style TargetType="CheckBox">
-                <Setter Property="Padding" Value="5" />
-                <Setter Property="VerticalAlignment" Value="Center" />
-                <Setter Property="HorizontalAlignment" Value="Stretch" />
-            </Style>
-        </StackPanel.Resources>
-        <Border x:Name="BdStatus" Width="3">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Background" Value="{StaticResource StatusNoDataBackgroundBrush}" />
-                </Style>
-            </Border.Style>
-        </Border>
+        </Grid.Resources>
 
-        <TextBlock x:Name="EquipName" Text="{Binding EquipName}" Width="200" />
-        <TextBlock x:Name="EquipIpAddr" Text="{Binding IpAddress}" Width="150" />
-        <TextBlock x:Name="EquipPort" Text="{Binding Port}" Width="100" />
-        <TextBlock x:Name="IsActive" Text="{Binding IsActive}"Width="100" />
-        <CheckBox x:Name="IsSelected" Text="{Binding IsChecked}"Width="50" />
-    </StackPanel>
+        <Border x:Name="EquipStatus" Grid.Column="0"
+                Background="{StaticResource StatusNoDataBackgroundBrush}" />
+        <TextBlock Grid.Column="1" Text="{Binding EquipName}"
+                   HorizontalAlignment="Left"
+                   Margin="10,0,0,0" />
+        <TextBlock Grid.Column="2" Text="{Binding IpAddress}"
+                   HorizontalAlignment="Left" />
+        <TextBlock Grid.Column="3" Text="{Binding Port}"
+                   HorizontalAlignment="Center" />
+        <TextBlock Grid.Column="4"
+                   Text="{Binding IsActive}"
+                   HorizontalAlignment="Center" />
+        <CheckBox Grid.Column="5" IsChecked="{Binding IsChecked}"
+                  HorizontalAlignment="Center" VerticalAlignment="Center" />
+    </Grid>
 </UserControl>

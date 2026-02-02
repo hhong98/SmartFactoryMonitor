@@ -18,13 +18,13 @@ namespace SmartFactoryMonitor.Controls
     /// <summary>
     /// Interaction logic for EquipListPanelToggle.xaml
     /// </summary>
-    public partial class EquipListPanelToggle : UserControl
+    public partial class ToggleButton : UserControl
     {
         public static readonly DependencyProperty IsOpenedProperty =
            DependencyProperty.Register(
                nameof(IsOpened),
                typeof(bool),
-               typeof(EquipListPanelToggle),
+               typeof(ToggleButton),
                new FrameworkPropertyMetadata(false));
 
         public bool IsOpened
@@ -33,7 +33,7 @@ namespace SmartFactoryMonitor.Controls
             set => SetValue(IsOpenedProperty, value);
         }
 
-        public EquipListPanelToggle()
+        public ToggleButton()
         {
             InitializeComponent();
         }
