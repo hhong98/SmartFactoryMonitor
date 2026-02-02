@@ -5,14 +5,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartFactoryMonitor"
-        xmlns:viewmodels="clr-namespace:SmartFactoryMonitor.ViewModels"
         DataContext="{StaticResource MainVM}"
-        mc:Ignorable="d"
-        Width="900" Height="700"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
-        Background="#F5F5F5">
-    <Grid>
+        Background="#F5F5F5" Width="900" Height="700">
+    <Grid x:Name="Root">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
             <ColumnDefinition Width="*" />

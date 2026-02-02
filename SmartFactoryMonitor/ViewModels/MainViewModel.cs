@@ -15,7 +15,7 @@ using System.Windows.Threading;
 
 namespace SmartFactoryMonitor.ViewModels
 {
-    public class MainViewModel : IDisposable
+    public class MainViewModel : IDisposable, INotifyPropertyChanged
     {
         private readonly EquipRepository Repository;
 
@@ -27,6 +27,31 @@ namespace SmartFactoryMonitor.ViewModels
         public EquipManageViewModel EquipManageVM { get; }
 
         public HttpServer server { get; }
+
+        private Window mainWin;
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string name)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+
+        private bool _isPanelOpened;
+
+        public bool IsPanelOpened
+        {
+            get => _isPanelOpened;
+            set
+            {
+                if (_isPanelOpened == value) return;
+                _isPanelOpened = value;
+                OnPropertyChanged(nameof(IsPanelOpened));
+
+                if (mainWin != null)
+                {
+                    mainWin.Width = _isPanelOpened ? 1190 : 900;
+                }
+            }
+        }
 
         public MainViewModel()
         {
@@ -40,10 +65,12 @@ namespace SmartFactoryMonitor.ViewModels
             MonitorVM = new MonitoringViewModel(Repository, _mService);
             EquipManageVM = new EquipManageViewModel(Repository, _eService);
 
+            // 패널 조작용 MainWinodw 객체 가져오기
+            mainWin = Application.Current?.MainWindow;
+
             // 초기 데이터 불러오기
             InitializeData(Repository);
 
-            // [TEMP] Android 앱 개발 용도 (REST API)
             server = new HttpServer(_dbService);
             server.Start();
         }

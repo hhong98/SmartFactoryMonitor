@@ -100,9 +100,10 @@
                                     </Style>
                                 </StackPanel.Resources>
                                 <TextBlock Text="목록" />
-                                <!--[TEMP] IsOpend 할당 지우기-->
-                                <custom:ToggleButton x:Name="PanelToggle" MouseLeftButtonUp="PanelToggle_Click" IsOpened="True" />
-                                <!--<custom:EquipListPanelToggle x:Name="PanelToggle" MouseLeftButtonUp="PanelToggle_Click" />-->
+                                <custom:ToggleButton x:Name="PanelToggle"
+                                                     IsOpened="{Binding IsPanelOpened, Mode=TwoWay}"
+                                                     OpenBackground="{StaticResource PanelToggleOpenBackgroundBrush}"
+                                                     CloseBackground="{StaticResource PanelToggleBackgroundBrush}" />
                                 <TextBlock Text="상세" />
                             </StackPanel>
                         </Border>
@@ -263,7 +264,9 @@
 
                 <Grid Margin="0,20">
                     <Label Content="사용 유무" FontSize="15" />
-                    <custom:ToggleButton x:Name="FormIsActive" HorizontalAlignment="Right" Margin="20,0" />
+                    <custom:ToggleButton x:Name="FormIsActive" HorizontalAlignment="Right" Margin="20,0"
+                                         OpenBackground="{StaticResource StatusStableBackgroundBrush}"
+                                         CloseBackground="{StaticResource StatusErrorBackgroundBrush}" />
                 </Grid>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">

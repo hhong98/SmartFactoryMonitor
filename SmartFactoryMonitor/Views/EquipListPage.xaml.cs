@@ -25,8 +25,6 @@ namespace SmartFactoryMonitor.Views
         public EquipListPage()
         {
             InitializeComponent();
-
-            DataContext = App.Current.MainWindow.DataContext;
         }
 
         public async void BtnDelete_Click(object sender, RoutedEventArgs args)
@@ -38,19 +36,10 @@ namespace SmartFactoryMonitor.Views
             }
         }
 
-        private void PanelToggle_Click(object sender, MouseButtonEventArgs e)
-        {
-            PanelToggle.IsOpened = !PanelToggle.IsOpened;
-
-            var mainWin = Window.GetWindow(this);
-            mainWin.Width = PanelToggle.IsOpened
-                ? 1190
-                : 900;
-        }
-
         public void BtnAdd_Click(object sender, RoutedEventArgs args)
         {
-            PanelToggle.IsOpened = !PanelToggle.IsOpened;
+            if (DataContext is MainViewModel mainVM)
+                mainVM.IsPanelOpened = true;
         }
 
         public void BtnPanelSave_Click(object sender, RoutedEventArgs args)

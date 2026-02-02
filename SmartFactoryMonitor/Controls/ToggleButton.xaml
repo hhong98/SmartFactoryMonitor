@@ -6,15 +6,18 @@
              xmlns:local="clr-namespace:SmartFactoryMonitor.Controls"
              mc:Ignorable="d"
              MinWidth= "30" MaxHeight="30">
-    <Border x:Name="ToggleSwitch" Background="Transparent" Padding="2">
+    <Border x:Name="ToggleSwitch" Background="Transparent" Padding="2" MouseLeftButtonUp="ToggleClick">
         <!-- Toggle Background -->
         <Border x:Name="Switch" Width="46" Height="20" CornerRadius="10" BorderThickness="1" BorderBrush="Gray">
             <Border.Style>
                 <Style TargetType="Border">
-                    <Setter Property="Background" Value="{StaticResource PanelToggleOpenBackgroundBrush}" />
+                    <Setter Property="Background"
+                    Value="{Binding CloseBackground, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding IsOpened, RelativeSource={RelativeSource AncestorType=UserControl}}" Value="True">
-                            <Setter Property="Background" Value="{StaticResource PanelToggleBackgroundBrush}" />
+                            <Setter Property="Background"
+                            Value="{Binding OpenBackground, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
