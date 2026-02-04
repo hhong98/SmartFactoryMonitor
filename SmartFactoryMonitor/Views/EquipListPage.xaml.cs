@@ -41,20 +41,6 @@ namespace SmartFactoryMonitor.Views
             if (mainVM is null) return;
             mainVM.IsPanelOpened = !(mainVM.IsPanelOpened is true);
         }
-
-        public void BtnPanelSave_Click(object sender, RoutedEventArgs args)
-        {
-            MessageBox.Show("Saved");
-        }
-
-        public async void BtnPanelDelete_Click(object sender, RoutedEventArgs args)
-            => await mainVM?.EquipManageVM.DeleteCurrentEquip();
-
-        private void BtnPanelCancel_Click(object sender, RoutedEventArgs e)
-        {
-            if (mainVM is null) return;
-            mainVM.IsPanelOpened = false;
-        }
     }
 
     /*
