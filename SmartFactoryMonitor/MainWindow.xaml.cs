@@ -39,21 +39,21 @@ namespace SmartFactoryMonitor
         private void BtnMonitor_Click(object sender = null, RoutedEventArgs e = null)
             => MainFrame.Navigate(new MonitorPage());
 
-        protected override void OnClosing(CancelEventArgs e)
-        {
-            try
-            {
-                if (DataContext is MainViewModel mainVm)
-                {
-                    mainVm.MonitorVM?.StopMonitoring();
-                    mainVm.server?.Stop();
-                    mainVm.server?.Dispose();
+        //protected override void OnClosing(CancelEventArgs e)
+        //{
+        //    try
+        //    {
+        //        if (DataContext is MainViewModel mainVm)
+        //        {
+        //            mainVm.MonitorVM?.StopMonitoring();
+        //            mainVm.server?.Stop();
+        //            mainVm.server?.Dispose();
 
-                    mainVm?.Dispose();
-                }
-            }
-            catch { }
-            base.OnClosing(e);
-        }
+        //            mainVm?.Dispose();
+        //        }
+        //    }
+        //    catch { }
+        //    base.OnClosing(e);
+        //}
     }
 }

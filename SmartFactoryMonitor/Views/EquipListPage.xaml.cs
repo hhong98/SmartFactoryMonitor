@@ -39,7 +39,9 @@ namespace SmartFactoryMonitor.Views
         public void BtnAdd_Click(object sender, RoutedEventArgs args)
         {
             if (DataContext is MainViewModel mainVM)
-                mainVM.IsPanelOpened = true;
+            {
+                mainVM.IsPanelOpened = !(mainVM.IsPanelOpened is true);
+            }
         }
 
         public void BtnPanelSave_Click(object sender, RoutedEventArgs args)

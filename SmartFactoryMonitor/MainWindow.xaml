@@ -5,10 +5,12 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:SmartFactoryMonitor"
+        xmlns:tool="http://schemas.xceed.com/wpf/xaml/toolkit"
         DataContext="{StaticResource MainVM}"
         ResizeMode="CanMinimize"
         WindowStartupLocation="CenterScreen"
         Background="#F5F5F5" Width="900" Height="700">
+
     <Grid x:Name="Root">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="200" />
@@ -101,6 +103,8 @@
                             <Setter Property="Foreground" Value="{StaticResource TextOnPrimaryBrush}" />
                         </Style>
                     </Grid.Resources>
+                    
+                    <!--#region Content Header-->
                     <TextBlock Text="SMART FACTORY MONITOR"
                                FontSize="18"
                                Grid.Column="0"
@@ -115,8 +119,11 @@
                         <TextBlock Text="●" Foreground="Yellow" Margin="0,0,5,0" />
                         <TextBlock Text="Online" />
                     </StackPanel>
+                    <!--#endregion Content Header-->
                 </Grid>
             </Border>
+            
+            <!--Content Body-->
             <Frame Grid.Row="1" x:Name="MainFrame" NavigationUIVisibility="Hidden" />
         </Grid>
         <!--#endregion Content-->

@@ -65,7 +65,7 @@
                         <custom:SearchBox x:Name="SearchBox" Margin="12,0,0,0" />
 
                         <!--#region Filter Toggle-->
-                        <ToggleButton x:Name="FilterToggle" Content="전체 ▼" Margin="5,0">
+                        <ToggleButton x:Name="FilterToggle" Content="전체 ▼" Margin="5,0" Cursor="Hand">
                             <ToggleButton.Style>
                                 <Style TargetType="ToggleButton">
                                     <Setter Property="Width" Value="70" />
@@ -74,12 +74,10 @@
                                         <Setter.Value>
                                             <ControlTemplate TargetType="ToggleButton">
                                                 <Border Background="{StaticResource MainBackgroundBrush}"
-                                                    BorderBrush="#C7CCD1"
-                                                    BorderThickness="1"
+                                                    BorderBrush="#C7CCD1" BorderThickness="1"
                                                     CornerRadius="5">
-                                                    <ContentPresenter
-                                                    HorizontalAlignment="Center"
-                                                    VerticalAlignment="Center" />
+                                                    <ContentPresenter 
+                                                        HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                 </Border>
                                             </ControlTemplate>
                                         </Setter.Value>
@@ -101,7 +99,7 @@
                                     </Style>
                                 </StackPanel.Resources>
                                 <TextBlock Text="목록" />
-                                <custom:ToggleButton x:Name="PanelToggle"
+                                <custom:ToggleButton x:Name="PanelToggle" Cursor="Hand"
                                                      IsOpened="{Binding IsPanelOpened, Mode=TwoWay}"
                                                      OpenBackground="{StaticResource PanelToggleOpenBackgroundBrush}"
                                                      CloseBackground="{StaticResource PanelToggleBackgroundBrush}" />
@@ -116,13 +114,22 @@
                             AllowsTransparency="True" PopupAnimation="None"
                             Width="100">
                             <Border Background="White"
-                            BorderBrush="#C7CCD1" BorderThickness="1"
-                            CornerRadius="6" Padding="10">
+                                    BorderBrush="#C7CCD1" BorderThickness="1"
+                                    CornerRadius="6" Padding="8">
                                 <StackPanel>
-                                    <Button x:Name="BtnFilterStable" Content="정상" BorderThickness="0" />
-                                    <Button x:Name="BtnFilterWarn" Content="주의" BorderThickness="0" />
-                                    <Button x:Name="BtnFilterError" Content="위험" BorderThickness="0" />
-                                    <Button x:Name="BtnFilterNoData" Content="오류" BorderThickness="0" />
+                                    <StackPanel.Resources>
+                                        <Style TargetType="Button">
+                                            <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}"/>
+                                            <Setter Property="BorderThickness" Value="0"/>
+                                            <Setter Property="FontSize" Value="13"/>
+                                            <Setter Property="FontWeight" Value="Medium"/>
+                                        </Style>
+                                    </StackPanel.Resources>
+                                    
+                                    <Button x:Name="BtnFilterStable" Content="정상" />
+                                    <Button x:Name="BtnFilterWarn" Content="주의" />
+                                    <Button x:Name="BtnFilterError" Content="위험" />
+                                    <Button x:Name="BtnFilterNoData" Content="오류" />
                                 </StackPanel>
                             </Border>
                         </Popup>
@@ -292,11 +299,12 @@
                             <Setter Property="Margin" Value="5" />
                             <Setter Property="FontSize" Value="13" />
                             <Setter Property="FontWeight" Value="Bold" />
+                            <Setter Property="Cursor" Value="Hand"/>
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="Button">
                                         <Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
+                                                BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="5">
                                             <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
                                         </Border>
                                     </ControlTemplate>

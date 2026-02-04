@@ -48,7 +48,7 @@ namespace SmartFactoryMonitor.ViewModels
 
                 if (mainWin != null)
                 {
-                    mainWin.Width = _isPanelOpened ? 1190 : 900;
+                    mainWin.Width = _isPanelOpened ? 1115 : 900;
                 }
             }
         }
