@@ -74,13 +74,6 @@
     <Compile Include="Controls\ToggleButton.xaml.cs">
       <DependentUpon>ToggleButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EquipAddForm.xaml.cs">
-      <DependentUpon>EquipAddForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\EquipTable.xaml.cs">
-      <DependentUpon>EquipTable.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\EquipTableConverter.cs" />
     <Compile Include="Controls\SearchBox.xaml.cs">
       <DependentUpon>SearchBox.xaml</DependentUpon>
     </Compile>
@@ -99,12 +92,6 @@
     <Compile Include="Services\MonitoringService.cs" />
     <Compile Include="ViewModels\EquipManageViewModel.cs" />
     <Compile Include="ViewModels\MonitoringViewModel.cs" />
-    <Compile Include="Views\EquipFormWindow.xaml.cs">
-      <DependentUpon>EquipFormWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\EquipUpdateWindow.xaml.cs">
-      <DependentUpon>EquipUpdateWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\MonitorPage.xaml.cs">
       <DependentUpon>MonitorPage.xaml</DependentUpon>
     </Compile>
@@ -113,14 +100,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\ToggleButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\EquipAddForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\EquipTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,15 +115,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EquipFormWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\EquipListPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EquipUpdateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

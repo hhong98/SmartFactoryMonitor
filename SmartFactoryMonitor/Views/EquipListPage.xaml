@@ -7,7 +7,7 @@
       xmlns:custom="clr-namespace:SmartFactoryMonitor.Controls"
       DataContext="{StaticResource MainVM}"
       mc:Ignorable="d"
-      d:DesignWidth="970" d:DesignHeight="600"
+      d:DesignWidth="1115" d:DesignHeight="600"
       Title="EquipListPage">
     <StackPanel Background="{StaticResource MainBackgroundBrush}" Orientation="Horizontal">
         <!--#region Main Body-->
@@ -76,7 +76,7 @@
                                                 <Border Background="{StaticResource MainBackgroundBrush}"
                                                     BorderBrush="#C7CCD1" BorderThickness="1"
                                                     CornerRadius="5">
-                                                    <ContentPresenter 
+                                                    <ContentPresenter
                                                         HorizontalAlignment="Center" VerticalAlignment="Center" />
                                                 </Border>
                                             </ControlTemplate>
@@ -119,13 +119,13 @@
                                 <StackPanel>
                                     <StackPanel.Resources>
                                         <Style TargetType="Button">
-                                            <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}"/>
-                                            <Setter Property="BorderThickness" Value="0"/>
-                                            <Setter Property="FontSize" Value="13"/>
-                                            <Setter Property="FontWeight" Value="Medium"/>
+                                            <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}" />
+                                            <Setter Property="BorderThickness" Value="0" />
+                                            <Setter Property="FontSize" Value="13" />
+                                            <Setter Property="FontWeight" Value="Medium" />
                                         </Style>
                                     </StackPanel.Resources>
-                                    
+
                                     <Button x:Name="BtnFilterStable" Content="정상" />
                                     <Button x:Name="BtnFilterWarn" Content="주의" />
                                     <Button x:Name="BtnFilterError" Content="위험" />
@@ -136,6 +136,7 @@
                         <!--#endregion Filter Popup-->
                     </StackPanel>
                 </Border>
+                <!--#endregion Content Filter-->
 
                 <!--#region Content List-->
                 <Grid Grid.Row="1">
@@ -146,7 +147,7 @@
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
-                    <!--List Header-->
+                    <!--region List Header-->
                     <Border Grid.Row="0" BorderBrush="LightGray" BorderThickness="1">
                         <Grid>
                             <Grid.ColumnDefinitions>
@@ -185,8 +186,9 @@
                             <TextBlock Grid.Column="5" Text="선택" HorizontalAlignment="Center" />
                         </Grid>
                     </Border>
+                    <!--#endregion List Header-->
 
-                    <!--List Body-->
+                    <!--region List Body-->
                     <ListView x:Name="EquipListContent" Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Background="Transparent"
                               ItemsSource="{Binding EquipManageVM.Equipments}"
 
@@ -206,9 +208,9 @@
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
+                    <!--#endregion List Body-->
                 </Grid>
                 <!--#endregion Content List-->
-                <!--#endregion Content Filter-->
             </Grid>
             <!--#endregion Content Body-->
         </Grid>
@@ -299,7 +301,7 @@
                             <Setter Property="Margin" Value="5" />
                             <Setter Property="FontSize" Value="13" />
                             <Setter Property="FontWeight" Value="Bold" />
-                            <Setter Property="Cursor" Value="Hand"/>
+                            <Setter Property="Cursor" Value="Hand" />
                             <Setter Property="Template">
                                 <Setter.Value>
                                     <ControlTemplate TargetType="Button">
@@ -315,7 +317,7 @@
 
                     <Button x:Name="BtnPanelSave" Content="저장" Foreground="{StaticResource StatusStableTextBrush}" Background="{StaticResource StatusStableBackgroundBrush}"
                             Click="BtnPanelSave_Click" />
-                    <Button x:Name="BtnPanelCancel" Content="취소" />
+                    <Button x:Name="BtnPanelCancel" Content="취소" Click="BtnPanelCancel_Click" />
                     <Button x:Name="BtnPanelDelete" Content="삭제" Foreground="{StaticResource StatusErrorTextBrush}" Background="{StaticResource StatusErrorBackgroundBrush}"
                             Click="BtnPaneDelete_Click" />
                 </StackPanel>

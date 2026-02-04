@@ -25,6 +25,7 @@ namespace SmartFactoryMonitor.ViewModels
         }
 
         /* Equipment 생성 */
+
         public async Task AddEquip(Equipment.Add_DTO newEquip)
         {
             try
@@ -48,6 +49,7 @@ namespace SmartFactoryMonitor.ViewModels
         }
 
         /* Equipment 수정 */
+
         public async Task UpdateEquip(Equipment selectedEquip)
         {
             try
@@ -71,6 +73,7 @@ namespace SmartFactoryMonitor.ViewModels
         }
 
         /* Equipment 삭제 */
+
         public async Task DeleteEquip()
         {
             var selectedIds = Equipments

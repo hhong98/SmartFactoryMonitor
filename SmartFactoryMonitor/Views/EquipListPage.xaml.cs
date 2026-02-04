@@ -53,6 +53,15 @@ namespace SmartFactoryMonitor.Views
         {
             MessageBox.Show("Deleted");
         }
+
+        private void BtnPanelCancel_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is MainViewModel mainVM)
+            {
+                // TODO : 설비 상세정보 Form 초기화
+                mainVM.IsPanelOpened = false;
+            }
+        }
     }
 
     /*
