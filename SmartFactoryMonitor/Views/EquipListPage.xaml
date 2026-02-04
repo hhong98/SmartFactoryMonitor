@@ -191,7 +191,7 @@
                     <!--region List Body-->
                     <ListView x:Name="EquipListContent" Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Background="Transparent"
                               ItemsSource="{Binding EquipManageVM.Equipments}"
-
+                              SelectedItem="{Binding EquipManageVM.SelectedEquip}"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListView.ItemContainerStyle>
@@ -240,22 +240,28 @@
                     <Style TargetType="TextBox">
                         <Setter Property="Height" Value="28" />
                         <Setter Property="VerticalContentAlignment" Value="Center" />
+                        <Setter Property="FontSize" Value="15"/>
                         <Setter Property="Margin" Value="12,2" />
                     </Style>
                 </StackPanel.Resources>
 
                 <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Margin="0,0,0,10">
-                    <TextBlock x:Name="FormHeader" Text="설비를 선택해주세요" Padding="15" FontSize="18" FontWeight="Bold" />
+                    <TextBlock x:Name="FormHeader" Padding="15"
+                               Text="{Binding EquipManageVM.SelectedEquip.EquipName, TargetNullValue='설비를 선택하세요'}"
+                               FontSize="18" FontWeight="Bold" />
                 </Border>
 
                 <Label Content="설비명" />
-                <TextBox x:Name="FormName" />
+                <TextBox x:Name="FormName"
+                         Text="{Binding EquipManageVM.SelectedEquip.EquipName, TargetNullValue=''}" />
 
                 <Label Content="IP 주소" />
-                <TextBox x:Name="FormIpAddr" />
+                <TextBox x:Name="FormIpAddr"
+                         Text="{Binding EquipManageVM.SelectedEquip.IpAddress, TargetNullValue=''}" />
 
                 <Label Content="포트" />
-                <TextBox x:Name="FormPort" />
+                <TextBox x:Name="FormPort"
+                         Text="{Binding EquipManageVM.SelectedEquip.Port, TargetNullValue=''}" />
 
                 <Grid Margin="0,5">
                     <Grid.ColumnDefinitions>
@@ -267,30 +273,43 @@
                         <RowDefinition Height="Auto" />
                         <RowDefinition Height="Auto" />
                     </Grid.RowDefinitions>
-                    <Label Grid.Row="0" Grid.Column="0" Content="최저 온도" Margin="25,0,0,0" />
-                    <TextBox Grid.Row="1" Grid.Column="0" x:Name="FormMinTemp" />
+                    <Label Grid.Row="0" Grid.Column="0" Content="최저 온도" Margin="27,0,0,0" />
+                    <TextBox Grid.Row="1" Grid.Column="0" x:Name="FormMinTemp"
+                             Width="70" HorizontalContentAlignment="Center"
+                             Text="{Binding EquipManageVM.SelectedEquip.MinTemp, TargetNullValue=''}" />
 
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="~" Margin="10,0"  VerticalAlignment="Center"
                                FontSize="15" FontWeight="Bold" />
 
-                    <Label Grid.Row="0" Grid.Column="2" Content="최고 온도" Margin="25,0,0,0" />
-                    <TextBox Grid.Row="1" Grid.Column="2" x:Name="FormMaxTemp" />
+                    <Label Grid.Row="0" Grid.Column="2" Content="최고 온도" Margin="27,0,0,0" />
+                    <TextBox Grid.Row="1" Grid.Column="2" x:Name="FormMaxTemp"
+                             Width="70" HorizontalContentAlignment="Center"
+                             Text="{Binding EquipManageVM.SelectedEquip.MaxTemp, TargetNullValue=''}" />
                 </Grid>
 
                 <Label Content="등록일" />
-                <TextBlock x:Name="FormCreated" FontSize="18" FontWeight="Bold" Foreground="Gray" Margin="10,0">
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Setter Property="Text" Value="0000-00-00/00:00" />
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+                <TextBlock x:Name="FormCreated"
+                           FontSize="18" FontWeight="Bold" Foreground="Gray" Margin="10,0"
+                           Text="{Binding EquipManageVM.SelectedEquip.CreateDate, TargetNullValue=''}" />
 
                 <Grid Margin="0,20">
                     <Label Content="사용 유무" FontSize="15" />
-                    <custom:ToggleButton x:Name="FormIsActive" HorizontalAlignment="Right" Margin="20,0"
+                    <custom:ToggleButton x:Name="FormIsActive" Margin="20,0" IsEnabled="True"
+                                         HorizontalAlignment="Right"
                                          OpenBackground="{StaticResource StatusStableBackgroundBrush}"
-                                         CloseBackground="{StaticResource StatusErrorBackgroundBrush}" />
+                                         CloseBackground="{StaticResource StatusErrorBackgroundBrush}">
+                        <custom:ToggleButton.Style>
+                            <Style TargetType="{x:Type custom:ToggleButton}">
+                                <Setter Property="IsOpened" Value="False" />
+
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip.IsActive}" Value="Y">
+                                        <Setter Property="IsOpened" Value="True" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </custom:ToggleButton.Style>
+                    </custom:ToggleButton>
                 </Grid>
 
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -319,7 +338,7 @@
                             Click="BtnPanelSave_Click" />
                     <Button x:Name="BtnPanelCancel" Content="취소" Click="BtnPanelCancel_Click" />
                     <Button x:Name="BtnPanelDelete" Content="삭제" Foreground="{StaticResource StatusErrorTextBrush}" Background="{StaticResource StatusErrorBackgroundBrush}"
-                            Click="BtnPaneDelete_Click" />
+                            Click="BtnPanelDelete_Click" />
                 </StackPanel>
             </StackPanel>
         </Border>

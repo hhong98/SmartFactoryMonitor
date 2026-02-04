@@ -11,12 +11,20 @@ using System.Windows;
 
 namespace SmartFactoryMonitor.ViewModels
 {
-    public class EquipManageViewModel
+    public class EquipManageViewModel : ObservableModelBase
     {
         private readonly EquipRepository _repo;
         private readonly EquipService _eService;
 
         public ObservableCollection<Equipment> Equipments => _repo.Equipments;
+
+        private Equipment selectedEquip;
+
+        public Equipment SelectedEquip
+        {
+            get => selectedEquip;
+            set => SetProperty(ref selectedEquip, value);
+        }
 
         public EquipManageViewModel(EquipRepository equipRepository, EquipService eService)
         {
@@ -74,7 +82,39 @@ namespace SmartFactoryMonitor.ViewModels
 
         /* Equipment 삭제 */
 
-        public async Task DeleteEquip()
+        public async Task DeleteCurrentEquip()
+        {
+            if (SelectedEquip is null) return;
+
+            var equipName = SelectedEquip.EquipName;
+
+            if (MessageBox.Show($"{equipName}을(를) 삭제하시겠습니까?", "삭제", MessageBoxButton.YesNo)
+                is MessageBoxResult.Yes)
+            {
+                try
+                {
+                    DbResult result = await _eService.Delete(new List<string> { SelectedEquip.EquipId });
+
+                    if (result.IsSuccess)
+                    {
+                        MessageBox.Show($"{equipName}이/가 성공적으로 삭제되었습니다.");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"삭제 실패: {result.Message}");
+                    }
+
+                    await _repo.LoadAll();
+                    SelectedEquip = null;
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"삭제 중 오류 발생: {ex.Message}");
+                }
+            }
+        }
+
+        public async Task DeleteSelectedEquips()
         {
             var selectedIds = Equipments
                 .Where(e => e.IsChecked)
@@ -87,8 +127,8 @@ namespace SmartFactoryMonitor.ViewModels
                 return;
             }
 
-            if (MessageBox.Show($"{selectedIds.Count}개의 설비를 삭제하시겠습니까?",
-                "삭제 확인", MessageBoxButton.YesNo) == MessageBoxResult.No) { return; }
+            if (MessageBox.Show($"{selectedIds.Count}개의 설비를 삭제하시겠습니까?", "삭제 확인", MessageBoxButton.YesNo)
+                is MessageBoxResult.No) { return; }
 
             try
             {

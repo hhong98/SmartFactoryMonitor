@@ -41,6 +41,7 @@ namespace SmartFactoryMonitor.Repository
                     existingEquip.MaxTemp = Convert.ToDouble(row["MAX_TEMP"]);
                     existingEquip.Location = row["LOCATION"].ToString();
                     existingEquip.IsActive = row["IS_ACTIVE"].ToString();
+                    existingEquip.CreateDate = row["CREATE_DATE"].ToString();
                 }
                 else
                 {
@@ -55,7 +56,8 @@ namespace SmartFactoryMonitor.Repository
                         MaxTemp = Convert.ToDouble(row["MAX_TEMP"]),
                         Location = row["LOCATION"].ToString(),
                         IsActive = row["IS_ACTIVE"].ToString(),
-                    });
+                        CreateDate = row["CREATE_DATE"].ToString(),
+                });
                 }
             }
 

@@ -34,6 +34,9 @@ namespace SmartFactoryMonitor.Model
         private string _isActive;
         public string IsActive { get => _isActive; set => SetProperty(ref _isActive, value); }
 
+        private string _createDate;
+        public string CreateDate { get => _createDate; set => SetProperty(ref _createDate, value); }
+
         private double _currentTemp = 0d;
 
         public double CurrentTemp

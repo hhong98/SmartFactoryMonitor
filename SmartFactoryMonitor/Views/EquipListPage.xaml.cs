@@ -22,26 +22,24 @@ namespace SmartFactoryMonitor.Views
     /// </summary>
     public partial class EquipListPage : Page
     {
+        private MainViewModel mainVM;
+
         public EquipListPage()
         {
             InitializeComponent();
+
+            mainVM = DataContext is MainViewModel vm
+                ? vm
+                : null;
         }
 
         public async void BtnDelete_Click(object sender, RoutedEventArgs args)
-        {
-            // DataContext 확인 - MainViewModel의 EquipVM 공유
-            if (DataContext is MainViewModel mainVM)
-            {
-                await mainVM.EquipManageVM.DeleteEquip();
-            }
-        }
+            => await mainVM?.EquipManageVM.DeleteSelectedEquips();
 
         public void BtnAdd_Click(object sender, RoutedEventArgs args)
         {
-            if (DataContext is MainViewModel mainVM)
-            {
-                mainVM.IsPanelOpened = !(mainVM.IsPanelOpened is true);
-            }
+            if (mainVM is null) return;
+            mainVM.IsPanelOpened = !(mainVM.IsPanelOpened is true);
         }
 
         public void BtnPanelSave_Click(object sender, RoutedEventArgs args)
@@ -49,18 +47,13 @@ namespace SmartFactoryMonitor.Views
             MessageBox.Show("Saved");
         }
 
-        public void BtnPaneDelete_Click(object sender, RoutedEventArgs args)
-        {
-            MessageBox.Show("Deleted");
-        }
+        public async void BtnPanelDelete_Click(object sender, RoutedEventArgs args)
+            => await mainVM?.EquipManageVM.DeleteCurrentEquip();
 
         private void BtnPanelCancel_Click(object sender, RoutedEventArgs e)
         {
-            if (DataContext is MainViewModel mainVM)
-            {
-                // TODO : 설비 상세정보 Form 초기화
-                mainVM.IsPanelOpened = false;
-            }
+            if (mainVM is null) return;
+            mainVM.IsPanelOpened = false;
         }
     }
 
