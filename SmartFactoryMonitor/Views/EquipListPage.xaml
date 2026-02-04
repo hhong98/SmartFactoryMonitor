@@ -5,10 +5,15 @@
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
       xmlns:root="clr-namespace:SmartFactoryMonitor"
       xmlns:custom="clr-namespace:SmartFactoryMonitor.Controls"
+      xmlns:common="clr-namespace:SmartFactoryMonitor.Common"
       DataContext="{StaticResource MainVM}"
       mc:Ignorable="d"
       d:DesignWidth="1115" d:DesignHeight="600"
       Title="EquipListPage">
+    <Page.Resources>
+        <common:ActiveConverter x:Key="ActiveConverter" />
+    </Page.Resources>
+
     <StackPanel Background="{StaticResource MainBackgroundBrush}" Orientation="Horizontal">
         <!--#region Main Body-->
         <Grid Margin="20,5,20,15">
@@ -220,6 +225,7 @@
         <Border BorderThickness="1" BorderBrush="LightGray"
                 Width="270" Height="500" Margin="5,0"
                 Style="{StaticResource ShowWhenPanelOpened}">
+            <!--#region Side Panel Form-->
             <StackPanel x:Name="EquipSidePanel" Background="White">
                 <StackPanel.Resources>
                     <Style TargetType="Grid">
@@ -240,28 +246,28 @@
                     <Style TargetType="TextBox">
                         <Setter Property="Height" Value="28" />
                         <Setter Property="VerticalContentAlignment" Value="Center" />
-                        <Setter Property="FontSize" Value="15"/>
+                        <Setter Property="FontSize" Value="15" />
                         <Setter Property="Margin" Value="12,2" />
                     </Style>
                 </StackPanel.Resources>
 
                 <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Margin="0,0,0,10">
                     <TextBlock x:Name="FormHeader" Padding="15"
-                               Text="{Binding EquipManageVM.SelectedEquip.EquipName, TargetNullValue='설비를 선택하세요'}"
+                               Text="{Binding EquipManageVM.EditingEquip.EquipName, FallbackValue='설비를 선택하세요'}"
                                FontSize="18" FontWeight="Bold" />
                 </Border>
 
                 <Label Content="설비명" />
                 <TextBox x:Name="FormName"
-                         Text="{Binding EquipManageVM.SelectedEquip.EquipName, TargetNullValue=''}" />
+                         Text="{Binding EquipManageVM.EditingEquip.EquipName, FallbackValue=''}" />
 
                 <Label Content="IP 주소" />
                 <TextBox x:Name="FormIpAddr"
-                         Text="{Binding EquipManageVM.SelectedEquip.IpAddress, TargetNullValue=''}" />
+                         Text="{Binding EquipManageVM.EditingEquip.IpAddress, FallbackValue=''}" />
 
                 <Label Content="포트" />
                 <TextBox x:Name="FormPort"
-                         Text="{Binding EquipManageVM.SelectedEquip.Port, TargetNullValue=''}" />
+                         Text="{Binding EquipManageVM.EditingEquip.Port, FallbackValue=''}" />
 
                 <Grid Margin="0,5">
                     <Grid.ColumnDefinitions>
@@ -276,7 +282,7 @@
                     <Label Grid.Row="0" Grid.Column="0" Content="최저 온도" Margin="27,0,0,0" />
                     <TextBox Grid.Row="1" Grid.Column="0" x:Name="FormMinTemp"
                              Width="70" HorizontalContentAlignment="Center"
-                             Text="{Binding EquipManageVM.SelectedEquip.MinTemp, TargetNullValue=''}" />
+                             Text="{Binding EquipManageVM.EditingEquip.MinTemp, FallbackValue=''}" />
 
                     <TextBlock Grid.Row="1" Grid.Column="1" Text="~" Margin="10,0"  VerticalAlignment="Center"
                                FontSize="15" FontWeight="Bold" />
@@ -284,34 +290,26 @@
                     <Label Grid.Row="0" Grid.Column="2" Content="최고 온도" Margin="27,0,0,0" />
                     <TextBox Grid.Row="1" Grid.Column="2" x:Name="FormMaxTemp"
                              Width="70" HorizontalContentAlignment="Center"
-                             Text="{Binding EquipManageVM.SelectedEquip.MaxTemp, TargetNullValue=''}" />
+                             Text="{Binding EquipManageVM.EditingEquip.MaxTemp, FallbackValue=''}" />
                 </Grid>
 
                 <Label Content="등록일" />
                 <TextBlock x:Name="FormCreated"
                            FontSize="18" FontWeight="Bold" Foreground="Gray" Margin="10,0"
-                           Text="{Binding EquipManageVM.SelectedEquip.CreateDate, TargetNullValue=''}" />
+                           Text="{Binding EquipManageVM.EditingEquip.CreateDate, FallbackValue=''}" />
 
                 <Grid Margin="0,20">
                     <Label Content="사용 유무" FontSize="15" />
-                    <custom:ToggleButton x:Name="FormIsActive" Margin="20,0" IsEnabled="True"
-                                         HorizontalAlignment="Right"
-                                         OpenBackground="{StaticResource StatusStableBackgroundBrush}"
-                                         CloseBackground="{StaticResource StatusErrorBackgroundBrush}">
-                        <custom:ToggleButton.Style>
-                            <Style TargetType="{x:Type custom:ToggleButton}">
-                                <Setter Property="IsOpened" Value="False" />
-
-                                <Style.Triggers>
-                                    <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip.IsActive}" Value="Y">
-                                        <Setter Property="IsOpened" Value="True" />
-                                    </DataTrigger>
-                                </Style.Triggers>
-                            </Style>
-                        </custom:ToggleButton.Style>
-                    </custom:ToggleButton>
+                    <custom:ToggleButton x:Name="FormIsActive"
+                     IsOpened="{Binding EquipManageVM.EditingEquip.IsActive,
+                                        Converter={StaticResource ActiveConverter},
+                                        Mode=TwoWay}"
+                     OpenBackground="{StaticResource StatusStableBackgroundBrush}"
+                     CloseBackground="{StaticResource StatusErrorBackgroundBrush}" />
                 </Grid>
+                <!--#endregion Side Panel Form-->
 
+                <!--#region Side Panel Button-->
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <StackPanel.Resources>
                         <Style TargetType="Button">
@@ -340,6 +338,7 @@
                     <Button x:Name="BtnPanelDelete" Content="삭제" Foreground="{StaticResource StatusErrorTextBrush}" Background="{StaticResource StatusErrorBackgroundBrush}"
                             Click="BtnPanelDelete_Click" />
                 </StackPanel>
+                <!--#endregion Side Panel Button-->
             </StackPanel>
         </Border>
         <!--#endregion Side Panel-->

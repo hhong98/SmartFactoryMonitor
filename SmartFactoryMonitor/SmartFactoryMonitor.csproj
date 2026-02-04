@@ -68,6 +68,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\AppConstants.cs" />
+    <Compile Include="Common\ActiveConverter.cs" />
     <Compile Include="Controls\EquipListItem.xaml.cs">
       <DependentUpon>EquipListItem.xaml</DependentUpon>
     </Compile>

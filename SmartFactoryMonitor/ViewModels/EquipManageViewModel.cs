@@ -23,7 +23,29 @@ namespace SmartFactoryMonitor.ViewModels
         public Equipment SelectedEquip
         {
             get => selectedEquip;
-            set => SetProperty(ref selectedEquip, value);
+            set
+            {
+                if (SetProperty(ref selectedEquip, value) && value != null)
+                {
+                    EditingEquip = new Equipment
+                    {
+                        EquipId = value.EquipId,
+                        EquipName = value.EquipName,
+                        IpAddress = value.IpAddress,
+                        Port = value.Port,
+                        IsActive = value.IsActive,
+                        CreateDate = value.CreateDate,
+                    };
+                }
+            }
+        }
+
+        private Equipment editingEquip;
+
+        public Equipment EditingEquip
+        {
+            get => editingEquip;
+            set => SetProperty(ref editingEquip, value);
         }
 
         public EquipManageViewModel(EquipRepository equipRepository, EquipService eService)
