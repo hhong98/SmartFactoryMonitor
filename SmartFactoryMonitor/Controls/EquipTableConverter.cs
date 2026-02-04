@@ -8,7 +8,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace SmartFactoryMonitor
+namespace SmartFactoryMonitor.Controls
 {
     public class ActiveToColor : IValueConverter
     {

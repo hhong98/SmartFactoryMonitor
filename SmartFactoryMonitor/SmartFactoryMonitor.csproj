@@ -68,13 +68,22 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\AppConstants.cs" />
-    <Compile Include="EquipAddForm.xaml.cs">
+    <Compile Include="Controls\EquipListItem.xaml.cs">
+      <DependentUpon>EquipListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\ToggleButton.xaml.cs">
+      <DependentUpon>ToggleButton.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EquipAddForm.xaml.cs">
       <DependentUpon>EquipAddForm.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EquipList.xaml.cs">
-      <DependentUpon>EquipList.xaml</DependentUpon>
+    <Compile Include="Controls\EquipTable.xaml.cs">
+      <DependentUpon>EquipTable.xaml</DependentUpon>
     </Compile>
-    <Compile Include="EquipListConverter.cs" />
+    <Compile Include="Controls\EquipTableConverter.cs" />
+    <Compile Include="Controls\SearchBox.xaml.cs">
+      <DependentUpon>SearchBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Model\SimulatorTempDto.cs" />
     <Compile Include="Server\Api.cs" />
     <Compile Include="Model\DbResult.cs" />
@@ -99,17 +108,33 @@
     <Compile Include="Views\MonitorPage.xaml.cs">
       <DependentUpon>MonitorPage.xaml</DependentUpon>
     </Compile>
-    <Page Include="EquipAddForm.xaml">
+    <Page Include="Controls\EquipListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="EquipList.xaml">
+    <Page Include="Controls\ToggleButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EquipAddForm.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EquipTable.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\SearchBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Styles\FormStyles.xaml">
       <SubType>Designer</SubType>
       <Generator>XamlIntelliSenseFileGenerator</Generator>
+    </Page>
+    <Page Include="Styles\ThemeColor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\EquipFormWindow.xaml">
       <SubType>Designer</SubType>
@@ -123,7 +148,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\MainWindow.xaml">
+    <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -135,7 +160,7 @@
     <Compile Include="Views\EquipListPage.xaml.cs">
       <DependentUpon>EquipListPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\MainWindow.xaml.cs">
+    <Compile Include="MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
@@ -174,6 +199,9 @@
     <PackageReference Include="CommunityToolkit.Mvvm">
       <Version>8.4.0</Version>
     </PackageReference>
+    <PackageReference Include="Extended.Wpf.Toolkit">
+      <Version>5.0.0</Version>
+    </PackageReference>
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.4</Version>
     </PackageReference>
@@ -187,5 +215,6 @@
   <ItemGroup>
     <Resource Include="monitor.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

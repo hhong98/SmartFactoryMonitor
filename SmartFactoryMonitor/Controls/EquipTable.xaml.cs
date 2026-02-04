@@ -16,14 +16,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SmartFactoryMonitor
+namespace SmartFactoryMonitor.Controls
 {
     /// <summary>
     /// EquipList.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class EquipList : UserControl
+    public partial class EquipTable : UserControl
     {
-        public EquipList()
+        public EquipTable()
         {
             InitializeComponent();
         }
@@ -68,12 +68,11 @@ namespace SmartFactoryMonitor
             if (string.IsNullOrEmpty(filterText)) { dataView.Filter = null; }
             else
             {
-                
                 dataView.Filter = (obj) =>
                 {
                     var equip = obj as Equipment;
                     if (equip == null) { return false; }
-                    
+
                     var propValue = equip.GetType().GetProperty(filterTag)?.GetValue(equip, null);
 
                     return propValue == null
@@ -102,8 +101,8 @@ namespace SmartFactoryMonitor
             }
         }
 
-        GridViewColumnHeader _lastHeaderClicked = null;
-        ListSortDirection _lastDirection = ListSortDirection.Ascending;
+        private GridViewColumnHeader _lastHeaderClicked = null;
+        private ListSortDirection _lastDirection = ListSortDirection.Ascending;
 
         private void SortingHandler(object sender, RoutedEventArgs e)
         {

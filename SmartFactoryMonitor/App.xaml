@@ -3,14 +3,32 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:local="clr-namespace:SmartFactoryMonitor"
              xmlns:viewmodels="clr-namespace:SmartFactoryMonitor.ViewModels"
-             StartupUri="Views/MainWindow.xaml">
+             StartupUri="MainWindow.xaml">
 
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Styles/FormStyles.xaml"/>
+                <ResourceDictionary Source="/Styles/FormStyles.xaml" />
+                <ResourceDictionary Source="/Styles/ThemeColor.xaml" />
             </ResourceDictionary.MergedDictionaries>
             <viewmodels:MainViewModel x:Key="MainVM" />
+
+            <Style x:Key="HideWhenPanelOpened" TargetType="FrameworkElement">
+                <Setter Property="Visibility" Value="Visible" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsPanelOpened}" Value="True">
+                        <Setter Property="Visibility" Value="Collapsed" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
+            <Style x:Key="ShowWhenPanelOpened" TargetType="FrameworkElement">
+                <Setter Property="Visibility" Value="Collapsed" />
+                <Style.Triggers>
+                    <DataTrigger Binding="{Binding IsPanelOpened}" Value="True">
+                        <Setter Property="Visibility" Value="Visible" />
+                    </DataTrigger>
+                </Style.Triggers>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>
