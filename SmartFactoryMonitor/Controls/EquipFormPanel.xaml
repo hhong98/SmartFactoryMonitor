@@ -19,7 +19,7 @@
             <Style.Triggers>
                 <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip}" Value="{x:Null}">
                     <Setter Property="IsEnabled" Value="False" />
-                    <Setter Property="CloseBackground" Value="LightGray"/>
+                    <Setter Property="CloseBackground" Value="LightGray" />
                     <Setter Property="OpenBackground" Value="LightGray" />
                 </DataTrigger>
             </Style.Triggers>

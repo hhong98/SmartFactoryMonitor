@@ -16,9 +16,27 @@
                     <Setter.Value>
                         <ControlTemplate TargetType="TextBox">
                             <Border BorderBrush="#C7CCD1" BorderThickness="1"
-                                    Background="White" CornerRadius="5" SnapsToDevicePixels="True">
-                                <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" />
+                                    Background="White" CornerRadius="5" 
+                                    SnapsToDevicePixels="True">
+                                <Grid>
+                                    <TextBlock x:Name="PlaceholderText" 
+                                               Text="설비명을 입력하세요" Foreground="DarkGray"
+                                               VerticalAlignment="Center" Margin="10,0"
+                                               Visibility="Collapsed" />
+                                    <ScrollViewer x:Name="PART_ContentHost" VerticalAlignment="Center" />
+                                </Grid>
                             </Border>
+
+                            <ControlTemplate.Triggers>
+                                <MultiTrigger>
+                                    <MultiTrigger.Conditions>
+                                        <Condition Property="Text" Value="" />
+                                        <Condition Property="IsKeyboardFocused" Value="False" />
+                                    </MultiTrigger.Conditions>
+
+                                    <Setter TargetName="PlaceholderText" Property="Visibility" Value="Visible" />
+                                </MultiTrigger>
+                            </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
