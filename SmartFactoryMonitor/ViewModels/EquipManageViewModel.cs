@@ -109,7 +109,6 @@ namespace SmartFactoryMonitor.ViewModels
                     DbResult result = await _eService.UpdateChangedColumns(selectedEquip.EquipId, changedColumns);
                     if (result.IsSuccess)
                     {
-                        ClearSelection();
                         MessageBox.Show("수정 성공했습니다");
                     }
                     else
@@ -189,7 +188,7 @@ namespace SmartFactoryMonitor.ViewModels
                 .Select(e => e.EquipId)
                 .ToList();
 
-            if (selectedIds.Count == 0)
+            if (selectedIds.Count is 0)
             {
                 MessageBox.Show("삭제할 설비를 선택하세요");
                 return;

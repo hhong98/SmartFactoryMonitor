@@ -35,7 +35,7 @@ namespace SmartFactoryMonitor.Controls
 
         public async void BtnPanelSave_Click(object sender, RoutedEventArgs args)
         {
-            if (mainVM.EquipManageVM.SelectedEquip is null)
+            if (mainVM.EquipManageVM.SelectedEquip.EquipId is null)
             {
                 // TODO : 유효성 검사
                 await mainVM?.EquipManageVM.AddEquip();
