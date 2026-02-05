@@ -32,10 +32,8 @@ namespace SmartFactoryMonitor.Controls
                 : null;
         }
 
-        public void BtnPanelSave_Click(object sender, RoutedEventArgs args)
-        {
-            MessageBox.Show("Saved");
-        }
+        public async void BtnPanelSave_Click(object sender, RoutedEventArgs args)
+            => await mainVM?.EquipManageVM.UpdateCurrentEquip();
 
         public async void BtnPanelDelete_Click(object sender, RoutedEventArgs args)
             => await mainVM?.EquipManageVM.DeleteCurrentEquip();

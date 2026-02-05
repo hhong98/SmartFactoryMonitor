@@ -33,6 +33,8 @@ namespace SmartFactoryMonitor.ViewModels
                         EquipName = value.EquipName,
                         IpAddress = value.IpAddress,
                         Port = value.Port,
+                        MinTemp = value.MinTemp,
+                        MaxTemp = value.MaxTemp,
                         IsActive = value.IsActive,
                         CreateDate = value.CreateDate,
                     };
@@ -80,11 +82,50 @@ namespace SmartFactoryMonitor.ViewModels
 
         /* Equipment 수정 */
 
+        public async Task UpdateCurrentEquip()
+        {
+            if (SelectedEquip is null || editingEquip is null) return;
+
+            
+
+            if (MessageBox.Show($"수정하시겠습니까?", "수정", MessageBoxButton.YesNo)
+                is MessageBoxResult.Yes)
+            {
+                var equipId = editingEquip.EquipId;
+
+                try
+                {
+                    var changedColumns = Equipment.GetChangedColumns(selectedEquip, editingEquip);
+                    if (changedColumns.Count is 0)
+                    {
+                        MessageBox.Show("변경사항이 없습니다\n다시 시도해주세요");
+                        return;
+                    }
+
+                    DbResult result = await _eService.UpdateChangedColumns(equipId, changedColumns);
+                    if (result.IsSuccess)
+                    {
+                        MessageBox.Show("수정 성공했습니다");
+                    }
+                    else
+                    {
+                        MessageBox.Show($"수정 실패: {result.Message}");
+                    }
+
+                    await _repo.LoadAll();
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"수정 중 오류 발생: {ex.Message}");
+                }
+            }
+        }
+
         public async Task UpdateEquip(Equipment selectedEquip)
         {
             try
             {
-                DbResult result = await _eService.Update(selectedEquip);
+                DbResult result = await _eService.UpdateAllColumns(selectedEquip);
                 if (result.IsSuccess)
                 {
                     MessageBox.Show("수정 성공했습니다");
@@ -106,16 +147,16 @@ namespace SmartFactoryMonitor.ViewModels
 
         public async Task DeleteCurrentEquip()
         {
-            if (SelectedEquip is null) return;
+            if (selectedEquip is null) return;
 
-            var equipName = SelectedEquip.EquipName;
+            var equipName = selectedEquip.EquipName;
 
             if (MessageBox.Show($"{equipName}을(를) 삭제하시겠습니까?", "삭제", MessageBoxButton.YesNo)
                 is MessageBoxResult.Yes)
             {
                 try
                 {
-                    DbResult result = await _eService.Delete(new List<string> { SelectedEquip.EquipId });
+                    DbResult result = await _eService.Delete(new List<string> { selectedEquip.EquipId });
 
                     if (result.IsSuccess)
                     {
