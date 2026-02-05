@@ -40,9 +40,12 @@ namespace SmartFactoryMonitor.Views
         {
             if (mainVM is null) return;
 
-            if (mainVM.IsPanelOpened && mainVM.EquipManageVM.SelectedEquip?.EquipId is null)
+            if (mainVM.IsPanelOpened &&
+                mainVM.EquipManageVM.SelectedEquip != null &&
+                mainVM.EquipManageVM.SelectedEquip.EquipId is null)
             {
                 mainVM.IsPanelOpened = false;
+                mainVM.EquipManageVM.ClearSelection();
                 return;
             }
 
