@@ -86,8 +86,6 @@ namespace SmartFactoryMonitor.ViewModels
         {
             if (SelectedEquip is null || editingEquip is null) return;
 
-            
-
             if (MessageBox.Show($"수정하시겠습니까?", "수정", MessageBoxButton.YesNo)
                 is MessageBoxResult.Yes)
             {
@@ -168,7 +166,8 @@ namespace SmartFactoryMonitor.ViewModels
                     }
 
                     await _repo.LoadAll();
-                    SelectedEquip = null;
+                    selectedEquip = null;
+                    editingEquip = null;
                 }
                 catch (Exception ex)
                 {

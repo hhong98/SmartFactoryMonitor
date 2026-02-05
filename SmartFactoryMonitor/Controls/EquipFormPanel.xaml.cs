@@ -41,6 +41,10 @@ namespace SmartFactoryMonitor.Controls
         private void BtnPanelCancel_Click(object sender, RoutedEventArgs e)
         {
             if (mainVM is null) return;
+
+            mainVM.EquipManageVM.EditingEquip = null;
+            mainVM.EquipManageVM.SelectedEquip = null;
+
             mainVM.IsPanelOpened = false;
         }
     }
