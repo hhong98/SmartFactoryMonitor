@@ -286,6 +286,11 @@ namespace SmartFactoryMonitor.ViewModels
                 errorMessage = "올바른 온도 범위를 입력해주세요";
                 return false;
             }
+            if (string.IsNullOrWhiteSpace(editingEquip.Location))
+            {
+                errorMessage = "설치 위치를 입력해주세요";
+                return false;
+            }
 
             return true;
         }
