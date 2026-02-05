@@ -35,14 +35,23 @@ namespace SmartFactoryMonitor.Controls
 
         public async void BtnPanelSave_Click(object sender, RoutedEventArgs args)
         {
-            if (mainVM.EquipManageVM.SelectedEquip.EquipId is null)
+            if (mainVM is null) return;
+
+            var equipVM = mainVM.EquipManageVM;
+
+            if (!equipVM.ValidateForm(out string errorMsg))
             {
-                // TODO : 유효성 검사
-                await mainVM?.EquipManageVM.AddEquip();
+                MessageBox.Show(errorMsg, "입력 오류", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            if (equipVM.SelectedEquip.EquipId is null)
+            {
+                await equipVM.AddEquip();
                 mainVM.IsPanelOpened = false;
             }
             else
-                await mainVM?.EquipManageVM.UpdateCurrentEquip();
+                await equipVM.UpdateCurrentEquip();
         }
 
         public async void BtnPanelDelete_Click(object sender, RoutedEventArgs args)

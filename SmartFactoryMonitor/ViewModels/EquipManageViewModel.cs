@@ -59,6 +59,8 @@ namespace SmartFactoryMonitor.ViewModels
             _eService = eService;
         }
 
+        #region Equipment Add, Update, Delete
+
         /* Equipment 생성 */
 
         public async Task AddEquip()
@@ -218,6 +220,10 @@ namespace SmartFactoryMonitor.ViewModels
             }
         }
 
+        #endregion Equipment Add, Update, Delete
+
+        #region Utils
+
         public void ResetSelection()
          => SelectedEquip = new Equipment();
 
@@ -226,5 +232,35 @@ namespace SmartFactoryMonitor.ViewModels
             SelectedEquip = null;
             EditingEquip = null;
         }
+
+        public bool ValidateForm(out string errorMessage)
+        {
+            errorMessage = string.Empty;
+
+            if (string.IsNullOrWhiteSpace(editingEquip.EquipName))
+            {
+                errorMessage = "설비명을 입력해주세요";
+                return false;
+            }
+            if (string.IsNullOrWhiteSpace(editingEquip.IpAddress))
+            {
+                errorMessage = "IP 주소를 입력해주세요";
+                return false;
+            }
+            if (editingEquip.Port <= 0 || editingEquip.Port is 0)
+            {
+                errorMessage = "올바른 포트 번호를 입력해주세요";
+                return false;
+            }
+            if (editingEquip.MinTemp > editingEquip.MaxTemp)
+            {
+                errorMessage = "올바른 온도 범위를 입력해주세요";
+                return false;
+            }
+
+            return true;
+        }
+
+        #endregion Utils
     }
 }
