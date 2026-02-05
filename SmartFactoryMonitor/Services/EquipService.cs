@@ -16,12 +16,17 @@ namespace SmartFactoryMonitor.Services
             _db = oracleService;
         }
 
-        public async Task<DbResult> Add(Equipment.Add_DTO equip)
+        public async Task<DbResult> Add(Equipment.DTO equip)
         {
+            // [TEMP] 현재 Form에 Location을 추가 안해서 임시 값 할당
+            //string sql = $@"Insert Into EQUIPMENT (EQUIP_NAME, IP_ADDRESS, PORT, MIN_TEMP, MAX_TEMP, LOCATION)
+            //                Values('{equip.EquipName}', '{equip.IpAddress}',
+            //                {equip.Port}, {equip.MinTemp}, {equip.MaxTemp},
+            //                '{equip.Location}')";
             string sql = $@"Insert Into EQUIPMENT (EQUIP_NAME, IP_ADDRESS, PORT, MIN_TEMP, MAX_TEMP, LOCATION)
                             Values('{equip.EquipName}', '{equip.IpAddress}',
                             {equip.Port}, {equip.MinTemp}, {equip.MaxTemp},
-                            '{equip.Location}')";
+                            'NO_LOCATION')";
 
             string result = await _db.ExecuteQuery(sql);
             return int.TryParse(result, out int rows)

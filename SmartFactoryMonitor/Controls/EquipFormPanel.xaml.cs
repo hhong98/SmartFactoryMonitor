@@ -1,4 +1,5 @@
-﻿using SmartFactoryMonitor.ViewModels;
+﻿using SmartFactoryMonitor.Model;
+using SmartFactoryMonitor.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -33,7 +34,16 @@ namespace SmartFactoryMonitor.Controls
         }
 
         public async void BtnPanelSave_Click(object sender, RoutedEventArgs args)
-            => await mainVM?.EquipManageVM.UpdateCurrentEquip();
+        {
+            if (mainVM.EquipManageVM.SelectedEquip is null)
+            {
+                // TODO : 유효성 검사
+                await mainVM?.EquipManageVM.AddEquip();
+                mainVM.IsPanelOpened = false;
+            }
+            else
+                await mainVM?.EquipManageVM.UpdateCurrentEquip();
+        }
 
         public async void BtnPanelDelete_Click(object sender, RoutedEventArgs args)
             => await mainVM?.EquipManageVM.DeleteCurrentEquip();
@@ -42,9 +52,7 @@ namespace SmartFactoryMonitor.Controls
         {
             if (mainVM is null) return;
 
-            mainVM.EquipManageVM.EditingEquip = null;
-            mainVM.EquipManageVM.SelectedEquip = null;
-
+            mainVM.EquipManageVM.ClearSelection();
             mainVM.IsPanelOpened = false;
         }
     }

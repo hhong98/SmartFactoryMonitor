@@ -43,6 +43,7 @@ namespace SmartFactoryMonitor.ViewModels
             set
             {
                 if (_isPanelOpened == value) return;
+
                 _isPanelOpened = value;
                 OnPropertyChanged(nameof(IsPanelOpened));
 

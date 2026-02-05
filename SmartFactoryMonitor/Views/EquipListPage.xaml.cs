@@ -39,7 +39,15 @@ namespace SmartFactoryMonitor.Views
         public void BtnAdd_Click(object sender, RoutedEventArgs args)
         {
             if (mainVM is null) return;
-            mainVM.IsPanelOpened = !(mainVM.IsPanelOpened is true);
+
+            if (mainVM.IsPanelOpened && mainVM.EquipManageVM.SelectedEquip?.EquipId is null)
+            {
+                mainVM.IsPanelOpened = false;
+                return;
+            }
+
+            mainVM.EquipManageVM.ResetSelection();
+            mainVM.IsPanelOpened = true;
         }
     }
 

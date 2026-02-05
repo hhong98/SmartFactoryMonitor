@@ -25,29 +25,32 @@ namespace SmartFactoryMonitor.ViewModels
             get => selectedEquip;
             set
             {
-                if (SetProperty(ref selectedEquip, value) && value != null)
+                if (SetProperty(ref selectedEquip, value))
                 {
-                    EditingEquip = new Equipment
-                    {
-                        EquipId = value.EquipId,
-                        EquipName = value.EquipName,
-                        IpAddress = value.IpAddress,
-                        Port = value.Port,
-                        MinTemp = value.MinTemp,
-                        MaxTemp = value.MaxTemp,
-                        IsActive = value.IsActive,
-                        CreateDate = value.CreateDate,
-                    };
+                    if (value != null)
+                        EditingEquip = Equipment.DTO.Convert(value);
+
+                    OnPropertyChanged(nameof(FormHeaderTxt));
                 }
             }
         }
 
-        private Equipment editingEquip;
+        private Equipment.DTO editingEquip;
 
-        public Equipment EditingEquip
+        public Equipment.DTO EditingEquip
         {
             get => editingEquip;
             set => SetProperty(ref editingEquip, value);
+        }
+
+        public string FormHeaderTxt
+        {
+            get
+            {
+                if (SelectedEquip is null) return "설비를 선택하세요";
+                if (string.IsNullOrEmpty(SelectedEquip.EquipId)) return "새로운 설비 등록";
+                return SelectedEquip.EquipName;
+            }
         }
 
         public EquipManageViewModel(EquipRepository equipRepository, EquipService eService)
@@ -58,21 +61,23 @@ namespace SmartFactoryMonitor.ViewModels
 
         /* Equipment 생성 */
 
-        public async Task AddEquip(Equipment.Add_DTO newEquip)
+        public async Task AddEquip()
         {
             try
             {
-                DbResult result = await _eService.Add(newEquip);
+                DbResult result = await _eService.Add(editingEquip);
 
                 if (result.IsSuccess)
                 {
-                    await _repo.LoadAll();
+                    ClearSelection();
                     MessageBox.Show("성공적으로 설비를 등록했습니다");
                 }
                 else
                 {
                     MessageBox.Show($"등록 실패: {result.Message}");
                 }
+
+                await _repo.LoadAll();
             }
             catch (Exception ex)
             {
@@ -84,25 +89,27 @@ namespace SmartFactoryMonitor.ViewModels
 
         public async Task UpdateCurrentEquip()
         {
-            if (SelectedEquip is null || editingEquip is null) return;
+            if (selectedEquip is null || editingEquip is null) return;
 
             if (MessageBox.Show($"수정하시겠습니까?", "수정", MessageBoxButton.YesNo)
                 is MessageBoxResult.Yes)
             {
-                var equipId = editingEquip.EquipId;
-
                 try
                 {
-                    var changedColumns = Equipment.GetChangedColumns(selectedEquip, editingEquip);
+                    var changedColumns = Equipment.DTO.GetChangedColumns(
+                        Equipment.DTO.Convert(selectedEquip),
+                        editingEquip);
+
                     if (changedColumns.Count is 0)
                     {
                         MessageBox.Show("변경사항이 없습니다\n다시 시도해주세요");
                         return;
                     }
 
-                    DbResult result = await _eService.UpdateChangedColumns(equipId, changedColumns);
+                    DbResult result = await _eService.UpdateChangedColumns(selectedEquip.EquipId, changedColumns);
                     if (result.IsSuccess)
                     {
+                        ClearSelection();
                         MessageBox.Show("수정 성공했습니다");
                     }
                     else
@@ -158,6 +165,7 @@ namespace SmartFactoryMonitor.ViewModels
 
                     if (result.IsSuccess)
                     {
+                        ClearSelection();
                         MessageBox.Show($"{equipName}이/가 성공적으로 삭제되었습니다.");
                     }
                     else
@@ -166,8 +174,6 @@ namespace SmartFactoryMonitor.ViewModels
                     }
 
                     await _repo.LoadAll();
-                    selectedEquip = null;
-                    editingEquip = null;
                 }
                 catch (Exception ex)
                 {
@@ -211,6 +217,15 @@ namespace SmartFactoryMonitor.ViewModels
             {
                 MessageBox.Show($"삭제 중 오류 발생: {ex.Message}");
             }
+        }
+
+        public void ResetSelection()
+         => SelectedEquip = new Equipment();
+
+        public void ClearSelection()
+        {
+            SelectedEquip = null;
+            EditingEquip = null;
         }
     }
 }

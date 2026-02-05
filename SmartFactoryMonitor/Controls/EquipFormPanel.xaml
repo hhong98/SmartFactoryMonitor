@@ -10,6 +10,20 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <common:ActiveConverter x:Key="ActiveConverter" />
+
+        <Style x:Key="ActiveToggleStyle" TargetType="{x:Type local:ToggleButton}">
+            <Setter Property="OpenBackground" Value="{StaticResource StatusStableBackgroundBrush}" />
+            <Setter Property="CloseBackground" Value="{StaticResource StatusErrorBackgroundBrush}" />
+            <Setter Property="Cursor" Value="Hand" />
+
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip}" Value="{x:Null}">
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="CloseBackground" Value="LightGray"/>
+                    <Setter Property="OpenBackground" Value="LightGray" />
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
     </UserControl.Resources>
     <Border BorderThickness="1" BorderBrush="LightGray"
                 Width="270" Height="500" Margin="5,0"
@@ -37,13 +51,20 @@
                     <Setter Property="VerticalContentAlignment" Value="Center" />
                     <Setter Property="FontSize" Value="15" />
                     <Setter Property="Margin" Value="12,2" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip}" Value="{x:Null}">
+                            <Setter Property="IsEnabled" Value="False" />
+                            <Setter Property="Background" Value="LightGray" />
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
             </StackPanel.Resources>
 
             <Border BorderBrush="LightGray" BorderThickness="0,0,0,1" Margin="0,0,0,10">
-                <TextBlock x:Name="FormHeader" Padding="15"
-                               Text="{Binding EquipManageVM.EditingEquip.EquipName, FallbackValue='설비를 선택하세요'}"
-                               FontSize="18" FontWeight="Bold" />
+                <TextBlock x:Name="FormHeader" FontSize="18" FontWeight="Bold"
+                               Text="{Binding EquipManageVM.FormHeaderTxt, FallbackValue=''}"
+                               Padding="15" />
             </Border>
 
             <Label Content="설비명" />
@@ -90,11 +111,10 @@
             <Grid Margin="0,20">
                 <Label Content="사용 유무" FontSize="15" />
                 <local:ToggleButton x:Name="FormIsActive"
-                     IsOpened="{Binding EquipManageVM.EditingEquip.IsActive,
-                                        Converter={StaticResource ActiveConverter},
-                                        Mode=TwoWay}"
-                     OpenBackground="{StaticResource StatusStableBackgroundBrush}"
-                     CloseBackground="{StaticResource StatusErrorBackgroundBrush}" />
+                                    Style="{StaticResource ActiveToggleStyle}"
+                                    IsOpened="{Binding EquipManageVM.EditingEquip.IsActive,
+                                                    Converter={StaticResource ActiveConverter},
+                                                    Mode=TwoWay}" />
             </Grid>
             <!--#endregion Panel Form-->
 
@@ -118,13 +138,23 @@
                                 </ControlTemplate>
                             </Setter.Value>
                         </Setter>
+
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip}" Value="{x:Null}">
+                                <Setter Property="IsEnabled" Value="False" />
+                            </DataTrigger>
+                        </Style.Triggers>
                     </Style>
                 </StackPanel.Resources>
 
-                <Button x:Name="BtnPanelSave" Content="저장" Foreground="{StaticResource StatusStableTextBrush}" Background="{StaticResource StatusStableBackgroundBrush}"
+                <Button x:Name="BtnPanelSave" Content="저장"
+                        Foreground="{StaticResource StatusStableTextBrush}"
+                        Background="{StaticResource StatusStableBackgroundBrush}"
                             Click="BtnPanelSave_Click" />
-                <Button x:Name="BtnPanelCancel" Content="취소" Click="BtnPanelCancel_Click" />
-                <Button x:Name="BtnPanelDelete" Content="삭제" Foreground="{StaticResource StatusErrorTextBrush}" Background="{StaticResource StatusErrorBackgroundBrush}"
+                <Button x:Name="BtnPanelCancel" Content="취소" Click="BtnPanelCancel_Click" IsEnabled="True" />
+                <Button x:Name="BtnPanelDelete" Content="삭제"
+                        Foreground="{StaticResource StatusErrorTextBrush}"
+                        Background="{StaticResource StatusErrorBackgroundBrush}"
                             Click="BtnPanelDelete_Click" />
             </StackPanel>
             <!--#endregion Panel Button-->

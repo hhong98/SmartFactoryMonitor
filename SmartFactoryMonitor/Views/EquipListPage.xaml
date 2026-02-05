@@ -218,7 +218,7 @@
         <!--#endregion Main Body-->
 
         <!--#region Side Panel-->
-        <custom:EquipFormPanel />
+        <custom:EquipFormPanel x:Name="EquipPanel" />
         <!--#endregion Side Panel-->
     </StackPanel>
 </Page>
