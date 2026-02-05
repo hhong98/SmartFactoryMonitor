@@ -5,7 +5,8 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:local="clr-namespace:SmartFactoryMonitor.Controls"
              mc:Ignorable="d">
-    <TextBox FontSize="15">
+    <TextBox FontSize="15"
+             Text="{Binding EquipManageVM.SearchTxt, UpdateSourceTrigger=PropertyChanged}">
         <TextBox.Style>
             <Style TargetType="TextBox">
                 <Setter Property="Height" Value="30" />

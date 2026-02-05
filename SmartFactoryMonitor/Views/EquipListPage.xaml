@@ -191,7 +191,7 @@
 
                     <!--region List Body-->
                     <ListView x:Name="EquipListContent" Grid.Row="1" BorderBrush="LightGray" BorderThickness="1" Background="Transparent"
-                              ItemsSource="{Binding EquipManageVM.Equipments}"
+                              ItemsSource="{Binding EquipManageVM.FilteredEquipments}"
                               SelectedItem="{Binding EquipManageVM.SelectedEquip}"
                               ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                               ScrollViewer.VerticalScrollBarVisibility="Auto">

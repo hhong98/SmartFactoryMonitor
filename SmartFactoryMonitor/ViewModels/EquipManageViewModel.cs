@@ -4,10 +4,12 @@ using SmartFactoryMonitor.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 
 namespace SmartFactoryMonitor.ViewModels
 {
@@ -17,6 +19,7 @@ namespace SmartFactoryMonitor.ViewModels
         private readonly EquipService _eService;
 
         public ObservableCollection<Equipment> Equipments => _repo.Equipments;
+        public ICollectionView FilteredEquipments { get; }
 
         private Equipment selectedEquip;
 
@@ -53,10 +56,27 @@ namespace SmartFactoryMonitor.ViewModels
             }
         }
 
+        private string searchTxt;
+
+        public string SearchTxt
+        {
+            get => searchTxt;
+            set
+            {
+                if (SetProperty(ref searchTxt, value))
+                {
+                    FilteredEquipments.Refresh();
+                }
+            }
+        }
+
         public EquipManageViewModel(EquipRepository equipRepository, EquipService eService)
         {
             _repo = equipRepository;
             _eService = eService;
+
+            FilteredEquipments = CollectionViewSource.GetDefaultView(Equipments);
+            FilteredEquipments.Filter = FilterEquips;
         }
 
         #region Equipment Add, Update, Delete
@@ -231,6 +251,15 @@ namespace SmartFactoryMonitor.ViewModels
         {
             SelectedEquip = null;
             EditingEquip = null;
+        }
+
+        private bool FilterEquips(object obj)
+        {
+            if (!(obj is Equipment equip)) return false;
+
+            if (string.IsNullOrWhiteSpace(SearchTxt)) return true;
+
+            return equip.EquipName.IndexOf(SearchTxt, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         public bool ValidateForm(out string errorMessage)
