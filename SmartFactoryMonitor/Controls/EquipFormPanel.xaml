@@ -55,6 +55,19 @@
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
+
+                <Style TargetType="ComboBox">
+                    <Setter Property="Width" Value="245" />
+                    <Setter Property="Height" Value="28" />
+                    <Setter Property="VerticalContentAlignment" Value="Center" />
+                    <Setter Property="FontSize" Value="15" />
+
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip}" Value="{x:Null}">
+                            <Setter Property="IsEnabled" Value="False" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
             </StackPanel.Resources>
 
             <Border
@@ -79,7 +92,7 @@
             <TextBox x:Name="FormPort" Text="{Binding EquipManageVM.EditingEquip.Port, FallbackValue=''}" />
 
             <Label Content="설치 위치" />
-            <TextBox x:Name="FormLocation" Text="{Binding EquipManageVM.EditingEquip.Location, FallbackValue=''}" />
+            <ComboBox ItemsSource="{x:Static common:AppConstants.Locations}" SelectedItem="{Binding EquipManageVM.EditingEquip.Location, Mode=TwoWay}" />
 
             <Grid Margin="0,5">
                 <Grid.ColumnDefinitions>
