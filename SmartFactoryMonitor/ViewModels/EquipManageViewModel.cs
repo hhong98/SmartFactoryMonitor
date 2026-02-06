@@ -75,7 +75,7 @@ namespace SmartFactoryMonitor.ViewModels
             _repo = equipRepository;
             _eService = eService;
 
-            FilteredEquipments = CollectionViewSource.GetDefaultView(Equipments);
+            FilteredEquipments = new ListCollectionView(Equipments);
             FilteredEquipments.Filter = FilterEquips;
         }
 

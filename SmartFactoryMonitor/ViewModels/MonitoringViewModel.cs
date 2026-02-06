@@ -26,18 +26,15 @@ namespace SmartFactoryMonitor.ViewModels
 
         public ObservableCollection<Equipment> Equipments => _repo.Equipments;
 
-        public ObservableCollection<Equipment> ActiveEquips
-            => new ObservableCollection<Equipment>(Equipments.Where(e => e.IsActive == "Y"));
-
         public ICollectionView FilteredMonitors { get; }
 
         /* 대시보드 요약 */
         public int TotalCount => Equipments.Count;
-        public int ActiveCount => ActiveEquips.Count;
-        public int StableCount => TotalCount - (WarnCount + DangerCount + DisConnectCount);
-        public int WarnCount => ActiveEquips.Count(e => string.Equals(e.Status, "WARN"));
-        public int DangerCount => ActiveEquips.Count(e => string.Equals(e.Status, "ERROR"));
-        public int DisConnectCount => ActiveEquips.Count(e => string.Equals(e.Status, "NO DATA"));
+        public int ActiveCount => Equipments.Count(e => e.IsActive == "Y");
+        public int StableCount => ActiveCount - (WarnCount + DangerCount + DisConnectCount);
+        public int WarnCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "WARN");
+        public int DangerCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "ERROR");
+        public int DisConnectCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "NO DATA");
 
         // TODO : 현재 세부사항 조회중인 설비 (SelectedMonitor)
 
@@ -58,18 +55,18 @@ namespace SmartFactoryMonitor.ViewModels
 
         public MonitoringViewModel(EquipRepository equipRepository, MonitoringService mService)
         {
+            _repo = equipRepository;
+            _mService = mService;
+
+            FilteredMonitors = new ListCollectionView(Equipments);
+            FilteredMonitors.Filter = FilterMonitors;
+
             // DB 최신 상태 5초마다 반영
             refreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
             refreshTimer.Tick += async (s, e) => await _repo.LoadAll();
 
-            _repo = equipRepository;
-            _mService = mService;
-
-            FilteredMonitors = CollectionViewSource.GetDefaultView(ActiveEquips);
-            FilteredMonitors.Filter = FilterMonitors;
-
-            StartMonitoring();
             // 5초 주기 DB 동기화 및 0.5초 온도 모니터링 루프 가동
+            StartMonitoring();
         }
 
         public void RefreshDashboard()
@@ -85,6 +82,7 @@ namespace SmartFactoryMonitor.ViewModels
         private bool FilterMonitors(object obj)
         {
             if (!(obj is Equipment equip)) return false;
+            if (equip.IsActive != "Y") return false;
             if (string.IsNullOrWhiteSpace(SearchTxt)) return true;
 
             return equip.EquipName.IndexOf(SearchTxt, StringComparison.OrdinalIgnoreCase) >= 0;

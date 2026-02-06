@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:SmartFactoryMonitor.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
-    <TextBox FontSize="15" Text="{Binding EquipManageVM.SearchTxt, UpdateSourceTrigger=PropertyChanged}">
+    <TextBox FontSize="15" Text="{Binding SearchText, ElementName=Root, UpdateSourceTrigger=PropertyChanged}">
         <TextBox.Style>
             <Style TargetType="TextBox">
                 <Setter Property="Height" Value="30" />
