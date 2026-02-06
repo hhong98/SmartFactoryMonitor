@@ -1,5 +1,4 @@
-﻿using SmartFactoryMonitor.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,11 +16,11 @@ using System.Windows.Shapes;
 namespace SmartFactoryMonitor.Views
 {
     /// <summary>
-    /// Page1.xaml에 대한 상호 작용 논리
+    /// Interaction logic for EquipMonitor.xaml
     /// </summary>
-    public partial class MonitorPage : Page
+    public partial class EquipMonitorPage : Page
     {
-        public MonitorPage()
+        public EquipMonitorPage()
         {
             InitializeComponent();
         }

@@ -1,9 +1,8 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
 
-    <!-- ========================= -->
-    <!-- 레이아웃 -->
-    <!-- ========================= -->
+    <!--  =========================  -->
+    <!--  레이아웃  -->
+    <!--  =========================  -->
     <Color x:Key="PrimaryBlue">#1677C8</Color>
     <Color x:Key="PrimaryBlueDark">#125FA3</Color>
 
@@ -14,43 +13,43 @@
     <Color x:Key="CardBackground">#FFFFFF</Color>
     <Color x:Key="BorderColor">#E5E9F0</Color>
 
-    <!-- ========================= -->
-    <!-- 텍스트 -->
-    <!-- ========================= -->
+    <!--  =========================  -->
+    <!--  텍스트  -->
+    <!--  =========================  -->
     <Color x:Key="TextPrimary">#263238</Color>
     <Color x:Key="TextSecondary">#607D8B</Color>
     <Color x:Key="TextDisabled">#B0BEC5</Color>
     <Color x:Key="TextOnPrimary">#FFFFFF</Color>
 
-    <!-- ========================= -->
-    <!-- 상태 -->
-    <!-- ========================= -->
-    <!-- STABLE -->
-    <Color x:Key="StatusStableBackground">#5cb85c</Color>
-    <Color x:Key="StatusStableText">#E6F4EA</Color>
+    <!--  =========================  -->
+    <!--  상태  -->
+    <!--  =========================  -->
+    <!--  STABLE  -->
+    <Color x:Key="StatusStable">#5cb85c</Color>
+    <Color x:Key="StatusStableTint">#E6F4EA</Color>
 
-    <!-- WARN -->
-    <Color x:Key="StatusWarnBackground">#f0ad4e</Color>
-    <Color x:Key="StatusWarnText">#FFF4E5</Color>
+    <!--  WARN  -->
+    <Color x:Key="StatusWarn">#f0ad4e</Color>
+    <Color x:Key="StatusWarnTint">#FFF4E5</Color>
 
-    <!-- ERROR -->
-    <Color x:Key="StatusErrorBackground">#d9534f</Color>
-    <Color x:Key="StatusErrorText">#FDECEA</Color>
+    <!--  ERROR  -->
+    <Color x:Key="StatusError">#d9534f</Color>
+    <Color x:Key="StatusErrorTint">#FDECEA</Color>
 
-    <!-- NO DATA -->
-    <Color x:Key="StatusNoDataBackground">#546E7A</Color>
-    <Color x:Key="StatusNoDataText">#ECEFF1</Color>
+    <!--  NO DATA  -->
+    <Color x:Key="StatusNoData">#546E7A</Color>
+    <Color x:Key="StatusNoDataTint">#ECEFF1</Color>
 
-    <!-- ========================= -->
-    <!-- 온도 -->
-    <!-- ========================= -->
+    <!--  =========================  -->
+    <!--  온도  -->
+    <!--  =========================  -->
     <Color x:Key="TempNormalText">#37474F</Color>
     <Color x:Key="TempHighText">#D32F2F</Color>
     <Color x:Key="TempUnitText">#90A4AE</Color>
 
-    <!-- ========================= -->
-    <!-- 버튼 -->
-    <!-- ========================= -->
+    <!--  =========================  -->
+    <!--  버튼  -->
+    <!--  =========================  -->
     <Color x:Key="ButtonPrimary">#1677C8</Color>
     <Color x:Key="ButtonPrimaryHover">#1E88E5</Color>
 
@@ -59,9 +58,9 @@
 
     <Color x:Key="ButtonDisabled">#B0BEC5</Color>
 
-    <!-- ========================= -->
-    <!-- Brushes -->
-    <!-- ========================= -->
+    <!--  =========================  -->
+    <!--  Brushes  -->
+    <!--  =========================  -->
     <SolidColorBrush x:Key="PrimaryBlueBrush" Color="{StaticResource PrimaryBlue}" />
     <SolidColorBrush x:Key="PrimaryBlueDarkBrush" Color="{StaticResource PrimaryBlueDark}" />
 
@@ -77,25 +76,25 @@
     <SolidColorBrush x:Key="TextDisabledBrush" Color="{StaticResource TextDisabled}" />
     <SolidColorBrush x:Key="TextOnPrimaryBrush" Color="{StaticResource TextOnPrimary}" />
 
-    <!-- 상태 Brushes -->
-    <SolidColorBrush x:Key="StatusStableBackgroundBrush" Color="{StaticResource StatusStableBackground}" />
-    <SolidColorBrush x:Key="StatusStableTextBrush" Color="{StaticResource StatusStableText}" />
+    <!--  상태 Brushes  -->
+    <SolidColorBrush x:Key="StatusStableBrush" Color="{StaticResource StatusStable}" />
+    <SolidColorBrush x:Key="StatusStableTintBrush" Color="{StaticResource StatusStableTint}" />
 
-    <SolidColorBrush x:Key="StatusWarnBackgroundBrush" Color="{StaticResource StatusWarnBackground}" />
-    <SolidColorBrush x:Key="StatusWarnTextBrush" Color="{StaticResource StatusWarnText}" />
+    <SolidColorBrush x:Key="StatusWarnBrush" Color="{StaticResource StatusWarn}" />
+    <SolidColorBrush x:Key="StatusWarnTintBrush" Color="{StaticResource StatusWarnTint}" />
 
-    <SolidColorBrush x:Key="StatusErrorBackgroundBrush" Color="{StaticResource StatusErrorBackground}" />
-    <SolidColorBrush x:Key="StatusErrorTextBrush" Color="{StaticResource StatusErrorText}" />
+    <SolidColorBrush x:Key="StatusErrorBrush" Color="{StaticResource StatusError}" />
+    <SolidColorBrush x:Key="StatusErrorTintBrush" Color="{StaticResource StatusErrorTint}" />
 
-    <SolidColorBrush x:Key="StatusNoDataBackgroundBrush" Color="{StaticResource StatusNoDataBackground}" />
-    <SolidColorBrush x:Key="StatusNoDataTextBrush" Color="{StaticResource StatusNoDataText}" />
+    <SolidColorBrush x:Key="StatusNoDataBrush" Color="{StaticResource StatusNoData}" />
+    <SolidColorBrush x:Key="StatusNoDataTintBrush" Color="{StaticResource StatusNoDataTint}" />
 
-    <!-- 온도 Brushes -->
+    <!--  온도 Brushes  -->
     <SolidColorBrush x:Key="TempNormalTextBrush" Color="{StaticResource TempNormalText}" />
     <SolidColorBrush x:Key="TempHighTextBrush" Color="{StaticResource TempHighText}" />
     <SolidColorBrush x:Key="TempUnitTextBrush" Color="{StaticResource TempUnitText}" />
 
-    <!-- 이외의 요소 -->
+    <!--  이외의 요소  -->
     <SolidColorBrush x:Key="PanelToggleBackgroundBrush" Color="#5f6f97" />
     <SolidColorBrush x:Key="PanelToggleOpenBackgroundBrush" Color="#aebdd0" />
 </ResourceDictionary>

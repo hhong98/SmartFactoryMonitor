@@ -1,5 +1,5 @@
 ﻿<UserControl
-    x:Class="SmartFactoryMonitor.Controls.EquipListItem"
+    x:Class="SmartFactoryMonitor.Controls.EquipMonitorItem"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -9,14 +9,14 @@
     <Grid Background="White">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="3" />
-            <ColumnDefinition Width="210" />
-            <ColumnDefinition Width="140" />
+            <ColumnDefinition Width="180" />
+            <ColumnDefinition Width="150" />
             <ColumnDefinition Width="100" />
             <ColumnDefinition Width="100" />
             <ColumnDefinition>
                 <ColumnDefinition.Style>
                     <Style TargetType="ColumnDefinition">
-                        <Setter Property="Width" Value="80" />
+                        <Setter Property="Width" Value="100" />
                         <Style.Triggers>
                             <DataTrigger Binding="{Binding DataContext.IsPanelOpened, RelativeSource={RelativeSource AncestorType=ListView}}" Value="True">
                                 <Setter Property="Width" Value="0" />
@@ -36,10 +36,13 @@
             </Style>
         </Grid.Resources>
 
-        <Border
-            x:Name="EquipStatus"
-            Grid.Column="0"
-            Background="{StaticResource StatusNoDataBrush}" />
+        <Border x:Name="EquipStatus" Grid.Column="0">
+            <Border.Style>
+                <Style TargetType="Border">
+                    <Setter Property="Background" Value="{StaticResource StatusNoDataBrush}" />
+                </Style>
+            </Border.Style>
+        </Border>
         <TextBlock
             Grid.Column="1"
             Margin="10,0,0,0"
@@ -48,11 +51,11 @@
         <TextBlock
             Grid.Column="2"
             HorizontalAlignment="Left"
-            Text="{Binding IpAddress}" />
+            Text="{Binding Location}" />
         <TextBlock
             Grid.Column="3"
             HorizontalAlignment="Center"
-            Text="{Binding Port}" />
+            Text="{Binding MinTemp, StringFormat={}{0:F1}°C}" />
         <TextBlock
             Grid.Column="4"
             HorizontalAlignment="Center"
@@ -61,6 +64,6 @@
             Grid.Column="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            IsChecked="{Binding IsChecked}" />
+            IsChecked="{Binding MaxTemp}" />
     </Grid>
 </UserControl>

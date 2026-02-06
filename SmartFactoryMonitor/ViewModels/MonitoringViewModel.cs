@@ -23,10 +23,15 @@ namespace SmartFactoryMonitor.ViewModels
 
         public ObservableCollection<Equipment> Equipments => _repo.Equipments;
 
+        public ObservableCollection<Equipment> ActiveEquips
+            => new ObservableCollection<Equipment>(Equipments.Where(e => e.IsActive == "Y"));
+
         /* 대시보드 요약 */
         public int TotalCount => Equipments.Count;
-        public int ActiveCount => Equipments.Count(e => string.Equals(e.IsActive, "Y"));
-        public int OverHeatCount => Equipments.Count(e => string.Equals(e.IsActive, "Y") && e.Status is "ERROR");
+        public int ActiveCount => ActiveEquips.Count;
+        public int WarnCount => ActiveEquips.Count(e => string.Equals(e.Status, "WARN"));
+        public int DangerCount => ActiveEquips.Count(e => string.Equals(e.Status, "ERROR"));
+        public int DisConnectCount => ActiveEquips.Count(e => string.Equals(e.Status, "NO DATA"));
 
         public MonitoringViewModel(EquipRepository equipRepository, MonitoringService mService)
         {
@@ -45,7 +50,9 @@ namespace SmartFactoryMonitor.ViewModels
         {
             OnPropertyChanged(nameof(TotalCount));
             OnPropertyChanged(nameof(ActiveCount));
-            OnPropertyChanged(nameof(OverHeatCount));
+            OnPropertyChanged(nameof(WarnCount));
+            OnPropertyChanged(nameof(DangerCount));
+            OnPropertyChanged(nameof(DisConnectCount));
         }
 
         // 설비 온도 모니터링 시작
@@ -91,7 +98,8 @@ namespace SmartFactoryMonitor.ViewModels
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"모니터링 중 오류: {ex.Message}");
+                // [TEP] 모니터링 정상화 전까지 주석처리
+                // MessageBox.Show($"모니터링 중 오류: {ex.Message}");
             }
         }
 

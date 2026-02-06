@@ -1,30 +1,11 @@
 ﻿<UserControl
-    x:Class="SmartFactoryMonitor.Controls.EquipFormPanel"
+    x:Class="SmartFactoryMonitor.Controls.EquipMonitorPanel"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    xmlns:common="clr-namespace:SmartFactoryMonitor.Common"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:SmartFactoryMonitor.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    DataContext="{StaticResource MainVM}"
     mc:Ignorable="d">
-    <UserControl.Resources>
-        <common:ActiveConverter x:Key="ActiveConverter" />
-
-        <Style x:Key="ActiveToggleStyle" TargetType="{x:Type local:ToggleButton}">
-            <Setter Property="OpenBackground" Value="{StaticResource StatusStableBrush}" />
-            <Setter Property="CloseBackground" Value="{StaticResource StatusErrorBrush}" />
-            <Setter Property="Cursor" Value="Hand" />
-
-            <Style.Triggers>
-                <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip}" Value="{x:Null}">
-                    <Setter Property="IsEnabled" Value="False" />
-                    <Setter Property="CloseBackground" Value="LightGray" />
-                    <Setter Property="OpenBackground" Value="LightGray" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
-    </UserControl.Resources>
     <Border
         Width="270"
         Height="550"
@@ -157,14 +138,11 @@
             <Label Content="설비명" />
             <TextBox x:Name="FormName" Text="{Binding EquipManageVM.EditingEquip.EquipName, FallbackValue=''}" />
 
-            <Label Content="IP 주소" />
-            <TextBox x:Name="FormIpAddr" Text="{Binding EquipManageVM.EditingEquip.IpAddress, FallbackValue=''}" />
-
-            <Label Content="포트" />
-            <TextBox x:Name="FormPort" Text="{Binding EquipManageVM.EditingEquip.Port, FallbackValue=''}" />
-
             <Label Content="설치 위치" />
-            <ComboBox ItemsSource="{x:Static common:AppConstants.Locations}" SelectedItem="{Binding EquipManageVM.EditingEquip.Location, Mode=TwoWay}" />
+            <TextBox Text="{Binding EquipManageVM.EditingEquip.Location, FallbackValue=''}" />
+
+            <Label Content="현재 온도" />
+            <TextBox x:Name="FormPort" Text="{Binding EquipManageVM.EditingEquip.Port, FallbackValue=''}" />
 
             <Grid Margin="0,5">
                 <Grid.ColumnDefinitions>
@@ -212,22 +190,27 @@
                     Text="{Binding EquipManageVM.EditingEquip.MaxTemp, FallbackValue=''}" />
             </Grid>
 
-            <Label Content="등록일" />
-            <TextBlock
-                x:Name="FormCreated"
-                Margin="14,0"
-                FontSize="16"
-                FontWeight="Bold"
-                Foreground="Gray"
-                Text="{Binding EquipManageVM.EditingEquip.CreateDate, FallbackValue=''}" />
-
-            <Grid Margin="0,20">
-                <Label Content="사용 유무" FontSize="15" />
-                <local:ToggleButton
-                    x:Name="FormIsActive"
-                    IsOpened="{Binding EquipManageVM.EditingEquip.IsActive, Converter={StaticResource ActiveConverter}, Mode=TwoWay}"
-                    Style="{StaticResource ActiveToggleStyle}" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="110" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Label Grid.Column="0" Content="마지막 수신" />
+                <TextBlock
+                    x:Name="FormCreated"
+                    Grid.Column="1"
+                    FontSize="16"
+                    FontWeight="Bold"
+                    Foreground="Gray"
+                    Text="{Binding EquipManageVM.EditingEquip.CreateDate, FallbackValue=''}" />
             </Grid>
+
+            <Image
+                Width="200"
+                Height="140"
+                Margin="0,7"
+                Source="../Res/equip_temp_graph.png"
+                Stretch="Fill" />
             <!--#endregion Panel Form-->
 
             <!--#region Panel Button-->
@@ -265,19 +248,16 @@
                 <Button
                     x:Name="BtnPanelSave"
                     Background="{StaticResource StatusStableBrush}"
-                    Click="BtnPanelSave_Click"
-                    Content="저장"
+                    Content="가동"
                     Foreground="{StaticResource StatusStableTintBrush}" />
                 <Button
                     x:Name="BtnPanelCancel"
-                    Click="BtnPanelCancel_Click"
-                    Content="취소"
+                    Content="보고"
                     IsEnabled="True" />
                 <Button
                     x:Name="BtnPanelDelete"
                     Background="{StaticResource StatusErrorBrush}"
-                    Click="BtnPanelDelete_Click"
-                    Content="삭제"
+                    Content="중단"
                     Foreground="{StaticResource StatusErrorTintBrush}" />
             </StackPanel>
             <!--#endregion Panel Button-->

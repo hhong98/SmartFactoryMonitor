@@ -37,7 +37,8 @@ namespace SmartFactoryMonitor
             => MainFrame.Navigate(new EquipListPage());
 
         private void BtnMonitor_Click(object sender = null, RoutedEventArgs e = null)
-            => MainFrame.Navigate(new MonitorPage());
+            //=> MainFrame.Navigate(new MonitorPage());
+            => MainFrame.Navigate(new EquipMonitorPage());
 
         //protected override void OnClosing(CancelEventArgs e)
         //{
