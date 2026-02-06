@@ -80,6 +80,7 @@
                         <Style TargetType="{x:Type custom:DashboardCard}">
                             <Setter Property="Width" Value="120" />
                             <Setter Property="Height" Value="80" />
+                            <Setter Property="CardMessageSize" Value="30" />
                             <Style.Triggers>
                                 <DataTrigger Binding="{Binding IsPanelOpened}" Value="True">
                                     <Setter Property="Width" Value="100" />
@@ -89,36 +90,42 @@
                     </Grid.Resources>
 
                     <custom:DashboardCard
-                        Grid.Column="0"
-                        CardName="전체 설비"
-                        CardNumber="{Binding MonitorVM.TotalCount}"
-                        CardTextColor="{StaticResource TempNormalTextBrush}" />
+                        CardBackgroundColor="White"
+                        CardName="가동 설비"
+                        CardTextColor="Black">
+                        <custom:DashboardCard.CardMessage>
+                            <MultiBinding StringFormat="{}{0}/{1}">
+                                <Binding Path="MonitorVM.ActiveCount" />
+                                <Binding Path="MonitorVM.TotalCount" />
+                            </MultiBinding>
+                        </custom:DashboardCard.CardMessage>
+                    </custom:DashboardCard>
                     <custom:DashboardCard
                         Grid.Column="1"
                         CardBackgroundColor="{StaticResource StatusStableTintBrush}"
-                        CardName="정상 가동"
-                        CardNumber="{Binding MonitorVM.ActiveCount}"
+                        CardMessage="{Binding MonitorVM.ActiveCount}"
+                        CardName="정상"
                         CardTextColor="{StaticResource StatusStableBrush}" />
 
                     <custom:DashboardCard
                         Grid.Column="2"
                         CardBackgroundColor="{StaticResource StatusWarnTintBrush}"
+                        CardMessage="{Binding MonitorVM.WarnCount}"
                         CardName="주의"
-                        CardNumber="{Binding MonitorVM.WarnCount}"
                         CardTextColor="{StaticResource StatusWarnBrush}" />
 
                     <custom:DashboardCard
                         Grid.Column="3"
                         CardBackgroundColor="{StaticResource StatusErrorTintBrush}"
+                        CardMessage="{Binding MonitorVM.DangerCount}"
                         CardName="위험"
-                        CardNumber="{Binding MonitorVM.DangerCount}"
                         CardTextColor="{StaticResource StatusErrorBrush}" />
 
                     <custom:DashboardCard
                         Grid.Column="4"
                         CardBackgroundColor="{StaticResource StatusNoDataTintBrush}"
+                        CardMessage="{Binding MonitorVM.DisConnectCount}"
                         CardName="연결 끊김"
-                        CardNumber="{Binding MonitorVM.DisConnectCount}"
                         CardTextColor="{StaticResource StatusNoDataBrush}" />
                 </Grid>
                 <!--#endregion Dashboard Overview-->

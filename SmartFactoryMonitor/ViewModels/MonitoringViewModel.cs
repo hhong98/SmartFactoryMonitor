@@ -28,8 +28,9 @@ namespace SmartFactoryMonitor.ViewModels
             => new ObservableCollection<Equipment>(Equipments.Where(e => e.IsActive == "Y"));
 
         /* 대시보드 요약 */
-        public int TotalCount => ActiveEquips.Count;
-        public int ActiveCount => TotalCount - (WarnCount + DangerCount + DisConnectCount);
+        public int TotalCount => Equipments.Count;
+        public int ActiveCount => ActiveEquips.Count;
+        public int StableCount => TotalCount - (WarnCount + DangerCount + DisConnectCount);
         public int WarnCount => ActiveEquips.Count(e => string.Equals(e.Status, "WARN"));
         public int DangerCount => ActiveEquips.Count(e => string.Equals(e.Status, "ERROR"));
         public int DisConnectCount => ActiveEquips.Count(e => string.Equals(e.Status, "NO DATA"));
@@ -51,6 +52,7 @@ namespace SmartFactoryMonitor.ViewModels
         {
             OnPropertyChanged(nameof(TotalCount));
             OnPropertyChanged(nameof(ActiveCount));
+            OnPropertyChanged(nameof(StableCount));
             OnPropertyChanged(nameof(WarnCount));
             OnPropertyChanged(nameof(DangerCount));
             OnPropertyChanged(nameof(DisConnectCount));

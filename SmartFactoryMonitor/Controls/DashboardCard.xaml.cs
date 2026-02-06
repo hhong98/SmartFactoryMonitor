@@ -35,17 +35,30 @@ namespace SmartFactoryMonitor.Controls
             set => SetValue(CardNameProperty, value);
         }
 
-        public static readonly DependencyProperty CardNumberProperty =
+        public static readonly DependencyProperty CardMsgProperty =
             DependencyProperty.Register(
-                nameof(CardNumber),
+                nameof(CardMessage),
+                typeof(string),
+                typeof(DashboardCard),
+                new FrameworkPropertyMetadata(string.Empty));
+
+        public string CardMessage
+        {
+            get => (string)GetValue(CardMsgProperty);
+            set => SetValue(CardMsgProperty, value);
+        }
+
+        public static readonly DependencyProperty CardMsgSizeProperty =
+            DependencyProperty.Register(
+                nameof(CardMessageSize),
                 typeof(int),
                 typeof(DashboardCard),
-                new FrameworkPropertyMetadata(0));
+                new FrameworkPropertyMetadata(15));
 
-        public int CardNumber
+        public int CardMessageSize
         {
-            get => (int)GetValue(CardNumberProperty);
-            set => SetValue(CardNumberProperty, value);
+            get => (int)GetValue(CardMsgSizeProperty);
+            set => SetValue(CardMsgSizeProperty, value);
         }
 
         public static readonly DependencyProperty CardTxtColorProperty =

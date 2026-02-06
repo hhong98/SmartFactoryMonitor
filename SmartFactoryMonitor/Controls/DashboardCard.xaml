@@ -31,13 +31,16 @@
                 Foreground="{Binding CardTextColor, ElementName=Root, FallbackValue=Black}"
                 Text="{Binding CardName, ElementName=Root, FallbackValue='New Card'}" />
 
-            <Grid Grid.Row="1" Margin="12,0,0,0">
+            <Grid
+                Grid.Row="1"
+                Margin="12,0,0,5"
+                VerticalAlignment="Bottom">
                 <TextBlock
                     HorizontalAlignment="Left"
-                    FontSize="33"
+                    FontSize="{Binding CardMessageSize, ElementName=Root, FallbackValue=30}"
                     FontWeight="Bold"
                     Foreground="{Binding CardTextColor, ElementName=Root, FallbackValue=Black}"
-                    Text="{Binding CardNumber, ElementName=Root, FallbackValue=0}" />
+                    Text="{Binding CardMessage, ElementName=Root, FallbackValue='()'}" />
                 <Image
                     Width="20"
                     Height="20"
