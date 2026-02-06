@@ -4,11 +4,13 @@ using SmartFactoryMonitor.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Threading;
 
@@ -27,6 +29,8 @@ namespace SmartFactoryMonitor.ViewModels
         public ObservableCollection<Equipment> ActiveEquips
             => new ObservableCollection<Equipment>(Equipments.Where(e => e.IsActive == "Y"));
 
+        public ICollectionView FilteredMonitors { get; }
+
         /* 대시보드 요약 */
         public int TotalCount => Equipments.Count;
         public int ActiveCount => ActiveEquips.Count;
@@ -34,6 +38,23 @@ namespace SmartFactoryMonitor.ViewModels
         public int WarnCount => ActiveEquips.Count(e => string.Equals(e.Status, "WARN"));
         public int DangerCount => ActiveEquips.Count(e => string.Equals(e.Status, "ERROR"));
         public int DisConnectCount => ActiveEquips.Count(e => string.Equals(e.Status, "NO DATA"));
+
+        // TODO : 현재 세부사항 조회중인 설비 (SelectedMonitor)
+
+        // TODO : 검색창 필터링 (FilteredMonitor)
+        private string searchTxt;
+
+        public string SearchTxt
+        {
+            get => searchTxt;
+            set
+            {
+                if (SetProperty(ref searchTxt, value))
+                {
+                    FilteredMonitors.Refresh();
+                }
+            }
+        }
 
         public MonitoringViewModel(EquipRepository equipRepository, MonitoringService mService)
         {
@@ -43,6 +64,9 @@ namespace SmartFactoryMonitor.ViewModels
 
             _repo = equipRepository;
             _mService = mService;
+
+            FilteredMonitors = CollectionViewSource.GetDefaultView(ActiveEquips);
+            FilteredMonitors.Filter = FilterMonitors;
 
             StartMonitoring();
             // 5초 주기 DB 동기화 및 0.5초 온도 모니터링 루프 가동
@@ -56,6 +80,14 @@ namespace SmartFactoryMonitor.ViewModels
             OnPropertyChanged(nameof(WarnCount));
             OnPropertyChanged(nameof(DangerCount));
             OnPropertyChanged(nameof(DisConnectCount));
+        }
+
+        private bool FilterMonitors(object obj)
+        {
+            if (!(obj is Equipment equip)) return false;
+            if (string.IsNullOrWhiteSpace(SearchTxt)) return true;
+
+            return equip.EquipName.IndexOf(SearchTxt, StringComparison.OrdinalIgnoreCase) >= 0;
         }
 
         // 설비 온도 모니터링 시작

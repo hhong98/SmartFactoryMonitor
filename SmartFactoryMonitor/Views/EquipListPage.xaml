@@ -85,7 +85,7 @@
                     BorderBrush="LightGray"
                     BorderThickness="1">
                     <StackPanel Background="White" Orientation="Horizontal">
-                        <custom:SearchBox x:Name="SearchBox" Margin="12,0,0,0" />
+                        <custom:SearchBox x:Name="EquipSearchBox" Margin="12,0,0,0" />
 
                         <!--#region Filter Toggle-->
                         <ToggleButton

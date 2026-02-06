@@ -256,7 +256,6 @@ namespace SmartFactoryMonitor.ViewModels
         private bool FilterEquips(object obj)
         {
             if (!(obj is Equipment equip)) return false;
-
             if (string.IsNullOrWhiteSpace(SearchTxt)) return true;
 
             return equip.EquipName.IndexOf(SearchTxt, StringComparison.OrdinalIgnoreCase) >= 0;
