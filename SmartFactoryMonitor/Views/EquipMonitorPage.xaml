@@ -295,7 +295,7 @@
                         Background="Transparent"
                         BorderBrush="LightGray"
                         BorderThickness="1"
-                        ItemsSource="{Binding EquipManageVM.FilteredEquipments}"
+                        ItemsSource="{Binding MonitorVM.ActiveEquips}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
                         SelectedItem="{Binding EquipManageVM.SelectedEquip}">

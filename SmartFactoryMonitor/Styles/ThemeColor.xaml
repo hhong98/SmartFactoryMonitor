@@ -89,6 +89,8 @@
     <SolidColorBrush x:Key="StatusNoDataBrush" Color="{StaticResource StatusNoData}" />
     <SolidColorBrush x:Key="StatusNoDataTintBrush" Color="{StaticResource StatusNoDataTint}" />
 
+    <SolidColorBrush x:Key="StatusInactiveBrush" Color="{StaticResource TextDisabled}" />
+
     <!--  온도 Brushes  -->
     <SolidColorBrush x:Key="TempNormalTextBrush" Color="{StaticResource TempNormalText}" />
     <SolidColorBrush x:Key="TempHighTextBrush" Color="{StaticResource TempHighText}" />

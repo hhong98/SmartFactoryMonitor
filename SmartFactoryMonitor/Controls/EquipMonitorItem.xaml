@@ -36,13 +36,10 @@
             </Style>
         </Grid.Resources>
 
-        <Border x:Name="EquipStatus" Grid.Column="0">
-            <Border.Style>
-                <Style TargetType="Border">
-                    <Setter Property="Background" Value="{StaticResource StatusNoDataBrush}" />
-                </Style>
-            </Border.Style>
-        </Border>
+        <Border
+            x:Name="EquipStatus"
+            Grid.Column="0"
+            Background="{Binding Status, Converter={StaticResource StatusBrushConverter}}" />
         <TextBlock
             Grid.Column="1"
             Margin="10,0,0,0"
@@ -55,7 +52,7 @@
         <TextBlock
             Grid.Column="3"
             HorizontalAlignment="Center"
-            Text="{Binding MinTemp, StringFormat={}{0:F1}°C}" />
+            Text="{Binding CurrentTemp, StringFormat={}{0:F1}°C}" />
         <TextBlock
             Grid.Column="4"
             HorizontalAlignment="Center"

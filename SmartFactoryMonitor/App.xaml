@@ -1,9 +1,11 @@
-﻿<Application x:Class="SmartFactoryMonitor.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:SmartFactoryMonitor"
-             xmlns:viewmodels="clr-namespace:SmartFactoryMonitor.ViewModels"
-             StartupUri="MainWindow.xaml">
+﻿<Application
+    x:Class="SmartFactoryMonitor.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:SmartFactoryMonitor.Common"
+    xmlns:local="clr-namespace:SmartFactoryMonitor"
+    xmlns:viewmodels="clr-namespace:SmartFactoryMonitor.ViewModels"
+    StartupUri="MainWindow.xaml">
 
     <Application.Resources>
         <ResourceDictionary>
@@ -11,8 +13,16 @@
                 <ResourceDictionary Source="/Styles/FormStyles.xaml" />
                 <ResourceDictionary Source="/Styles/ThemeColor.xaml" />
             </ResourceDictionary.MergedDictionaries>
-            <viewmodels:MainViewModel x:Key="MainVM" />
 
+            <!--#region View Model-->
+            <viewmodels:MainViewModel x:Key="MainVM" />
+            <!--#endregion View Model-->
+
+            <!--#region Converter-->
+            <common:StatusBrushConverter x:Key="StatusBrushConverter" />
+            <!--#endregion Converter-->
+
+            <!--#region Style-->
             <Style x:Key="HideWhenPanelOpened" TargetType="FrameworkElement">
                 <Setter Property="Visibility" Value="Visible" />
                 <Style.Triggers>
@@ -29,6 +39,7 @@
                     </DataTrigger>
                 </Style.Triggers>
             </Style>
+            <!--#endregion Style-->
         </ResourceDictionary>
     </Application.Resources>
 </Application>
