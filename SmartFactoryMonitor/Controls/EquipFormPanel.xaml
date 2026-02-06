@@ -46,12 +46,13 @@
                     <Setter Property="Height" Value="28" />
                     <Setter Property="VerticalContentAlignment" Value="Center" />
                     <Setter Property="FontSize" Value="15" />
+                    <Setter Property="BorderBrush" Value="{StaticResource TextSecondaryBrush}" />
                     <Setter Property="Margin" Value="12,2" />
 
                     <Style.Triggers>
                         <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip}" Value="{x:Null}">
                             <Setter Property="IsEnabled" Value="False" />
-                            <Setter Property="Background" Value="LightGray" />
+                            <Setter Property="Background" Value="#FFF0F0F0" />
                         </DataTrigger>
                     </Style.Triggers>
                 </Style>
@@ -61,12 +62,83 @@
                     <Setter Property="Height" Value="28" />
                     <Setter Property="VerticalContentAlignment" Value="Center" />
                     <Setter Property="FontSize" Value="15" />
+                    <Setter Property="Margin" Value="0,2,0,0" />
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type ComboBox}">
+                                <Grid>
+                                    <!--  드롭다운 버튼 (박스)  -->
+                                    <ToggleButton
+                                        x:Name="ComboToggle"
+                                        HorizontalContentAlignment="Right"
+                                        VerticalContentAlignment="Center"
+                                        Background="White"
+                                        BorderBrush="{StaticResource TextSecondaryBrush}"
+                                        IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
 
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip}" Value="{x:Null}">
-                            <Setter Property="IsEnabled" Value="False" />
-                        </DataTrigger>
-                    </Style.Triggers>
+                                        <ToggleButton.Template>
+                                            <ControlTemplate TargetType="ToggleButton">
+                                                <Border
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="1"
+                                                    Opacity="1">
+                                                    <ContentPresenter
+                                                        Margin="0,0,5,0"
+                                                        HorizontalAlignment="Right"
+                                                        VerticalAlignment="Center" />
+                                                </Border>
+                                            </ControlTemplate>
+                                        </ToggleButton.Template>
+
+                                        <Image
+                                            x:Name="ToggleArrow"
+                                            Source="../res/drop_down_arrow.png"
+                                            Stretch="Uniform" />
+                                    </ToggleButton>
+
+                                    <!--  선택된 아이템 표시 영역 (박스 내부)  -->
+                                    <ContentPresenter
+                                        x:Name="SelectedItem"
+                                        Margin="4,0,0,0"
+                                        VerticalAlignment="Center"
+                                        Content="{TemplateBinding SelectionBoxItem}"
+                                        ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                        ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
+                                        IsHitTestVisible="False" />
+
+                                    <!--  드롭다운 메뉴 (팝업 내부)  -->
+                                    <Popup
+                                        x:Name="ComboMenu"
+                                        IsOpen="{TemplateBinding IsDropDownOpen}"
+                                        Placement="Bottom"
+                                        PopupAnimation="None">
+                                        <Grid
+                                            Width="{TemplateBinding ActualWidth}"
+                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
+                                            Background="White">
+                                            <Border BorderBrush="Black" BorderThickness="1">
+                                                <ScrollViewer>
+                                                    <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
+                                                </ScrollViewer>
+                                            </Border>
+                                        </Grid>
+                                    </Popup>
+                                </Grid>
+
+                                <ControlTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip}" Value="{x:Null}">
+                                        <Setter Property="IsEnabled" Value="False" />
+                                        <Setter Property="IsEnabled" Value="False" />
+                                        <Setter TargetName="ComboToggle" Property="Background" Value="#FFF0F0F0" />
+                                        <Setter TargetName="ToggleArrow" Property="Opacity" Value="0.5" />
+                                        <Setter TargetName="SelectedItem" Property="Opacity" Value="0.5" />
+                                        <Setter TargetName="ComboToggle" Property="Opacity" Value="0.6" />
+                                    </DataTrigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
                 </Style>
             </StackPanel.Resources>
 
