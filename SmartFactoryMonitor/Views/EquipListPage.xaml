@@ -88,7 +88,7 @@
                         <custom:SearchBox
                             x:Name="EquipSearchBox"
                             Margin="12,0,0,0"
-                            SearchText="{Binding EquipManageVM.SearchTxt, Mode=TwoWay}" />
+                            SearchText="{Binding EquipManageVM.SearchTxt}" />
 
                         <!--#region Filter Toggle-->
                         <ToggleButton

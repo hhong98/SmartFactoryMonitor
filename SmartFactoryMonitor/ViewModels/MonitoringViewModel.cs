@@ -101,7 +101,6 @@ namespace SmartFactoryMonitor.ViewModels
             {
                 while (!token.IsCancellationRequested)
                 {
-                    // TODO : 이걸 필드 및 프로퍼티로 만들어도 될 듯
                     var activeEquips = Equipments
                         .Where(e => e.IsActive is "Y")
                         .ToList();
@@ -114,7 +113,11 @@ namespace SmartFactoryMonitor.ViewModels
                         {
                             var info = equipTempInfoList
                                 .FirstOrDefault(info => info.equipId == equip.EquipId);
-                            if (info.equipId is null) throw new Exception("수치를 수집하지 않은 장비입니다 (SIMULATOR)");
+                            if (info.equipId is null)
+                            {
+                                // [TEMP] 모니터링 정상화 전까지 주석처리
+                                // throw new Exception("수치를 수집하지 않은 장비입니다 (SIMULATOR)");
+                            }
 
                             equip.CurrentTemp = info.temperature;
                             equip.Status = info.status;
@@ -122,7 +125,7 @@ namespace SmartFactoryMonitor.ViewModels
 
                         RefreshDashboard();
                     }
-                    await Task.Delay(TimeSpan.FromSeconds(0.5), token);
+                    await Task.Delay(TimeSpan.FromSeconds(1), token);
                 }
             }
             catch (OperationCanceledException)
@@ -131,8 +134,7 @@ namespace SmartFactoryMonitor.ViewModels
             }
             catch (Exception ex)
             {
-                // [TEP] 모니터링 정상화 전까지 주석처리
-                // MessageBox.Show($"모니터링 중 오류: {ex.Message}");
+                MessageBox.Show($"모니터링 중 오류: {ex.Message}");
             }
         }
 

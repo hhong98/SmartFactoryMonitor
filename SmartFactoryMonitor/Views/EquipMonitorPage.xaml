@@ -139,7 +139,7 @@
                         <custom:SearchBox
                             x:Name="SearchBox"
                             Margin="12,0,0,0"
-                            SearchText="{Binding MonitorVM.SearchTxt, Mode=TwoWay}" />
+                            SearchText="{Binding MonitorVM.SearchTxt}" />
 
                         <!--#region Filter Toggle-->
                         <ToggleButton
