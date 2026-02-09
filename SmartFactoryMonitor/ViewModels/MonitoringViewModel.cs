@@ -37,10 +37,20 @@ namespace SmartFactoryMonitor.ViewModels
         public int DangerCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "ERROR");
         public int DisConnectCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "NO DATA");
 
-        public DateTime WorkStart = DateTime.Today.Add(Properties.Settings.Default.WorkStartTime);
-        public DateTime WorkEnd = DateTime.Today.Add(Properties.Settings.Default.WorkEndTime);
-        private DateTime lunchStart = DateTime.Today.Add(Properties.Settings.Default.LunchStartTime);
-        private DateTime lunchEnd = DateTime.Today.Add(Properties.Settings.Default.LunchEndTime);
+        public DateTime WorkStart => DateTime.Today.Add(Properties.Settings.Default.WorkStartTime);
+        public DateTime WorkEnd => DateTime.Today.Add(Properties.Settings.Default.WorkEndTime);
+        private DateTime LunchStart => DateTime.Today.Add(Properties.Settings.Default.LunchStartTime);
+        private DateTime LunchEnd => DateTime.Today.Add(Properties.Settings.Default.LunchEndTime);
+
+        public double PlannedTime
+        {
+            get
+            {
+                var workTime = (WorkEnd - WorkStart).TotalMinutes;
+                var lunchTime = (LunchEnd - LunchStart).TotalMinutes;
+                return Math.Max(workTime - lunchTime, 1);
+            }
+        }
 
         private Equipment selectedMonitor;
 
@@ -82,6 +92,10 @@ namespace SmartFactoryMonitor.ViewModels
 
         public MonitoringViewModel(EquipRepository equipRepository, MonitoringService mService)
         {
+            //임시로 세팅값 초기화하는 경우 사용! (평소에는 주석처리)
+            //Properties.Settings.Default.Reset();
+            //Properties.Settings.Default.Reload();
+
             _repo = equipRepository;
             _mService = mService;
 
@@ -154,11 +168,8 @@ namespace SmartFactoryMonitor.ViewModels
                             equip.LastUpdateTime = info.logTime;
                             equip.RefreshUpdateTime();
 
-                            if (equip.Status != "NO DATA")
-                            {
-                                equip.TotalRuntime += TimeSpan.FromSeconds(1);
-                            }
-                            equip.OperatingRate = CaculateRate(equip.TotalRuntime);
+                            if (DateTime.Now > WorkStart && equip.Status != "NO DATA")
+                                UpdateOperatingMetrics(equip);
                         }
 
                         if (DateTime.Now.Second is 0) SaveCurrentData();
@@ -181,6 +192,28 @@ namespace SmartFactoryMonitor.ViewModels
         public void StopMonitoring()
         {
             _cts?.Cancel();
+        }
+
+        private void UpdateOperatingMetrics(Equipment equip)
+        {
+            equip.TotalRuntime += TimeSpan.FromSeconds(1);
+            equip.OperatingRate = Math.Min(Math.Round(equip.TotalRuntime.TotalMinutes / PlannedTime * 100, 1), 100);
+        }
+
+        public void SaveCurrentData()
+        {
+            try
+            {
+                var data = Equipments.ToDictionary(equip => equip.EquipId, equip => equip.TotalRuntime.TotalSeconds);
+
+                Properties.Settings.Default.SavedRuntimeData = JsonConvert.SerializeObject(data);
+                Properties.Settings.Default.LastSaveDate = DateTime.Today;
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"저장 실패: {ex.Message}");
+            }
         }
 
         public void LoadSavedData()
@@ -207,49 +240,6 @@ namespace SmartFactoryMonitor.ViewModels
                 Properties.Settings.Default.SavedRuntimeData = "";
                 Properties.Settings.Default.Save();
             }
-        }
-
-        public void SaveCurrentData()
-        {
-            try
-            {
-                var data = Equipments.ToDictionary(equip => equip.EquipId, equip => equip.TotalRuntime.TotalSeconds);
-
-                Properties.Settings.Default.SavedRuntimeData = JsonConvert.SerializeObject(data);
-                Properties.Settings.Default.LastSaveDate = DateTime.Today;
-                Properties.Settings.Default.Save();
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine($"저장 실패: {ex.Message}");
-            }
-        }
-
-        private double CaculateRate(TimeSpan totalRuntime)
-        {
-            var now = DateTime.Now;
-            double targetTimes = 0;
-
-            if (now < WorkStart) return 0;
-
-            DateTime calcReference = (now > WorkEnd) ? WorkEnd : now;
-            targetTimes = (calcReference - WorkStart).TotalMinutes;
-
-            if (calcReference > lunchEnd)
-            {
-                targetTimes -= (lunchEnd - lunchStart).TotalMinutes;
-            }
-            else if (calcReference > lunchStart)
-            {
-                targetTimes -= (calcReference - lunchStart).TotalMinutes;
-            }
-
-            if (targetTimes <= 0) return 0;
-
-            double currRuntime = totalRuntime.TotalMinutes;
-            double rate = (currRuntime / targetTimes) * 100;
-
-            return Math.Min(Math.Round(rate, 1), 100);
         }
     }
 }

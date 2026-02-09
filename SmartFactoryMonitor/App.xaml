@@ -19,6 +19,7 @@
             <!--#endregion View Model-->
 
             <!--#region Converter-->
+            <common:RateBrushConverter x:Key="RateBrushConverter" />
             <common:StatusBrushConverter x:Key="StatusBrushConverter" />
             <!--#endregion Converter-->
 

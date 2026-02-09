@@ -25,7 +25,7 @@ namespace SmartFactoryMonitor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("09:00:00")]
+        [global::System.Configuration.DefaultSettingValueAttribute("08:00:00")]
         public global::System.TimeSpan WorkStartTime {
             get {
                 return ((global::System.TimeSpan)(this["WorkStartTime"]));
@@ -37,7 +37,7 @@ namespace SmartFactoryMonitor.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("18:00:00")]
+        [global::System.Configuration.DefaultSettingValueAttribute("17:00:00")]
         public global::System.TimeSpan WorkEndTime {
             get {
                 return ((global::System.TimeSpan)(this["WorkEndTime"]));

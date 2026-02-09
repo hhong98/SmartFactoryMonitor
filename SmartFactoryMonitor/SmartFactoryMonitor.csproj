@@ -69,6 +69,7 @@
     </ApplicationDefinition>
     <Compile Include="Common\AppConstants.cs" />
     <Compile Include="Common\ActiveConverter.cs" />
+    <Compile Include="Common\RateBrushConverter.cs" />
     <Compile Include="Common\StatusBrushConverter.cs" />
     <Compile Include="Controls\DashboardCard.xaml.cs">
       <DependentUpon>DashboardCard.xaml</DependentUpon>
