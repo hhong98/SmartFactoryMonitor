@@ -72,20 +72,29 @@
                     Grid.Column="0"
                     Margin="25,0,0,0"
                     Content="최저 온도" />
-                <TextBox
-                    x:Name="FormMinTemp"
+                <StackPanel
                     Grid.Row="1"
                     Grid.Column="0"
-                    Width="75"
-                    HorizontalContentAlignment="Center"
-                    Text="{Binding MonitorVM.SelectedMonitor.MinTemp, FallbackValue='', StringFormat={}{0:F1}°C}" />
+                    Orientation="Horizontal">
+                    <TextBox
+                        Width="80"
+                        HorizontalContentAlignment="Center"
+                        Text="{Binding MonitorVM.SelectedMonitor.MinTemp}" />
+                    <TextBlock
+                        Margin="-10,0,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Text="°C" />
+                </StackPanel>
 
                 <TextBlock
                     Grid.Row="1"
                     Grid.Column="1"
                     Margin="10,0"
                     VerticalAlignment="Center"
-                    FontSize="15"
+                    FontSize="20"
                     FontWeight="Bold"
                     Text="~" />
 
@@ -94,13 +103,22 @@
                     Grid.Column="2"
                     Margin="25,0,0,0"
                     Content="최고 온도" />
-                <TextBox
-                    x:Name="FormMaxTemp"
+                <StackPanel
                     Grid.Row="1"
                     Grid.Column="2"
-                    Width="75"
-                    HorizontalContentAlignment="Center"
-                    Text="{Binding MonitorVM.SelectedMonitor.MaxTemp, FallbackValue='', StringFormat={}{0:F1}°C}" />
+                    Orientation="Horizontal">
+                    <TextBox
+                        Width="80"
+                        HorizontalContentAlignment="Center"
+                        Text="{Binding MonitorVM.SelectedMonitor.MinTemp}" />
+                    <TextBlock
+                        Margin="-10,0,0,0"
+                        VerticalAlignment="Center"
+                        FontSize="15"
+                        FontWeight="Bold"
+                        Foreground="Black"
+                        Text="°C" />
+                </StackPanel>
             </Grid>
 
             <Grid>

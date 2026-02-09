@@ -36,7 +36,7 @@ namespace SmartFactoryMonitor.Services
             ";
 
             var dt = await db.SelectQuery(sql).ConfigureAwait(false);
-            // if (dt is null || dt.Rows.Count is 0) throw new Exception("현재 읽어올 수치가 없습니다 (SIMULATOR)");
+            if (dt is null || dt.Rows.Count is 0) return new List<(string equipId, double temperature, string status, DateTime logTime)>();
 
             return dt.AsEnumerable().Select(row => (
                  equipId: row.Field<string>("EQUIP_ID"),

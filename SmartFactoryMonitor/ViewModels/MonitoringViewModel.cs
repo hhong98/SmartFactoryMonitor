@@ -137,11 +137,7 @@ namespace SmartFactoryMonitor.ViewModels
                         {
                             var info = equipTempInfoList
                                 .FirstOrDefault(info => info.equipId == equip.EquipId);
-                            if (info.equipId is null)
-                            {
-                                // [TEMP] 모니터링 정상화 전까지 주석처리
-                                // throw new Exception("수치를 수집하지 않은 장비입니다 (SIMULATOR)");
-                            }
+                            if (info.equipId is null) continue;
 
                             equip.CurrentTemp = info.temperature;
                             equip.Status = info.status;

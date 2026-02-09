@@ -50,6 +50,8 @@ namespace SmartFactoryMonitor.Model
         private string createDate;
         public string CreateDate { get => createDate; set => SetProperty(ref createDate, value); }
 
+        #region Extra Properties
+
         private double currentTemp = 0d;
 
         public double CurrentTemp
@@ -68,14 +70,7 @@ namespace SmartFactoryMonitor.Model
                 if (string.IsNullOrEmpty(status)) return "NO DATA";
                 return status;
             }
-            set
-            {
-                if (SetProperty(ref status, value) &&
-                    (value is "NO DATA" || string.IsNullOrEmpty(status)))
-                {
-                    // TODO : LastLoadTime
-                }
-            }
+            set => SetProperty(ref status, value);
         }
 
         private DateTime lastUpdateTime;
@@ -102,10 +97,10 @@ namespace SmartFactoryMonitor.Model
             }
         }
 
-        public void RefreshUpdateTime() => OnPropertyChanged(nameof(UpdateTimeTxt));
-
         private bool isChecked = false;
         public bool IsChecked { get => isChecked; set => SetProperty(ref isChecked, value); }
+
+        #endregion Extra Properties
 
         #region DTO
 
@@ -156,5 +151,7 @@ namespace SmartFactoryMonitor.Model
         }
 
         #endregion DTO
+
+        public void RefreshUpdateTime() => OnPropertyChanged(nameof(UpdateTimeTxt));
     }
 }
