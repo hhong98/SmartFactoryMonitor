@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:SmartFactoryMonitor.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    DataContext="{StaticResource MainVM}"
     mc:Ignorable="d">
     <Border
         Width="270"
@@ -15,7 +16,7 @@
         <!--#region Panel Form-->
         <StackPanel x:Name="EquipSidePanel" Background="White">
             <StackPanel.Resources>
-
+                <!--#region Style-->
                 <Style TargetType="Label">
                     <Setter Property="FontWeight" Value="Bold" />
                     <Setter Property="FontSize" Value="14" />
@@ -29,98 +30,10 @@
                     <Setter Property="FontSize" Value="15" />
                     <Setter Property="BorderBrush" Value="{StaticResource TextSecondaryBrush}" />
                     <Setter Property="Margin" Value="12,2" />
-
-                    <Style.Triggers>
-                        <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip}" Value="{x:Null}">
-                            <Setter Property="IsEnabled" Value="False" />
-                            <Setter Property="Background" Value="#FFF0F0F0" />
-                        </DataTrigger>
-                    </Style.Triggers>
+                    <Setter Property="IsEnabled" Value="False" />
+                    <Setter Property="Background" Value="#FFF0F0F0" />
                 </Style>
-
-                <Style TargetType="ComboBox">
-                    <Setter Property="Width" Value="245" />
-                    <Setter Property="Height" Value="28" />
-                    <Setter Property="VerticalContentAlignment" Value="Center" />
-                    <Setter Property="FontSize" Value="15" />
-                    <Setter Property="Margin" Value="0,2,0,0" />
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="{x:Type ComboBox}">
-                                <Grid>
-                                    <!--  드롭다운 버튼 (박스)  -->
-                                    <ToggleButton
-                                        x:Name="ComboToggle"
-                                        HorizontalContentAlignment="Right"
-                                        VerticalContentAlignment="Center"
-                                        Background="White"
-                                        BorderBrush="{StaticResource TextSecondaryBrush}"
-                                        IsChecked="{Binding IsDropDownOpen, Mode=TwoWay, RelativeSource={RelativeSource TemplatedParent}}">
-
-                                        <ToggleButton.Template>
-                                            <ControlTemplate TargetType="ToggleButton">
-                                                <Border
-                                                    Background="{TemplateBinding Background}"
-                                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                                    BorderThickness="1"
-                                                    Opacity="1">
-                                                    <ContentPresenter
-                                                        Margin="0,0,5,0"
-                                                        HorizontalAlignment="Right"
-                                                        VerticalAlignment="Center" />
-                                                </Border>
-                                            </ControlTemplate>
-                                        </ToggleButton.Template>
-
-                                        <Image
-                                            x:Name="ToggleArrow"
-                                            Source="../res/drop_down_arrow.png"
-                                            Stretch="Uniform" />
-                                    </ToggleButton>
-
-                                    <!--  선택된 아이템 표시 영역 (박스 내부)  -->
-                                    <ContentPresenter
-                                        x:Name="SelectedItem"
-                                        Margin="4,0,0,0"
-                                        VerticalAlignment="Center"
-                                        Content="{TemplateBinding SelectionBoxItem}"
-                                        ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                        ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}"
-                                        IsHitTestVisible="False" />
-
-                                    <!--  드롭다운 메뉴 (팝업 내부)  -->
-                                    <Popup
-                                        x:Name="ComboMenu"
-                                        IsOpen="{TemplateBinding IsDropDownOpen}"
-                                        Placement="Bottom"
-                                        PopupAnimation="None">
-                                        <Grid
-                                            Width="{TemplateBinding ActualWidth}"
-                                            MaxHeight="{TemplateBinding MaxDropDownHeight}"
-                                            Background="White">
-                                            <Border BorderBrush="Black" BorderThickness="1">
-                                                <ScrollViewer>
-                                                    <ItemsPresenter KeyboardNavigation.DirectionalNavigation="Contained" />
-                                                </ScrollViewer>
-                                            </Border>
-                                        </Grid>
-                                    </Popup>
-                                </Grid>
-
-                                <ControlTemplate.Triggers>
-                                    <DataTrigger Binding="{Binding EquipManageVM.SelectedEquip}" Value="{x:Null}">
-                                        <Setter Property="IsEnabled" Value="False" />
-                                        <Setter Property="IsEnabled" Value="False" />
-                                        <Setter TargetName="ComboToggle" Property="Background" Value="#FFF0F0F0" />
-                                        <Setter TargetName="ToggleArrow" Property="Opacity" Value="0.5" />
-                                        <Setter TargetName="SelectedItem" Property="Opacity" Value="0.5" />
-                                        <Setter TargetName="ComboToggle" Property="Opacity" Value="0.6" />
-                                    </DataTrigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
+                <!--#endregion Style-->
             </StackPanel.Resources>
 
             <Border
@@ -132,17 +45,17 @@
                     Padding="15"
                     FontSize="18"
                     FontWeight="Bold"
-                    Text="{Binding EquipManageVM.FormHeaderTxt, FallbackValue=''}" />
+                    Text="{Binding MonitorVM.FormHeaderTxt, FallbackValue=''}" />
             </Border>
 
             <Label Content="설비명" />
-            <TextBox x:Name="FormName" Text="{Binding EquipManageVM.EditingEquip.EquipName, FallbackValue=''}" />
+            <TextBox x:Name="FormName" Text="{Binding MonitorVM.SelectedMonitor.EquipName, FallbackValue=''}" />
 
             <Label Content="설치 위치" />
-            <TextBox Text="{Binding EquipManageVM.EditingEquip.Location, FallbackValue=''}" />
+            <TextBox Text="{Binding MonitorVM.SelectedMonitor.Location, FallbackValue=''}" />
 
             <Label Content="현재 온도" />
-            <TextBox x:Name="FormPort" Text="{Binding EquipManageVM.EditingEquip.Port, FallbackValue=''}" />
+            <TextBox x:Name="FormPort" Text="{Binding MonitorVM.SelectedMonitor.CurrentTemp, FallbackValue='', StringFormat={}{0:F1}°C}" />
 
             <Grid Margin="0,5">
                 <Grid.ColumnDefinitions>
@@ -157,15 +70,15 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="0"
-                    Margin="27,0,0,0"
+                    Margin="25,0,0,0"
                     Content="최저 온도" />
                 <TextBox
                     x:Name="FormMinTemp"
                     Grid.Row="1"
                     Grid.Column="0"
-                    Width="70"
+                    Width="75"
                     HorizontalContentAlignment="Center"
-                    Text="{Binding EquipManageVM.EditingEquip.MinTemp, FallbackValue=''}" />
+                    Text="{Binding MonitorVM.SelectedMonitor.MinTemp, FallbackValue='', StringFormat={}{0:F1}°C}" />
 
                 <TextBlock
                     Grid.Row="1"
@@ -179,15 +92,15 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="2"
-                    Margin="27,0,0,0"
+                    Margin="25,0,0,0"
                     Content="최고 온도" />
                 <TextBox
                     x:Name="FormMaxTemp"
                     Grid.Row="1"
                     Grid.Column="2"
-                    Width="70"
+                    Width="75"
                     HorizontalContentAlignment="Center"
-                    Text="{Binding EquipManageVM.EditingEquip.MaxTemp, FallbackValue=''}" />
+                    Text="{Binding MonitorVM.SelectedMonitor.MaxTemp, FallbackValue='', StringFormat={}{0:F1}°C}" />
             </Grid>
 
             <Grid>
@@ -202,7 +115,7 @@
                     FontSize="16"
                     FontWeight="Bold"
                     Foreground="Gray"
-                    Text="{Binding EquipManageVM.EditingEquip.CreateDate, FallbackValue=''}" />
+                    Text="{Binding MonitorVM.SelectedMonitor.CreateDate, FallbackValue=''}" />
             </Grid>
 
             <Image

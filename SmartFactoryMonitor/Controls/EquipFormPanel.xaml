@@ -179,15 +179,15 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="0"
-                    Margin="27,0,0,0"
+                    Margin="25,0,0,0"
                     Content="최저 온도" />
                 <TextBox
                     x:Name="FormMinTemp"
                     Grid.Row="1"
                     Grid.Column="0"
-                    Width="70"
+                    Width="75"
                     HorizontalContentAlignment="Center"
-                    Text="{Binding EquipManageVM.EditingEquip.MinTemp, FallbackValue=''}" />
+                    Text="{Binding EquipManageVM.EditingEquip.MinTemp, FallbackValue='', StringFormat={}{0:F1}°C}" />
 
                 <TextBlock
                     Grid.Row="1"
@@ -201,15 +201,15 @@
                 <Label
                     Grid.Row="0"
                     Grid.Column="2"
-                    Margin="27,0,0,0"
+                    Margin="25,0,0,0"
                     Content="최고 온도" />
                 <TextBox
                     x:Name="FormMaxTemp"
                     Grid.Row="1"
                     Grid.Column="2"
-                    Width="70"
+                    Width="75"
                     HorizontalContentAlignment="Center"
-                    Text="{Binding EquipManageVM.EditingEquip.MaxTemp, FallbackValue=''}" />
+                    Text="{Binding EquipManageVM.EditingEquip.MaxTemp, FallbackValue='', StringFormat={}{0:F1}°C}" />
             </Grid>
 
             <Label Content="등록일" />

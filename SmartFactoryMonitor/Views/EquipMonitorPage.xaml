@@ -103,7 +103,7 @@
                     <custom:DashboardCard
                         Grid.Column="1"
                         CardBackgroundColor="{StaticResource StatusStableTintBrush}"
-                        CardMessage="{Binding MonitorVM.ActiveCount}"
+                        CardMessage="{Binding MonitorVM.StableCount}"
                         CardName="정상"
                         CardTextColor="{StaticResource StatusStableBrush}" />
 
@@ -308,7 +308,7 @@
                         ItemsSource="{Binding MonitorVM.FilteredMonitors}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        SelectedItem="{Binding EquipManageVM.SelectedEquip}">
+                        SelectedItem="{Binding MonitorVM.SelectedMonitor}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Padding" Value="0" />

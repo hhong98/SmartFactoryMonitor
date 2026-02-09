@@ -37,8 +37,30 @@ namespace SmartFactoryMonitor.ViewModels
         public int DisConnectCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "NO DATA");
 
         // TODO : 현재 세부사항 조회중인 설비 (SelectedMonitor)
+        private Equipment selectedMonitor;
 
-        // TODO : 검색창 필터링 (FilteredMonitor)
+        public Equipment SelectedMonitor
+        {
+            get => selectedMonitor;
+            set
+            {
+                if (SetProperty(ref selectedMonitor, value))
+                {
+                    OnPropertyChanged(nameof(FormHeaderTxt));
+                }
+            }
+        }
+
+        public string FormHeaderTxt
+        {
+            get
+            {
+                if (SelectedMonitor is null) return "설비를 선택하세요";
+                if (string.IsNullOrEmpty(SelectedMonitor.EquipId)) return "정보 조회 실패";
+                return SelectedMonitor.EquipName;
+            }
+        }
+
         private string searchTxt;
 
         public string SearchTxt
