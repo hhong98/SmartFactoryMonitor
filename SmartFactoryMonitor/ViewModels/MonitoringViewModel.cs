@@ -93,6 +93,8 @@ namespace SmartFactoryMonitor.ViewModels
 
         public void RefreshDashboard()
         {
+            FilteredMonitors?.Refresh();
+
             OnPropertyChanged(nameof(TotalCount));
             OnPropertyChanged(nameof(ActiveCount));
             OnPropertyChanged(nameof(StableCount));
@@ -143,6 +145,9 @@ namespace SmartFactoryMonitor.ViewModels
 
                             equip.CurrentTemp = info.temperature;
                             equip.Status = info.status;
+                            equip.LastUpdateTime = info.logTime;
+
+                            equip.RefreshUpdateTime();
                         }
 
                         RefreshDashboard();

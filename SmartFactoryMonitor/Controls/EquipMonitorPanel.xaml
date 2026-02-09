@@ -112,10 +112,11 @@
                 <TextBlock
                     x:Name="FormCreated"
                     Grid.Column="1"
+                    VerticalAlignment="Center"
                     FontSize="16"
                     FontWeight="Bold"
                     Foreground="Gray"
-                    Text="{Binding MonitorVM.SelectedMonitor.CreateDate, FallbackValue=''}" />
+                    Text="{Binding MonitorVM.SelectedMonitor.UpdateTimeTxt, FallbackValue=''}" />
             </Grid>
 
             <Image

@@ -53,14 +53,24 @@
             Grid.Column="3"
             HorizontalAlignment="Center"
             Text="{Binding CurrentTemp, StringFormat={}{0:F1}°C}" />
+        <TextBlock Grid.Column="4" HorizontalAlignment="Center">
+            <TextBlock.Style>
+                <Style BasedOn="{StaticResource {x:Type TextBlock}}" TargetType="TextBlock">
+                    <Setter Property="Text" Value="O" />
+                    <Setter Property="Foreground" Value="{StaticResource StatusStableBrush}" />
+                    <Style.Triggers>
+                        <DataTrigger Binding="{Binding Status}" Value="NO DATA">
+                            <Setter Property="Text" Value="X" />
+                            <Setter Property="Foreground" Value="{StaticResource StatusErrorBrush}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </TextBlock.Style>
+        </TextBlock>
         <TextBlock
-            Grid.Column="4"
-            HorizontalAlignment="Center"
-            Text="{Binding IsActive}" />
-        <CheckBox
             Grid.Column="5"
             HorizontalAlignment="Center"
             VerticalAlignment="Center"
-            IsChecked="{Binding MaxTemp}" />
+            Text="{Binding UpdateTimeTxt}" />
     </Grid>
 </UserControl>

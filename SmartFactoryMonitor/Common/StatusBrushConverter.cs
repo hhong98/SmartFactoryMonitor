@@ -22,7 +22,7 @@ namespace SmartFactoryMonitor.Common
                 "STABLE" => "StatusStableBrush",
                 "WARN" => "StatusWarnBrush",
                 "ERROR" => "StatusErrorBrush",
-                "NO_DATA" => "StatusNoDataBrush",
+                "NO DATA" => "StatusNoDataBrush",
                 _ => "StatusInactiveBrush"
             };
 

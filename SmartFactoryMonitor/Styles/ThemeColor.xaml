@@ -40,6 +40,10 @@
     <Color x:Key="StatusNoData">#546E7A</Color>
     <Color x:Key="StatusNoDataTint">#ECEFF1</Color>
 
+    <!--  IN ACTIVE  -->
+    <Color x:Key="StatusInactive">#9E9E9E</Color>
+    <Color x:Key="StatusInactiveTint">#F5F5F5</Color>
+
     <!--  =========================  -->
     <!--  온도  -->
     <!--  =========================  -->
@@ -97,6 +101,6 @@
     <SolidColorBrush x:Key="TempUnitTextBrush" Color="{StaticResource TempUnitText}" />
 
     <!--  이외의 요소  -->
-    <SolidColorBrush x:Key="PanelToggleBackgroundBrush" Color="#5f6f97" />
-    <SolidColorBrush x:Key="PanelToggleOpenBackgroundBrush" Color="#aebdd0" />
+    <SolidColorBrush x:Key="PanelToggleBackgroundBrush" Color="{StaticResource StatusInactive}" />
+    <SolidColorBrush x:Key="PanelToggleOpenBackgroundBrush" Color="{StaticResource StatusInactiveTint}" />
 </ResourceDictionary>

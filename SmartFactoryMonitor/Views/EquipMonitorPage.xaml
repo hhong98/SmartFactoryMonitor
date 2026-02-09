@@ -289,7 +289,7 @@
                             <TextBlock
                                 Grid.Column="4"
                                 HorizontalAlignment="Center"
-                                Text="상태" />
+                                Text="연결" />
                             <TextBlock
                                 Grid.Column="5"
                                 HorizontalAlignment="Center"
