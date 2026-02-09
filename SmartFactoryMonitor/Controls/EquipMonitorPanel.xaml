@@ -119,12 +119,13 @@
                     Text="{Binding MonitorVM.SelectedMonitor.UpdateTimeTxt, FallbackValue=''}" />
             </Grid>
 
-            <Image
-                Width="200"
-                Height="140"
-                Margin="0,7"
-                Source="../Res/equip_temp_graph.png"
-                Stretch="Fill" />
+            <Border
+                Width="250"
+                Height="150"
+                BorderBrush="Black"
+                BorderThickness="1">
+                <Grid />
+            </Border>
             <!--#endregion Panel Form-->
 
             <!--#region Panel Button-->
