@@ -5,6 +5,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:SmartFactoryMonitor.Controls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:properties="clr-namespace:SmartFactoryMonitor.Properties"
     DataContext="{StaticResource MainVM}"
     mc:Ignorable="d">
     <Border
@@ -159,7 +160,7 @@
                                 FontSize="16"
                                 FontWeight="Bold"
                                 Foreground="Gray"
-                                Text="05:42:12" />
+                                Text="{Binding MonitorVM.SelectedMonitor.TotalRuntime, StringFormat={}{0:hh\\:mm\\:ss}, FallbackValue=00:00:00}" />
                         </StackPanel>
 
                         <StackPanel>
@@ -174,24 +175,28 @@
                                     FontSize="16"
                                     FontWeight="Bold"
                                     Foreground="Gray"
-                                    Text="85%" />
+                                    Text="{Binding MonitorVM.SelectedMonitor.OperatingRate, StringFormat={}{0:F1}%, FallbackValue=00.00%}" />
                             </DockPanel>
 
                             <StackPanel Margin="10,5">
-                                <TextBlock
-                                    FontSize="10"
-                                    Foreground="#666"
-                                    Text="*기준: 09:00 ~ 18:00 (현재 시점)" />
+                                <TextBlock FontSize="10" Foreground="Gray">
+                                    <TextBlock.Text>
+                                        <MultiBinding StringFormat="* 기준: {0:hh\:mm} ~ {1:hh\:mm}">
+                                            <Binding Path="WorkStartTime" Source="{x:Static properties:Settings.Default}" />
+                                            <Binding Path="WorkEndTime" Source="{x:Static properties:Settings.Default}" />
+                                        </MultiBinding>
+                                    </TextBlock.Text>
+                                </TextBlock>
 
                                 <ProgressBar
                                     Width="220"
-                                    Height="15"
+                                    Height="20"
                                     Margin="0,5"
                                     Background="#333"
                                     BorderThickness="1"
                                     Foreground="#00FF00"
                                     Maximum="100"
-                                    Value="85" />
+                                    Value="{Binding MonitorVM.SelectedMonitor.OperatingRate}" />
                             </StackPanel>
                         </StackPanel>
                     </StackPanel>

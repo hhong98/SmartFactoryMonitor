@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SmartFactoryMonitor.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -13,5 +14,14 @@ namespace SmartFactoryMonitor
     /// </summary>
     public partial class App : Application
     {
+        protected override void OnExit(ExitEventArgs e)
+        {
+            if (FindResource("MainVM") is MainViewModel mainVM)
+            {
+                mainVM.MonitorVM.SaveCurrentData();
+            }
+
+            base.OnExit(e);
+        }
     }
 }

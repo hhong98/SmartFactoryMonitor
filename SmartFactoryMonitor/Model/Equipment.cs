@@ -97,6 +97,22 @@ namespace SmartFactoryMonitor.Model
             }
         }
 
+        private TimeSpan totalRuntime;
+
+        public TimeSpan TotalRuntime
+        {
+            get => totalRuntime;
+            set => SetProperty(ref totalRuntime, value);
+        }
+
+        private double operatingRate;
+
+        public double OperatingRate
+        {
+            get => operatingRate;
+            set => SetProperty(ref operatingRate, value);
+        }
+
         private bool isChecked = false;
         public bool IsChecked { get => isChecked; set => SetProperty(ref isChecked, value); }
 

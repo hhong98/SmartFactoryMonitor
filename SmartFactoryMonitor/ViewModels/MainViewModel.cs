@@ -66,6 +66,7 @@ namespace SmartFactoryMonitor.ViewModels
 
             // 초기 데이터 불러오기
             InitializeData(Repository);
+            MonitorVM.LoadSavedData();
 
             server = new HttpServer(_dbService);
             server.Start();

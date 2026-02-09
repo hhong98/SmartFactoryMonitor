@@ -1,4 +1,5 @@
-﻿using SmartFactoryMonitor.Model;
+﻿using Newtonsoft.Json;
+using SmartFactoryMonitor.Model;
 using SmartFactoryMonitor.Repository;
 using SmartFactoryMonitor.Services;
 using System;
@@ -36,7 +37,11 @@ namespace SmartFactoryMonitor.ViewModels
         public int DangerCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "ERROR");
         public int DisConnectCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "NO DATA");
 
-        // TODO : 현재 세부사항 조회중인 설비 (SelectedMonitor)
+        public DateTime WorkStart = DateTime.Today.Add(Properties.Settings.Default.WorkStartTime);
+        public DateTime WorkEnd = DateTime.Today.Add(Properties.Settings.Default.WorkEndTime);
+        private DateTime lunchStart = DateTime.Today.Add(Properties.Settings.Default.LunchStartTime);
+        private DateTime lunchEnd = DateTime.Today.Add(Properties.Settings.Default.LunchEndTime);
+
         private Equipment selectedMonitor;
 
         public Equipment SelectedMonitor
@@ -137,15 +142,26 @@ namespace SmartFactoryMonitor.ViewModels
                         {
                             var info = equipTempInfoList
                                 .FirstOrDefault(info => info.equipId == equip.EquipId);
-                            if (info.equipId is null) continue;
+
+                            if (info.equipId == null || info.status == "NO DATA")
+                            {
+                                equip.Status = "NO DATA";
+                                continue;
+                            }
 
                             equip.CurrentTemp = info.temperature;
                             equip.Status = info.status;
                             equip.LastUpdateTime = info.logTime;
-
                             equip.RefreshUpdateTime();
+
+                            if (equip.Status != "NO DATA")
+                            {
+                                equip.TotalRuntime += TimeSpan.FromSeconds(1);
+                            }
+                            equip.OperatingRate = CaculateRate(equip.TotalRuntime);
                         }
 
+                        if (DateTime.Now.Second is 0) SaveCurrentData();
                         RefreshDashboard();
                     }
                     await Task.Delay(TimeSpan.FromSeconds(1), token);
@@ -165,6 +181,75 @@ namespace SmartFactoryMonitor.ViewModels
         public void StopMonitoring()
         {
             _cts?.Cancel();
+        }
+
+        public void LoadSavedData()
+        {
+            if (Properties.Settings.Default.LastSaveDate.Date != DateTime.Today) return;
+
+            string json = Properties.Settings.Default.SavedRuntimeData;
+            if (string.IsNullOrEmpty(json)) return;
+
+            try
+            {
+                var data = JsonConvert.DeserializeObject<Dictionary<string, double>>(json);
+
+                foreach (var equip in Equipments)
+                {
+                    if (data.ContainsKey(equip.EquipId))
+                    {
+                        equip.TotalRuntime = TimeSpan.FromSeconds(data[equip.EquipId]);
+                    }
+                }
+            }
+            catch
+            {
+                Properties.Settings.Default.SavedRuntimeData = "";
+                Properties.Settings.Default.Save();
+            }
+        }
+
+        public void SaveCurrentData()
+        {
+            try
+            {
+                var data = Equipments.ToDictionary(equip => equip.EquipId, equip => equip.TotalRuntime.TotalSeconds);
+
+                Properties.Settings.Default.SavedRuntimeData = JsonConvert.SerializeObject(data);
+                Properties.Settings.Default.LastSaveDate = DateTime.Today;
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"저장 실패: {ex.Message}");
+            }
+        }
+
+        private double CaculateRate(TimeSpan totalRuntime)
+        {
+            var now = DateTime.Now;
+            double targetTimes = 0;
+
+            if (now < WorkStart) return 0;
+
+            DateTime calcReference = (now > WorkEnd) ? WorkEnd : now;
+            targetTimes = (calcReference - WorkStart).TotalMinutes;
+
+            if (calcReference > lunchEnd)
+            {
+                targetTimes -= (lunchEnd - lunchStart).TotalMinutes;
+            }
+            else if (calcReference > lunchStart)
+            {
+                targetTimes -= (calcReference - lunchStart).TotalMinutes;
+            }
+
+            if (targetTimes <= 0) return 0;
+
+            double currRuntime = totalRuntime.TotalMinutes;
+            double rate = (currRuntime / targetTimes) * 100;
+
+            return Math.Min(Math.Round(rate, 1), 100);
         }
     }
 }
