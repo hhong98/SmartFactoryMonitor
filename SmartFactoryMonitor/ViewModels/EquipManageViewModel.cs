@@ -174,6 +174,11 @@ namespace SmartFactoryMonitor.ViewModels
         public async Task DeleteCurrentEquip()
         {
             if (selectedEquip is null) return;
+            if (selectedEquip.IsActive is "Y")
+            {
+                MessageBox.Show("사용중인 설비는 삭제할 수 없습니다\n먼저 사용을 중단해주세요");
+                return;
+            }
 
             var equipName = selectedEquip.EquipName;
 
@@ -205,23 +210,28 @@ namespace SmartFactoryMonitor.ViewModels
 
         public async Task DeleteSelectedEquips()
         {
-            var selectedIds = Equipments
+            var selectedEquips = Equipments
                 .Where(e => e.IsChecked)
-                .Select(e => e.EquipId)
                 .ToList();
 
-            if (selectedIds.Count is 0)
+            if (selectedEquips.Count is 0)
             {
                 MessageBox.Show("삭제할 설비를 선택하세요");
                 return;
             }
+            if (selectedEquips.Any(e => e.IsActive is "Y"))
+            {
+                MessageBox.Show("사용중인 설비가 포함되어있습니다\n사용중인 설비는 삭제할 수 없습니다");
+                return;
+            }
 
-            if (MessageBox.Show($"{selectedIds.Count}개의 설비를 삭제하시겠습니까?", "삭제 확인", MessageBoxButton.YesNo)
+            if (MessageBox.Show($"{selectedEquips.Count}개의 설비를 삭제하시겠습니까?", "삭제 확인", MessageBoxButton.YesNo)
                 is MessageBoxResult.No) { return; }
 
             try
             {
-                DbResult result = await _eService.Delete(selectedIds);
+                DbResult result = await _eService.Delete(
+                    selectedEquips.Select(e => e.EquipId).ToList());
 
                 if (result.IsSuccess)
                 {
