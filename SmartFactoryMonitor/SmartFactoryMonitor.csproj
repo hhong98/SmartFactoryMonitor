@@ -74,6 +74,9 @@
     <Compile Include="Controls\DashboardCard.xaml.cs">
       <DependentUpon>DashboardCard.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\OptionComboBox.xaml.cs">
+      <DependentUpon>OptionComboBox.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\EquipFormPanel.xaml.cs">
       <DependentUpon>EquipFormPanel.xaml</DependentUpon>
     </Compile>
@@ -111,6 +114,10 @@
       <DependentUpon>EquipMonitorPage.xaml</DependentUpon>
     </Compile>
     <Page Include="Controls\DashboardCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OptionComboBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

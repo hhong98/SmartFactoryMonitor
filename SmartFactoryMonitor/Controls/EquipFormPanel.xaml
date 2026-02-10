@@ -268,7 +268,7 @@
                 FontSize="16"
                 FontWeight="Bold"
                 Foreground="Gray"
-                Text="{Binding EquipManageVM.EditingEquip.CreateDate, FallbackValue=''}" />
+                Text="{Binding EquipManageVM.EditingEquip.CreateDate, FallbackValue='0000-00-00 오전 0:00:00'}" />
 
             <Grid Margin="0,20">
                 <Label Content="사용 유무" FontSize="15" />
