@@ -39,7 +39,7 @@
         <Border
             x:Name="EquipStatus"
             Grid.Column="0"
-            Background="{Binding Status, Converter={StaticResource StatusBrushConverter}}" />
+            Background="{Binding Status, Converter={StaticResource StatusToBrushConverter}}" />
         <TextBlock
             Grid.Column="1"
             Margin="10,0,0,0"

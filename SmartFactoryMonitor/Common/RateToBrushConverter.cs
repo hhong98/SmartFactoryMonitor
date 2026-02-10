@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace SmartFactoryMonitor.Common
 {
-    public class RateBrushConverter : IValueConverter
+    public class RateToBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -18,7 +18,7 @@ namespace SmartFactoryMonitor.Common
 
             if (value is double rate)
             {
-                if (rate >= 90) brushKey = "StatusStableBrush";
+                if (rate >= 80) brushKey = "StatusStableBrush";
                 else if (rate >= 30) brushKey = "StatusWarnBrush";
                 else brushKey = "StatusErrorBrush";
             }

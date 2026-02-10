@@ -10,7 +10,7 @@ using System.Windows.Media;
 
 namespace SmartFactoryMonitor.Common
 {
-    public class StatusBrushConverter : IValueConverter
+    public class StatusToBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {

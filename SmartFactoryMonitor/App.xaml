@@ -19,8 +19,8 @@
             <!--#endregion View Model-->
 
             <!--#region Converter-->
-            <common:RateBrushConverter x:Key="RateBrushConverter" />
-            <common:StatusBrushConverter x:Key="StatusBrushConverter" />
+            <common:RateToBrushConverter x:Key="RateToBrushConverter" />
+            <common:StatusToBrushConverter x:Key="StatusToBrushConverter" />
             <!--#endregion Converter-->
 
             <!--#region Style-->

@@ -194,7 +194,7 @@
                                     Margin="0,5"
                                     Background="#333"
                                     BorderThickness="1"
-                                    Foreground="{Binding MonitorVM.SelectedMonitor.OperatingRate, Converter={StaticResource RateBrushConverter}}"
+                                    Foreground="{Binding MonitorVM.SelectedMonitor.OperatingRate, Converter={StaticResource RateToBrushConverter}}"
                                     Maximum="100"
                                     Value="{Binding MonitorVM.SelectedMonitor.OperatingRate}" />
                             </StackPanel>
