@@ -221,7 +221,7 @@ namespace SmartFactoryMonitor.ViewModels
             }
             if (selectedEquips.Any(e => e.IsActive is "Y"))
             {
-                MessageBox.Show("사용중인 설비가 포함되어있습니다\n사용중인 설비는 삭제할 수 없습니다");
+                MessageBox.Show("사용중인 설비가 포함되어있습니다\n먼저 사용을 중단해주세요");
                 return;
             }
 

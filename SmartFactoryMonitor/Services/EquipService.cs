@@ -18,10 +18,10 @@ namespace SmartFactoryMonitor.Services
 
         public async Task<DbResult> Add(Equipment.DTO equip)
         {
-            string sql = $@"Insert Into EQUIPMENT (EQUIP_NAME, IP_ADDRESS, PORT, MIN_TEMP, MAX_TEMP, LOCATION)
+            string sql = $@"Insert Into EQUIPMENT (EQUIP_NAME, IP_ADDRESS, PORT, MIN_TEMP, MAX_TEMP, LOCATION, IS_ACTIVE)
                             Values('{equip.EquipName}', '{equip.IpAddress}',
                             {equip.Port}, {equip.MinTemp}, {equip.MaxTemp},
-                            '{equip.Location}')";
+                            '{equip.Location}', '{equip.IsActive}')";
 
             string result = await _db.ExecuteQuery(sql);
             return int.TryParse(result, out int rows)
