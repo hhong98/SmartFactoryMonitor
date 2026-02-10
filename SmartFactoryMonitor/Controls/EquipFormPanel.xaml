@@ -11,6 +11,12 @@
     <UserControl.Resources>
         <common:ActiveConverter x:Key="ActiveConverter" />
 
+        <CollectionViewSource x:Key="GroupedLocations" Source="{x:Static common:AppConstants.Locations}">
+            <CollectionViewSource.GroupDescriptions>
+                <PropertyGroupDescription PropertyName="Group" />
+            </CollectionViewSource.GroupDescriptions>
+        </CollectionViewSource>
+
         <Style x:Key="ActiveToggleStyle" TargetType="{x:Type local:ToggleButton}">
             <Setter Property="OpenBackground" Value="{StaticResource StatusStableBrush}" />
             <Setter Property="CloseBackground" Value="{StaticResource StatusErrorBrush}" />
@@ -164,7 +170,33 @@
             <TextBox x:Name="FormPort" Text="{Binding EquipManageVM.EditingEquip.Port, FallbackValue=''}" />
 
             <Label Content="설치 위치" />
-            <ComboBox ItemsSource="{x:Static common:AppConstants.Locations}" SelectedItem="{Binding EquipManageVM.EditingEquip.Location, Mode=TwoWay}" />
+            <ComboBox
+                IsSynchronizedWithCurrentItem="False"
+                ItemsSource="{Binding Source={StaticResource GroupedLocations}}"
+                SelectedValue="{Binding EquipManageVM.EditingEquip.Location, Mode=TwoWay}"
+                SelectedValuePath="FullName">
+                <ComboBox.GroupStyle>
+                    <GroupStyle>
+                        <GroupStyle.HeaderTemplate>
+                            <DataTemplate>
+                                <TextBlock
+                                    Margin="0,5,0,5"
+                                    HorizontalAlignment="Left"
+                                    Foreground="Gray"
+                                    Text="{Binding Name, StringFormat=' ======= {0} ======='}" />
+                            </DataTemplate>
+                        </GroupStyle.HeaderTemplate>
+                    </GroupStyle>
+                </ComboBox.GroupStyle>
+
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <TextBlock Text="{Binding FullName}" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
 
             <Grid Margin="0,5">
                 <Grid.ColumnDefinitions>

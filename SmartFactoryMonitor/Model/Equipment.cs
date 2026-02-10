@@ -33,7 +33,7 @@ namespace SmartFactoryMonitor.Model
         private string location;
         public string Location { get => location; set => SetProperty(ref location, value); }
 
-        private string isActive;
+        private string isActive = "N";
 
         public string IsActive
         {
