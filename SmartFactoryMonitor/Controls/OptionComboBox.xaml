@@ -16,35 +16,30 @@
                     VerticalAlignment="Center"
                     Orientation="Horizontal">
 
-                    <TextBlock
-                        x:Name="SelectedDisplay"
-                        Margin="0,0,5,0"
-                        FontSize="15">
+                    <TextBlock x:Name="SelectedDisplay" FontSize="{Binding DisplaySize, ElementName=Root}">
                         <TextBlock.Style>
                             <Style TargetType="TextBlock">
-                                <Setter Property="Text" Value="{Binding SelectedItem, ElementName=Root}" />
+                                <Setter Property="Text" Value="{Binding SelectedOption, ElementName=Root}" />
                                 <Style.Triggers>
-                                    <DataTrigger Binding="{Binding SelectedItem, ElementName=Root}" Value="{x:Null}">
+                                    <DataTrigger Binding="{Binding SelectedOption, ElementName=Root}" Value="{x:Null}">
                                         <Setter Property="Text" Value="{Binding Placeholder, ElementName=Root}" />
-                                        <Setter Property="Foreground" Value="Gray" />
+                                        <Setter Property="Foreground" Value="Black" />
                                     </DataTrigger>
                                 </Style.Triggers>
                             </Style>
                         </TextBlock.Style>
                     </TextBlock>
-                    <TextBlock FontSize="15" Text="▼" />
+                    <TextBlock FontSize="{Binding DisplaySize, ElementName=Root}" Text=" ▼" />
                 </StackPanel>
             </ToggleButton.Content>
             <ToggleButton.Style>
                 <Style TargetType="ToggleButton">
-                    <Setter Property="Width" Value="80" />
-                    <Setter Property="Height" Value="40" />
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="ToggleButton">
                                 <Border
                                     Background="{StaticResource MainBackgroundBrush}"
-                                    BorderBrush="{StaticResource BorderBrush}"
+                                    BorderBrush="#C7CCD1"
                                     BorderThickness="1"
                                     CornerRadius="5">
                                     <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
@@ -77,7 +72,7 @@
                                 BorderThickness="0"
                                 Click="OnOptionClick"
                                 Content="{Binding}"
-                                FontSize="13"
+                                FontSize="{Binding OptionSize, ElementName=Root}"
                                 FontWeight="Medium" />
                         </DataTemplate>
                     </ItemsControl.ItemTemplate>

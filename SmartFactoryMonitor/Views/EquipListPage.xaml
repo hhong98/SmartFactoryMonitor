@@ -6,6 +6,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:root="clr-namespace:SmartFactoryMonitor"
+    x:Name="Root"
     Title="EquipListPage"
     d:DesignHeight="600"
     d:DesignWidth="975"
@@ -90,33 +91,14 @@
                             Margin="12,0,0,0"
                             SearchText="{Binding EquipManageVM.SearchTxt}" />
 
-                        <!--#region Filter Toggle-->
-                        <ToggleButton
-                            x:Name="FilterToggle"
+                        <!--#region Filter Option-->
+                        <custom:OptionComboBox
+                            Width="80"
+                            Height="30"
                             Margin="5,0"
-                            Content="전체 ▼"
-                            Cursor="Hand">
-                            <ToggleButton.Style>
-                                <Style TargetType="ToggleButton">
-                                    <Setter Property="Width" Value="70" />
-                                    <Setter Property="Height" Value="30" />
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ToggleButton">
-                                                <Border
-                                                    Background="{StaticResource MainBackgroundBrush}"
-                                                    BorderBrush="#C7CCD1"
-                                                    BorderThickness="1"
-                                                    CornerRadius="5">
-                                                    <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
-                                                </Border>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ToggleButton.Style>
-                        </ToggleButton>
-                        <!--#endregion Filter Toggle-->
+                            ItemsSource="{Binding FilterOptions, ElementName=Root}"
+                            Placeholder="전체" />
+                        <!--#endregion Filter Option-->
 
                         <!--#region Panel Toggle-->
                         <Border
@@ -144,40 +126,6 @@
                             </StackPanel>
                         </Border>
                         <!--#endregion Panel Toggle-->
-
-                        <!--#region Filter Popup-->
-                        <Popup
-                            Width="100"
-                            AllowsTransparency="True"
-                            IsOpen="{Binding IsChecked, ElementName=FilterToggle}"
-                            Placement="Bottom"
-                            PlacementTarget="{Binding ElementName=FilterToggle}"
-                            PopupAnimation="None"
-                            StaysOpen="True">
-                            <Border
-                                Padding="8"
-                                Background="White"
-                                BorderBrush="#C7CCD1"
-                                BorderThickness="1"
-                                CornerRadius="6">
-                                <StackPanel>
-                                    <StackPanel.Resources>
-                                        <Style TargetType="Button">
-                                            <Setter Property="Background" Value="{StaticResource MainBackgroundBrush}" />
-                                            <Setter Property="BorderThickness" Value="0" />
-                                            <Setter Property="FontSize" Value="13" />
-                                            <Setter Property="FontWeight" Value="Medium" />
-                                        </Style>
-                                    </StackPanel.Resources>
-
-                                    <Button x:Name="BtnFilterStable" Content="정상" />
-                                    <Button x:Name="BtnFilterWarn" Content="주의" />
-                                    <Button x:Name="BtnFilterError" Content="위험" />
-                                    <Button x:Name="BtnFilterNoData" Content="오류" />
-                                </StackPanel>
-                            </Border>
-                        </Popup>
-                        <!--#endregion Filter Popup-->
                     </StackPanel>
                 </Border>
                 <!--#endregion Content Filter-->

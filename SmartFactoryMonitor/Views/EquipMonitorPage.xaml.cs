@@ -20,6 +20,11 @@ namespace SmartFactoryMonitor.Views
     /// </summary>
     public partial class EquipMonitorPage : Page
     {
+        public List<string> FilterOptions => new List<string>
+        {
+            "정상", "주의", "위험", "연결 끊김"
+        };
+
         public EquipMonitorPage()
         {
             InitializeComponent();

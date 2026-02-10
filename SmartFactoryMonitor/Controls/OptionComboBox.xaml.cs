@@ -64,6 +64,32 @@ namespace SmartFactoryMonitor.Controls
             set => SetValue(PlaceholderProperty, value);
         }
 
+        public static readonly DependencyProperty DisplaySizeProperty =
+            DependencyProperty.Register(
+                "DisplaySize",
+                typeof(int),
+                typeof(OptionComboBox),
+                new PropertyMetadata(12));
+
+        public int DisplaySize
+        {
+            get => (int)GetValue(DisplaySizeProperty);
+            set => SetValue(DisplaySizeProperty, value);
+        }
+
+        public static readonly DependencyProperty OptionSizeProperty =
+           DependencyProperty.Register(
+               "OptionSize",
+               typeof(int),
+               typeof(OptionComboBox),
+               new PropertyMetadata(12));
+
+        public int OptionSize
+        {
+            get => (int)GetValue(OptionSizeProperty);
+            set => SetValue(OptionSizeProperty, value);
+        }
+
         private void OnOptionClick(object sender, RoutedEventArgs e)
         {
             if (sender is Button button)

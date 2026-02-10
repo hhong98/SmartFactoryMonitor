@@ -24,6 +24,11 @@ namespace SmartFactoryMonitor.Views
     {
         private MainViewModel mainVM;
 
+        public List<string> FilterOptions => new List<string>
+        {
+            "정상", "주의", "위험", "연결 끊김"
+        };
+
         public EquipListPage()
         {
             InitializeComponent();
