@@ -32,11 +32,7 @@ namespace SmartFactoryMonitor.Controls
         public bool IsOpened
         {
             get => (bool)GetValue(IsOpenedProperty);
-            set
-            {
-                SetValue(IsOpenedProperty, value);
-                //MessageBox.Show($"IsOpened = {IsOpened}");
-            }
+            set => SetValue(IsOpenedProperty, value);
         }
 
         public static readonly DependencyProperty OpenBackgroundProperty =

@@ -10,23 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace SmartFactoryMonitor.Views
+namespace SmartFactoryMonitor.Controls
 {
     /// <summary>
-    /// EquipFormWindow.xaml에 대한 상호 작용 논리
+    /// Interaction logic for EquipMonitorItem.xaml
     /// </summary>
-    public partial class EquipFormWindow : Window
+    public partial class EquipMonitorItem : UserControl
     {
-        public EquipFormWindow()
+        public EquipMonitorItem()
         {
             InitializeComponent();
-        }
-
-        private void EquipAddForm_Loaded(object sender, RoutedEventArgs e)
-        {
-
         }
     }
 }

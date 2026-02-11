@@ -1,15 +1,18 @@
-﻿<Window x:Class="SmartFactoryMonitor.MainWindow"
-        x:Name="MainWin"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:SmartFactoryMonitor"
-        xmlns:tool="http://schemas.xceed.com/wpf/xaml/toolkit"
-        DataContext="{StaticResource MainVM}"
-        ResizeMode="CanMinimize"
-        WindowStartupLocation="CenterScreen"
-        Background="#F5F5F5" Width="900" Height="700">
+﻿<Window
+    x:Class="SmartFactoryMonitor.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SmartFactoryMonitor"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tool="http://schemas.xceed.com/wpf/xaml/toolkit"
+    x:Name="MainWin"
+    Width="900"
+    Height="700"
+    Background="#F5F5F5"
+    DataContext="{StaticResource MainVM}"
+    ResizeMode="CanMinimize"
+    WindowStartupLocation="CenterScreen">
 
     <Grid x:Name="Root">
         <Grid.ColumnDefinitions>
@@ -22,12 +25,15 @@
                 <RowDefinition Height="50" />
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" BorderBrush="{StaticResource SidebarHoverBrush}" BorderThickness="0,0,0,1">
+            <Border
+                Grid.Row="0"
+                BorderBrush="{StaticResource SidebarHoverBrush}"
+                BorderThickness="0,0,0,1">
                 <TextBlock
-                Text="🏭 SMART FACOTRY MONITOR"
-                TextAlignment="Center"
-                VerticalAlignment="Center"
-                Foreground="{StaticResource TextOnPrimaryBrush}" />
+                    VerticalAlignment="Center"
+                    Foreground="{StaticResource TextOnPrimaryBrush}"
+                    Text="🏭 SMART FACTORY MANAGER"
+                    TextAlignment="Center" />
             </Border>
             <Grid Grid.Row="1" Margin="0,10,0,0">
                 <Grid.RowDefinitions>
@@ -44,11 +50,15 @@
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}" BorderThickness="{TemplateBinding BorderThickness}" BorderBrush="{TemplateBinding BorderBrush}">
-                                        <ContentPresenter Margin="{TemplateBinding Padding}"
-                                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
-                                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                                          RecognizesAccessKey="True" />
+                                    <Border
+                                        Background="{TemplateBinding Background}"
+                                        BorderBrush="{TemplateBinding BorderBrush}"
+                                        BorderThickness="{TemplateBinding BorderThickness}">
+                                        <ContentPresenter
+                                            Margin="{TemplateBinding Padding}"
+                                            HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                            VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                            RecognizesAccessKey="True" />
                                     </Border>
                                     <ControlTemplate.Triggers>
                                         <Trigger Property="IsMouseOver" Value="True">
@@ -68,14 +78,29 @@
                     </Style>
                 </Grid.Resources>
                 <!--#region Navigation-->
-                <StackPanel Grid.Row="0" Orientation="Vertical" VerticalAlignment="Top">
-                    <Button x:Name="BtnMonitor" Content="🖥  설비 모니터링" Click="BtnMonitor_Click" />
-                    <Button x:Name="BtnShowList" Content="🔧  설비 관리" Click="BtnShowList_Click" />
+                <StackPanel
+                    Grid.Row="0"
+                    VerticalAlignment="Top"
+                    Orientation="Vertical">
+                    <Button
+                        x:Name="BtnMonitor"
+                        Click="BtnMonitor_Click"
+                        Content="🖥  설비 모니터링" />
+                    <Button
+                        x:Name="BtnShowList"
+                        Click="BtnShowList_Click"
+                        Content="🔧  설비 관리" />
                 </StackPanel>
                 <!--#endregion Navigation-->
                 <!--#region System-->
-                <Border Grid.Row="1" BorderBrush="{StaticResource SidebarHoverBrush}" BorderThickness="0,1,0,0">
-                    <StackPanel Orientation="Vertical"  VerticalAlignment="Top" Margin="0,10,0,0">
+                <Border
+                    Grid.Row="1"
+                    BorderBrush="{StaticResource SidebarHoverBrush}"
+                    BorderThickness="0,1,0,0">
+                    <StackPanel
+                        Margin="0,10,0,0"
+                        VerticalAlignment="Top"
+                        Orientation="Vertical">
                         <Button Content="⚙️  설정" />
                     </StackPanel>
                 </Border>
@@ -103,28 +128,35 @@
                             <Setter Property="Foreground" Value="{StaticResource TextOnPrimaryBrush}" />
                         </Style>
                     </Grid.Resources>
-                    
+
                     <!--#region Content Header-->
-                    <TextBlock Text="SMART FACTORY MONITOR"
-                               FontSize="18"
-                               Grid.Column="0"
-                               Foreground="White"
-                               FontWeight="Bold"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center" />
+                    <TextBlock
+                        Grid.Column="0"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        FontSize="18"
+                        FontWeight="Bold"
+                        Foreground="White"
+                        Text="SMART FACTORY MANAGER" />
                     <StackPanel
                         Grid.Column="1"
-                        Orientation="Horizontal"
-                        HorizontalAlignment="Center">
-                        <TextBlock Text="●" Foreground="Yellow" Margin="0,0,5,0" />
+                        HorizontalAlignment="Center"
+                        Orientation="Horizontal">
+                        <TextBlock
+                            Margin="0,0,5,0"
+                            Foreground="Yellow"
+                            Text="●" />
                         <TextBlock Text="Online" />
                     </StackPanel>
                     <!--#endregion Content Header-->
                 </Grid>
             </Border>
-            
-            <!--Content Body-->
-            <Frame Grid.Row="1" x:Name="MainFrame" NavigationUIVisibility="Hidden" />
+
+            <!--  Content Body  -->
+            <Frame
+                x:Name="MainFrame"
+                Grid.Row="1"
+                NavigationUIVisibility="Hidden" />
         </Grid>
         <!--#endregion Content-->
     </Grid>

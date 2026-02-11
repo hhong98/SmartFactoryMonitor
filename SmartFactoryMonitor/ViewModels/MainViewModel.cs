@@ -30,11 +30,6 @@ namespace SmartFactoryMonitor.ViewModels
 
         private Window mainWin;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void OnPropertyChanged(string name)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
-
         private bool _isPanelOpened;
 
         public bool IsPanelOpened
@@ -43,6 +38,7 @@ namespace SmartFactoryMonitor.ViewModels
             set
             {
                 if (_isPanelOpened == value) return;
+
                 _isPanelOpened = value;
                 OnPropertyChanged(nameof(IsPanelOpened));
 
@@ -70,6 +66,7 @@ namespace SmartFactoryMonitor.ViewModels
 
             // 초기 데이터 불러오기
             InitializeData(Repository);
+            MonitorVM.LoadSavedData();
 
             server = new HttpServer(_dbService);
             server.Start();
@@ -85,5 +82,10 @@ namespace SmartFactoryMonitor.ViewModels
             try { server?.Stop(); } catch { }
             try { server?.Dispose(); } catch { }
         }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        private void OnPropertyChanged(string name)
+            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
     }
 }

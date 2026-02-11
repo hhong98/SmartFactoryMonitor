@@ -24,5 +24,20 @@ namespace SmartFactoryMonitor.Controls
         {
             InitializeComponent();
         }
+
+        public static readonly DependencyProperty SearchTextProperty =
+            DependencyProperty.Register(
+                nameof(SearchText),
+                typeof(string),
+                typeof(SearchBox),
+                new FrameworkPropertyMetadata(
+                    string.Empty,
+                    FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+
+        public string SearchText
+        {
+            get => (string)GetValue(SearchTextProperty);
+            set => SetValue(SearchTextProperty, value);
+        }
     }
 }

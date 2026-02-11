@@ -68,19 +68,31 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Common\AppConstants.cs" />
+    <Compile Include="Common\ActiveConverter.cs" />
+    <Compile Include="Common\RateToBrushConverter.cs" />
+    <Compile Include="Common\StatusToBrushConverter.cs" />
+    <Compile Include="Common\Utils.cs" />
+    <Compile Include="Controls\DashboardCard.xaml.cs">
+      <DependentUpon>DashboardCard.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\OptionComboBox.xaml.cs">
+      <DependentUpon>OptionComboBox.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EquipFormPanel.xaml.cs">
+      <DependentUpon>EquipFormPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Controls\EquipListItem.xaml.cs">
       <DependentUpon>EquipListItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EquipMonitorItem.xaml.cs">
+      <DependentUpon>EquipMonitorItem.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\EquipMonitorPanel.xaml.cs">
+      <DependentUpon>EquipMonitorPanel.xaml</DependentUpon>
     </Compile>
     <Compile Include="Controls\ToggleButton.xaml.cs">
       <DependentUpon>ToggleButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Controls\EquipAddForm.xaml.cs">
-      <DependentUpon>EquipAddForm.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\EquipTable.xaml.cs">
-      <DependentUpon>EquipTable.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Controls\EquipTableConverter.cs" />
     <Compile Include="Controls\SearchBox.xaml.cs">
       <DependentUpon>SearchBox.xaml</DependentUpon>
     </Compile>
@@ -99,28 +111,34 @@
     <Compile Include="Services\MonitoringService.cs" />
     <Compile Include="ViewModels\EquipManageViewModel.cs" />
     <Compile Include="ViewModels\MonitoringViewModel.cs" />
-    <Compile Include="Views\EquipFormWindow.xaml.cs">
-      <DependentUpon>EquipFormWindow.xaml</DependentUpon>
+    <Compile Include="Views\EquipMonitorPage.xaml.cs">
+      <DependentUpon>EquipMonitorPage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\EquipUpdateWindow.xaml.cs">
-      <DependentUpon>EquipUpdateWindow.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Views\MonitorPage.xaml.cs">
-      <DependentUpon>MonitorPage.xaml</DependentUpon>
-    </Compile>
+    <Page Include="Controls\DashboardCard.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\OptionComboBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EquipFormPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\EquipListItem.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Controls\EquipMonitorItem.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Controls\EquipMonitorPanel.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Controls\ToggleButton.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\EquipAddForm.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Controls\EquipTable.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -136,15 +154,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\EquipFormWindow.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Views\EquipListPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\EquipUpdateWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -164,7 +174,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Views\MonitorPage.xaml">
+    <Page Include="Views\EquipMonitorPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -210,11 +220,19 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Res\background.png" />
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="monitor.ico" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Res\drop_down_arrow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\dashboard_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\graph_box_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Res\graph_progress_bars.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

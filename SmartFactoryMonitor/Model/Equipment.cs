@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,67 +15,145 @@ namespace SmartFactoryMonitor.Model
     {
         public string EquipId { get; set; } // C#의 자동 구현 Property
 
-        private string _equipName; // 필드(실제 데이터가 메모리에 저장되는 저장소), 자동 구현 Property 사용 x
-        public string EquipName { get => _equipName; set => SetProperty(ref _equipName, value); } // 프로퍼티(외부에서 저장소에 접근하는 경로)
+        private string equipName; // 필드(실제 데이터가 메모리에 저장되는 저장소), 자동 구현 Property 사용 x
+        public string EquipName { get => equipName; set => SetProperty(ref equipName, value); } // 프로퍼티(외부에서 저장소에 접근하는 경로)
 
-        private string _ipAddress;
-        public string IpAddress { get => _ipAddress; set => SetProperty(ref _ipAddress, value); }
+        private string ipAddress;
+        public string IpAddress { get => ipAddress; set => SetProperty(ref ipAddress, value); }
 
-        private int _port;
-        public int Port { get => _port; set => SetProperty(ref _port, value); }
+        private int port;
+        public int Port { get => port; set => SetProperty(ref port, value); }
 
-        private double _minTemp;
-        public double MinTemp { get => _minTemp; set => SetProperty(ref _minTemp, value); }
+        private double minTemp;
+        public double MinTemp { get => minTemp; set => SetProperty(ref minTemp, value); }
 
-        private double _maxTemp;
-        public double MaxTemp { get => _maxTemp; set => SetProperty(ref _maxTemp, value); }
+        private double maxTemp;
+        public double MaxTemp { get => maxTemp; set => SetProperty(ref maxTemp, value); }
 
-        private string _location;
-        public string Location { get => _location; set => SetProperty(ref _location, value); }
+        private string location;
+        public string Location { get => location; set => SetProperty(ref location, value); }
 
-        private string _isActive;
-        public string IsActive { get => _isActive; set => SetProperty(ref _isActive, value); }
+        private string isActive = "N";
 
-        private double _currentTemp = 0d;
+        public string IsActive
+        {
+            get => isActive;
+            set
+            {
+                if (SetProperty(ref isActive, value))
+                {
+                    OnPropertyChanged(nameof(Status));
+                }
+            }
+        }
+
+        private string createDate;
+        public string CreateDate { get => createDate; set => SetProperty(ref createDate, value); }
+
+        #region Extra Properties
+
+        private double currentTemp = 0d;
 
         public double CurrentTemp
         {
-            get => _currentTemp;
-            set => SetProperty(ref _currentTemp, value);
+            get => currentTemp;
+            set => SetProperty(ref currentTemp, value);
         }
 
-        private string _status = "NO DATA";
-        public string Status { get => _status; set => SetProperty(ref _status, value); }
+        private string status = "NO DATA";
 
-        private bool _isChecked = false;
-        public bool IsChecked { get => _isChecked; set => SetProperty(ref _isChecked, value); }
-
-        /* 설비 추가 DTO */
-
-        public class Add_DTO
+        public string Status
         {
-            public string EquipName { get; set; }
-            public string IpAddress { get; set; }
-            public int Port { get; set; }
-            public double MinTemp { get; set; }
-            public double MaxTemp { get; set; }
-            public string Location { get; set; }
+            get
+            {
+                if (IsActive is "N") return "INACTIVE";
+                if (string.IsNullOrEmpty(status)) return "NO DATA";
+                return status;
+            }
+            set => SetProperty(ref status, value);
         }
 
-        /* 설비 수정 DTO */
+        private DateTime lastUpdateTime;
 
-        public class Update_DTO
+        public DateTime LastUpdateTime
         {
-            public string EquipName { get; set; }
-            public string IpAddress { get; set; }
-            public int Port { get; set; }
-            public double MinTemp { get; set; }
-            public double MaxTemp { get; set; }
-            public string Location { get; set; }
+            get => lastUpdateTime;
+            set
+            {
+                if (SetProperty(ref lastUpdateTime, value)) RefreshUpdateTime();
+            }
+        }
 
-            // Equipment to Update_DTO
-            public static Update_DTO Convert(Equipment equip)
-                => new Update_DTO
+        public string UpdateTimeTxt
+        {
+            get
+            {
+                if (LastUpdateTime == default) return "-";
+
+                var diff = DateTime.Now - LastUpdateTime;
+                if (diff.TotalSeconds < 60) return "방금 전";
+                if (diff.TotalMinutes < 2) return $"{(int)diff.TotalMinutes}분 전";
+                return LastUpdateTime.ToString("MM-dd HH:mm");
+            }
+        }
+
+        private TimeSpan totalRuntime;
+
+        public TimeSpan TotalRuntime
+        {
+            get => totalRuntime;
+            set => SetProperty(ref totalRuntime, value);
+        }
+
+        private double operatingRate;
+
+        public double OperatingRate
+        {
+            get => operatingRate;
+            set => SetProperty(ref operatingRate, value);
+        }
+
+        private bool isChecked = false;
+        public bool IsChecked { get => isChecked; set => SetProperty(ref isChecked, value); }
+
+        #endregion Extra Properties
+
+        #region DTO
+
+        public class DTO
+        {
+            [Column("EQUIP_NAME")] public string EquipName { get; set; }
+            [Column("IP_ADDRESS")] public string IpAddress { get; set; }
+            [Column("PORT")] public int Port { get; set; }
+            [Column("MIN_TEMP")] public double MinTemp { get; set; }
+            [Column("MAX_TEMP")] public double MaxTemp { get; set; }
+            [Column("IS_ACTIVE")] public string IsActive { get; set; }
+            [Column("LOCATION")] public string Location { get; set; }
+            [Column("CREATE_DATE")] public string CreateDate { get; set; }
+
+            public static Dictionary<string, object> GetChangedColumns(DTO original, DTO current)
+            {
+                var changedColumns = new Dictionary<string, object>();
+                var properties = typeof(DTO).GetProperties();
+
+                foreach (var prop in properties)
+                {
+                    var columnAttr = prop.GetCustomAttribute<ColumnAttribute>();
+                    if (columnAttr is null) continue;
+
+                    object oldVal = prop.GetValue(original);
+                    object newVal = prop.GetValue(current);
+
+                    if (!Equals(oldVal, newVal))
+                    {
+                        changedColumns.Add(columnAttr.Name ?? prop.Name, newVal);
+                    }
+                }
+                return changedColumns;
+            }
+
+            public static DTO Convert(Equipment equip)
+                => new DTO
                 {
                     EquipName = equip.EquipName,
                     IpAddress = equip.IpAddress,
@@ -81,7 +161,24 @@ namespace SmartFactoryMonitor.Model
                     MinTemp = equip.MinTemp,
                     MaxTemp = equip.MaxTemp,
                     Location = equip.Location,
+                    IsActive = equip.IsActive,
+                    CreateDate = equip.CreateDate,
                 };
+
+            public void Apply(Equipment target)
+            {
+                target.EquipName = EquipName;
+                target.IpAddress = IpAddress;
+                target.Port = Port;
+                target.MinTemp = MinTemp;
+                target.MaxTemp = MaxTemp;
+                target.Location = Location;
+                target.IsActive = IsActive;
+            }
         }
+
+        #endregion DTO
+
+        public void RefreshUpdateTime() => OnPropertyChanged(nameof(UpdateTimeTxt));
     }
 }

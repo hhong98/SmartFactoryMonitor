@@ -1,14 +1,18 @@
-﻿using SmartFactoryMonitor.Model;
+﻿using Newtonsoft.Json;
+using SmartFactoryMonitor.Model;
 using SmartFactoryMonitor.Repository;
 using SmartFactoryMonitor.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Media;
 using System.Windows.Threading;
 
 namespace SmartFactoryMonitor.ViewModels
@@ -23,29 +27,128 @@ namespace SmartFactoryMonitor.ViewModels
 
         public ObservableCollection<Equipment> Equipments => _repo.Equipments;
 
+        public ICollectionView FilteredMonitors { get; }
+
         /* 대시보드 요약 */
         public int TotalCount => Equipments.Count;
-        public int ActiveCount => Equipments.Count(e => string.Equals(e.IsActive, "Y"));
-        public int OverHeatCount => Equipments.Count(e => string.Equals(e.IsActive, "Y") && e.Status is "ERROR");
+        public int ActiveCount => Equipments.Count(e => e.IsActive == "Y");
+        public int StableCount => ActiveCount - (WarnCount + DangerCount + DisConnectCount);
+        public int WarnCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "WARN");
+        public int DangerCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "ERROR");
+        public int DisConnectCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "NO DATA");
+
+        public DateTime WorkStart => DateTime.Today.Add(Properties.Settings.Default.WorkStartTime);
+        public DateTime WorkEnd => DateTime.Today.Add(Properties.Settings.Default.WorkEndTime);
+        private DateTime LunchStart => DateTime.Today.Add(Properties.Settings.Default.LunchStartTime);
+        private DateTime LunchEnd => DateTime.Today.Add(Properties.Settings.Default.LunchEndTime);
+
+        public double PlannedTime
+        {
+            get
+            {
+                var workTime = (WorkEnd - WorkStart).TotalMinutes;
+                var lunchTime = (LunchEnd - LunchStart).TotalMinutes;
+                return Math.Max(workTime - lunchTime, 1);
+            }
+        }
+
+        private Equipment selectedMonitor;
+
+        public Equipment SelectedMonitor
+        {
+            get => selectedMonitor;
+            set
+            {
+                if (SetProperty(ref selectedMonitor, value))
+                {
+                    OnPropertyChanged(nameof(FormHeaderTxt));
+                }
+            }
+        }
+
+        public string FormHeaderTxt =>
+            SelectedMonitor is null ? "설비를 선택하세요" :
+            string.IsNullOrEmpty(SelectedMonitor.EquipId) ? "정보 조회 실패" :
+            SelectedMonitor.EquipName;
+
+        private string searchTxt;
+
+        public string SearchTxt
+        {
+            get => searchTxt;
+            set
+            {
+                if (SetProperty(ref searchTxt, value))
+                {
+                    FilteredMonitors.Refresh();
+                }
+            }
+        }
+
+        private string filterOption;
+
+        public string FilterOption
+        {
+            get => filterOption;
+            set
+            {
+                if (SetProperty(ref filterOption, value))
+                {
+                    FilteredMonitors.Refresh();
+                }
+            }
+        }
 
         public MonitoringViewModel(EquipRepository equipRepository, MonitoringService mService)
         {
-            // DB 최신 상태 5초마다 반영
-            refreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
-            refreshTimer.Tick += async (s, e) => await _repo.LoadAll();
+            //임시로 세팅값 초기화하는 경우 사용! (평소에는 주석처리)
+            //Properties.Settings.Default.Reset();
+            //Properties.Settings.Default.Reload();
 
             _repo = equipRepository;
             _mService = mService;
 
-            StartMonitoring();
+            FilteredMonitors = new ListCollectionView(Equipments);
+            FilteredMonitors.Filter = FilterMonitors;
+
+            // DB 최신 상태 5초마다 반영
+            refreshTimer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(5) };
+            refreshTimer.Tick += async (s, e) => await _repo.LoadAll();
+
             // 5초 주기 DB 동기화 및 0.5초 온도 모니터링 루프 가동
+            StartMonitoring();
         }
 
         public void RefreshDashboard()
         {
+            FilteredMonitors?.Refresh();
+
             OnPropertyChanged(nameof(TotalCount));
             OnPropertyChanged(nameof(ActiveCount));
-            OnPropertyChanged(nameof(OverHeatCount));
+            OnPropertyChanged(nameof(StableCount));
+            OnPropertyChanged(nameof(WarnCount));
+            OnPropertyChanged(nameof(DangerCount));
+            OnPropertyChanged(nameof(DisConnectCount));
+        }
+
+        private bool FilterMonitors(object obj)
+        {
+            if (!(obj is Equipment equip)) return false;
+            if (equip.IsActive != "Y") return false;
+
+            bool matchSearch = string.IsNullOrWhiteSpace(SearchTxt) ||
+               equip.EquipName.IndexOf(SearchTxt, StringComparison.OrdinalIgnoreCase) >= 0;
+
+            bool matchStatus = string.IsNullOrWhiteSpace(FilterOption) ||
+                FilterOption is "전체";
+
+            if (!matchStatus)
+            {
+                string status = Common.Utils.ConvertToStatus(FilterOption);
+                matchStatus = equip.Status == status;
+            }
+
+            return matchSearch && matchStatus;
         }
 
         // 설비 온도 모니터링 시작
@@ -61,7 +164,6 @@ namespace SmartFactoryMonitor.ViewModels
             {
                 while (!token.IsCancellationRequested)
                 {
-                    // TODO : 이걸 필드 및 프로퍼티로 만들어도 될 듯
                     var activeEquips = Equipments
                         .Where(e => e.IsActive is "Y")
                         .ToList();
@@ -74,15 +176,26 @@ namespace SmartFactoryMonitor.ViewModels
                         {
                             var info = equipTempInfoList
                                 .FirstOrDefault(info => info.equipId == equip.EquipId);
-                            if (info.equipId is null) throw new Exception("수치를 수집하지 않은 장비입니다 (SIMULATOR)");
+
+                            if (info.equipId is null || info.status is "NO DATA")
+                            {
+                                equip.Status = "NO DATA";
+                                continue;
+                            }
 
                             equip.CurrentTemp = info.temperature;
                             equip.Status = info.status;
+                            equip.LastUpdateTime = info.logTime;
+                            equip.RefreshUpdateTime();
+
+                            if (DateTime.Now > WorkStart && equip.Status != "NO DATA")
+                                UpdateOperatingMetrics(equip);
                         }
 
+                        if (DateTime.Now.Second is 0) SaveCurrentData();
                         RefreshDashboard();
                     }
-                    await Task.Delay(TimeSpan.FromSeconds(0.5), token);
+                    await Task.Delay(TimeSpan.FromSeconds(1), token);
                 }
             }
             catch (OperationCanceledException)
@@ -99,6 +212,54 @@ namespace SmartFactoryMonitor.ViewModels
         public void StopMonitoring()
         {
             _cts?.Cancel();
+        }
+
+        private void UpdateOperatingMetrics(Equipment equip)
+        {
+            equip.TotalRuntime += TimeSpan.FromSeconds(1);
+            equip.OperatingRate = Math.Min(Math.Round(equip.TotalRuntime.TotalMinutes / PlannedTime * 100, 1), 100);
+        }
+
+        public void SaveCurrentData()
+        {
+            try
+            {
+                var data = Equipments.ToDictionary(equip => equip.EquipId, equip => equip.TotalRuntime.TotalSeconds);
+
+                Properties.Settings.Default.SavedRuntimeData = JsonConvert.SerializeObject(data);
+                Properties.Settings.Default.LastSaveDate = DateTime.Today;
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"저장 실패: {ex.Message}");
+            }
+        }
+
+        public void LoadSavedData()
+        {
+            if (Properties.Settings.Default.LastSaveDate.Date != DateTime.Today) return;
+
+            string json = Properties.Settings.Default.SavedRuntimeData;
+            if (string.IsNullOrEmpty(json)) return;
+
+            try
+            {
+                var data = JsonConvert.DeserializeObject<Dictionary<string, double>>(json);
+
+                foreach (var equip in Equipments)
+                {
+                    if (data.ContainsKey(equip.EquipId))
+                    {
+                        equip.TotalRuntime = TimeSpan.FromSeconds(data[equip.EquipId]);
+                    }
+                }
+            }
+            catch
+            {
+                Properties.Settings.Default.SavedRuntimeData = "";
+                Properties.Settings.Default.Save();
+            }
         }
     }
 }

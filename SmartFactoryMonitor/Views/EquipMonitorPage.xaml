@@ -1,15 +1,15 @@
 ﻿<Page
-    x:Class="SmartFactoryMonitor.Views.EquipListPage"
+    x:Class="SmartFactoryMonitor.Views.EquipMonitorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:custom="clr-namespace:SmartFactoryMonitor.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:SmartFactoryMonitor.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:root="clr-namespace:SmartFactoryMonitor"
     x:Name="Root"
-    Title="EquipListPage"
+    Title="EquipMonitor"
     d:DesignHeight="600"
-    d:DesignWidth="975"
+    d:DesignWidth="995"
     DataContext="{StaticResource MainVM}"
     mc:Ignorable="d">
 
@@ -33,7 +33,7 @@
                     VerticalAlignment="Center"
                     FontSize="20"
                     FontWeight="Bold"
-                    Text="설비 관리" />
+                    Text="설비 모니터링" />
                 <StackPanel
                     Grid.Column="1"
                     HorizontalAlignment="Right"
@@ -48,25 +48,10 @@
                         </Style>
                     </StackPanel.Resources>
                     <Button
-                        Background="{StaticResource StatusStableBrush}"
-                        Click="BtnAdd_Click"
-                        Content="추가 "
-                        Foreground="{StaticResource StatusStableTintBrush}" />
-                    <Button
                         Margin="5,0"
                         Background="{StaticResource StatusNoDataBrush}"
                         Content="내보내기"
                         Foreground="{StaticResource StatusNoDataTintBrush}" />
-                    <Button
-                        Width="100"
-                        Height="30"
-                        Background="{StaticResource StatusErrorBrush}"
-                        Click="BtnDelete_Click"
-                        Content="선택 삭제"
-                        Cursor="Hand"
-                        FontWeight="Bold"
-                        Foreground="{StaticResource StatusErrorTintBrush}"
-                        Style="{StaticResource HideWhenPanelOpened}" />
                 </StackPanel>
             </Grid>
             <!--#endregion Content Header-->
@@ -74,22 +59,88 @@
             <!--#region Content Body-->
             <Grid Grid.Row="1">
                 <Grid.RowDefinitions>
+                    <!--  대시보드 요약  -->
+                    <RowDefinition Height="100" />
                     <!--  리스트 필터  -->
                     <RowDefinition Height="50" />
                     <!--  리스트  -->
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
 
+                <!--#region Dashboard Overview-->
+                <Grid Grid.Row="0">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+
+                    <Grid.Resources>
+                        <Style TargetType="{x:Type custom:DashboardCard}">
+                            <Setter Property="Width" Value="120" />
+                            <Setter Property="Height" Value="80" />
+                            <Setter Property="CardMessageSize" Value="30" />
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsPanelOpened}" Value="True">
+                                    <Setter Property="Width" Value="100" />
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </Grid.Resources>
+
+                    <custom:DashboardCard
+                        CardBackgroundColor="White"
+                        CardName="가동 설비"
+                        CardTextColor="Black">
+                        <custom:DashboardCard.CardMessage>
+                            <MultiBinding StringFormat="{}{0}/{1}">
+                                <Binding Path="MonitorVM.ActiveCount" />
+                                <Binding Path="MonitorVM.TotalCount" />
+                            </MultiBinding>
+                        </custom:DashboardCard.CardMessage>
+                    </custom:DashboardCard>
+                    <custom:DashboardCard
+                        Grid.Column="1"
+                        CardBackgroundColor="{StaticResource StatusStableTintBrush}"
+                        CardMessage="{Binding MonitorVM.StableCount}"
+                        CardName="정상"
+                        CardTextColor="{StaticResource StatusStableBrush}" />
+
+                    <custom:DashboardCard
+                        Grid.Column="2"
+                        CardBackgroundColor="{StaticResource StatusWarnTintBrush}"
+                        CardMessage="{Binding MonitorVM.WarnCount}"
+                        CardName="주의"
+                        CardTextColor="{StaticResource StatusWarnBrush}" />
+
+                    <custom:DashboardCard
+                        Grid.Column="3"
+                        CardBackgroundColor="{StaticResource StatusErrorTintBrush}"
+                        CardMessage="{Binding MonitorVM.DangerCount}"
+                        CardName="위험"
+                        CardTextColor="{StaticResource StatusErrorBrush}" />
+
+                    <custom:DashboardCard
+                        Grid.Column="4"
+                        CardBackgroundColor="{StaticResource StatusNoDataTintBrush}"
+                        CardMessage="{Binding MonitorVM.DisConnectCount}"
+                        CardName="연결 끊김"
+                        CardTextColor="{StaticResource StatusNoDataBrush}" />
+                </Grid>
+                <!--#endregion Dashboard Overview-->
+
                 <!--#region Content Filter-->
                 <Border
-                    Grid.Row="0"
+                    Grid.Row="1"
                     BorderBrush="LightGray"
                     BorderThickness="1">
                     <StackPanel Background="White" Orientation="Horizontal">
                         <custom:SearchBox
-                            x:Name="EquipSearchBox"
+                            x:Name="SearchBox"
                             Margin="12,0,0,0"
-                            SearchText="{Binding EquipManageVM.SearchTxt}" />
+                            SearchText="{Binding MonitorVM.SearchTxt}" />
 
                         <!--#region Filter Option-->
                         <custom:OptionComboBox
@@ -98,7 +149,7 @@
                             Margin="5,0"
                             ItemsSource="{Binding FilterOptions, ElementName=Root}"
                             Placeholder="전체"
-                            SelectedOption="{Binding EquipManageVM.FilterOption}" />
+                            SelectedOption="{Binding MonitorVM.FilterOption}" />
                         <!--#endregion Filter Option-->
 
                         <!--#region Panel Toggle-->
@@ -132,11 +183,11 @@
                 <!--#endregion Content Filter-->
 
                 <!--#region Content List-->
-                <Grid Grid.Row="1">
+                <Grid Grid.Row="2">
                     <Grid.RowDefinitions>
-                        <!--  List Header Row  -->
+                        <!--  리스트 헤더  -->
                         <RowDefinition Height="40" />
-                        <!--  List Body Row  -->
+                        <!--  리스트 바디  -->
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
@@ -148,14 +199,14 @@
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3" />
-                                <ColumnDefinition Width="210" />
-                                <ColumnDefinition Width="140" />
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="150" />
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition Width="100" />
                                 <ColumnDefinition>
                                     <ColumnDefinition.Style>
                                         <Style TargetType="ColumnDefinition">
-                                            <Setter Property="Width" Value="80" />
+                                            <Setter Property="Width" Value="100" />
                                             <Style.Triggers>
                                                 <DataTrigger Binding="{Binding IsPanelOpened}" Value="True">
                                                     <Setter Property="Width" Value="0" />
@@ -179,19 +230,19 @@
                                 Grid.Column="1"
                                 Margin="10,0,0,0"
                                 Text="설비명" />
-                            <TextBlock Grid.Column="2" Text="IP 주소" />
+                            <TextBlock Grid.Column="2" Text="위치" />
                             <TextBlock
                                 Grid.Column="3"
                                 HorizontalAlignment="Center"
-                                Text="포트" />
+                                Text="온도" />
                             <TextBlock
                                 Grid.Column="4"
                                 HorizontalAlignment="Center"
-                                Text="사용 유무" />
+                                Text="연결" />
                             <TextBlock
                                 Grid.Column="5"
                                 HorizontalAlignment="Center"
-                                Text="선택" />
+                                Text="수신" />
                         </Grid>
                     </Border>
                     <!--#endregion List Header-->
@@ -203,10 +254,10 @@
                         Background="Transparent"
                         BorderBrush="LightGray"
                         BorderThickness="1"
-                        ItemsSource="{Binding EquipManageVM.FilteredEquipments}"
+                        ItemsSource="{Binding MonitorVM.FilteredMonitors}"
                         ScrollViewer.HorizontalScrollBarVisibility="Disabled"
                         ScrollViewer.VerticalScrollBarVisibility="Auto"
-                        SelectedItem="{Binding EquipManageVM.SelectedEquip}">
+                        SelectedItem="{Binding MonitorVM.SelectedMonitor}">
                         <ListView.ItemContainerStyle>
                             <Style TargetType="ListViewItem">
                                 <Setter Property="Padding" Value="0" />
@@ -217,7 +268,7 @@
 
                         <ListView.ItemTemplate>
                             <DataTemplate>
-                                <custom:EquipListItem />
+                                <custom:EquipMonitorItem />
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>
@@ -230,7 +281,7 @@
         <!--#endregion Main Body-->
 
         <!--#region Side Panel-->
-        <custom:EquipFormPanel x:Name="EquipPanel" />
+        <custom:EquipMonitorPanel x:Name="MonitorPanel" Margin="10,0,0,0" />
         <!--#endregion Side Panel-->
     </StackPanel>
 </Page>

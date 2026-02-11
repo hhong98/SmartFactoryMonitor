@@ -22,36 +22,40 @@ namespace SmartFactoryMonitor.Views
     /// </summary>
     public partial class EquipListPage : Page
     {
+        private MainViewModel mainVM;
+
+        public List<string> FilterOptions => new List<string>
+        {
+            "전체", "사용", "미사용"
+        };
+
         public EquipListPage()
         {
             InitializeComponent();
+
+            mainVM = DataContext is MainViewModel vm
+                ? vm
+                : null;
         }
 
         public async void BtnDelete_Click(object sender, RoutedEventArgs args)
-        {
-            // DataContext 확인 - MainViewModel의 EquipVM 공유
-            if (DataContext is MainViewModel mainVM)
-            {
-                await mainVM.EquipManageVM.DeleteEquip();
-            }
-        }
+            => await mainVM?.EquipManageVM.DeleteSelectedEquips();
 
         public void BtnAdd_Click(object sender, RoutedEventArgs args)
         {
-            if (DataContext is MainViewModel mainVM)
+            if (mainVM is null) return;
+
+            if (mainVM.IsPanelOpened &&
+                mainVM.EquipManageVM.SelectedEquip != null &&
+                mainVM.EquipManageVM.SelectedEquip.EquipId is null)
             {
-                mainVM.IsPanelOpened = !(mainVM.IsPanelOpened is true);
+                mainVM.IsPanelOpened = false;
+                mainVM.EquipManageVM.ClearSelection();
+                return;
             }
-        }
 
-        public void BtnPanelSave_Click(object sender, RoutedEventArgs args)
-        {
-            MessageBox.Show("Saved");
-        }
-
-        public void BtnPaneDelete_Click(object sender, RoutedEventArgs args)
-        {
-            MessageBox.Show("Deleted");
+            mainVM.EquipManageVM.ResetSelection();
+            mainVM.IsPanelOpened = true;
         }
     }
 
