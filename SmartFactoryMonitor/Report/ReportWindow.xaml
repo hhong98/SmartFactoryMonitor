@@ -5,10 +5,10 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:SmartFactoryMonitor.Views"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    Title="ReportWindow"
+    Title="보고서 미리보기"
     Width="600"
     Height="840"
     ResizeMode="CanMinimize"
     mc:Ignorable="d">
-    <Grid x:Name="ReportContent" Margin="20" />
+    <Grid x:Name="ReportContent" />
 </Window>

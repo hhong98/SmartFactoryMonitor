@@ -10,7 +10,10 @@
     d:DesignWidth="580"
     DataContext="{StaticResource MainVM}"
     mc:Ignorable="d">
-    <Border BorderBrush="LightGray" BorderThickness="1">
+    <Border
+        Margin="20"
+        BorderBrush="LightGray"
+        BorderThickness="1">
         <StackPanel Background="{StaticResource MainBackgroundBrush}">
             <TextBlock
                 Margin="20,25,0,0"
@@ -188,12 +191,12 @@
                 <StackPanel Orientation="Vertical">
                     <Grid Background="#E2E6EA">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="110" />
-                            <ColumnDefinition Width="100" />
-                            <ColumnDefinition Width="40" />
-                            <ColumnDefinition Width="120" />
-                            <ColumnDefinition Width="65" />
-                            <ColumnDefinition Width="90" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="50" />
+                            <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
 
                         <Grid.Resources>
