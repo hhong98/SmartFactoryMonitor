@@ -10,5 +10,17 @@
     Height="840"
     ResizeMode="CanMinimize"
     mc:Ignorable="d">
-    <Grid x:Name="ReportContent" />
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <Button Click="BtnPrint_Click" Content="인쇄" />
+            <Button Click="BtnSavePdf_Click" Content="PDF 저장" />
+        </StackPanel>
+
+        <DocumentViewer x:Name="docViewer" Grid.Row="1" />
+    </Grid>
 </Window>

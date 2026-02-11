@@ -6,8 +6,10 @@
     xmlns:local="clr-namespace:SmartFactoryMonitor.Report"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     x:Name="Root"
-    d:DesignHeight="820"
-    d:DesignWidth="580"
+    MaxWidth="794"
+    MaxHeight="1123"
+    d:DesignHeight="1123"
+    d:DesignWidth="794"
     DataContext="{StaticResource MainVM}"
     mc:Ignorable="d">
     <Border
