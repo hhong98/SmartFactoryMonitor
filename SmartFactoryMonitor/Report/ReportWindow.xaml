@@ -10,5 +10,5 @@
     Height="840"
     ResizeMode="CanMinimize"
     mc:Ignorable="d">
-    <Grid x:Name="ReportContent" />
+    <Grid x:Name="ReportContent" Margin="20" />
 </Window>
