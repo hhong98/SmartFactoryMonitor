@@ -97,6 +97,9 @@
       <DependentUpon>SearchBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\SimulatorTempDto.cs" />
+    <Compile Include="Report\EquipListReport.xaml.cs">
+      <DependentUpon>EquipListReport.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Server\Api.cs" />
     <Compile Include="Model\DbResult.cs" />
     <Compile Include="Model\Equipment.cs" />
@@ -143,6 +146,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Controls\SearchBox.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Report\EquipListReport.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
