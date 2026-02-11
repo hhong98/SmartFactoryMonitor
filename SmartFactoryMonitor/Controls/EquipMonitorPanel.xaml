@@ -32,8 +32,15 @@
                     <Setter Property="FontSize" Value="15" />
                     <Setter Property="BorderBrush" Value="{StaticResource TextSecondaryBrush}" />
                     <Setter Property="Margin" Value="12,2" />
-                    <Setter Property="IsEnabled" Value="False" />
-                    <Setter Property="Background" Value="#FFF0F0F0" />
+                    <Setter Property="IsHitTestVisible" Value="False" />
+
+                    <Style.Triggers>
+                        <!--  #FFF0F0F0  -->
+                        <DataTrigger Binding="{Binding MonitorVM.SelectedMonitor}" Value="{x:Null}">
+                            <Setter Property="IsEnabled" Value="False" />
+                            <Setter Property="Background" Value="#FFF0F0F0" />
+                        </DataTrigger>
+                    </Style.Triggers>
                 </Style>
                 <!--#endregion Style-->
             </StackPanel.Resources>
