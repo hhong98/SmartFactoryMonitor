@@ -151,19 +151,6 @@ namespace SmartFactoryMonitor.ViewModels
                         MessageBox.Show($"수정 실패: {result.Message}");
                     }
                     await _repo.LoadAll();
-
-                    // FilteredEquipments.Refresh();
-                    // TODO : MatchEquip 결과에 따라 ListView에서 직접 제외시켜버릴까?
-
-                    bool isFilterActive = !string.IsNullOrWhiteSpace(FilterOption) && FilterOption != "전체";
-
-                    if (isFilterActive)
-                    {
-                        if (!FilteredEquipments.Cast<Equipment>().Any(e => e.EquipId == selectedEquip?.EquipId))
-                        {
-                            ClearSelection();
-                        }
-                    }
                 }
                 catch (Exception ex)
                 {

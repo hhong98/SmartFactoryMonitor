@@ -66,15 +66,10 @@ namespace SmartFactoryMonitor.ViewModels
             }
         }
 
-        public string FormHeaderTxt
-        {
-            get
-            {
-                if (SelectedMonitor is null) return "설비를 선택하세요";
-                if (string.IsNullOrEmpty(SelectedMonitor.EquipId)) return "정보 조회 실패";
-                return SelectedMonitor.EquipName;
-            }
-        }
+        public string FormHeaderTxt =>
+            SelectedMonitor is null ? "설비를 선택하세요" :
+            string.IsNullOrEmpty(SelectedMonitor.EquipId) ? "정보 조회 실패" :
+            SelectedMonitor.EquipName;
 
         private string searchTxt;
 
@@ -182,7 +177,7 @@ namespace SmartFactoryMonitor.ViewModels
                             var info = equipTempInfoList
                                 .FirstOrDefault(info => info.equipId == equip.EquipId);
 
-                            if (info.equipId == null || info.status == "NO DATA")
+                            if (info.equipId is null || info.status is "NO DATA")
                             {
                                 equip.Status = "NO DATA";
                                 continue;
