@@ -148,7 +148,8 @@
                             Height="30"
                             Margin="5,0"
                             ItemsSource="{Binding FilterOptions, ElementName=Root}"
-                            Placeholder="전체" />
+                            Placeholder="전체"
+                            SelectedOption="{Binding MonitorVM.FilterOption}" />
                         <!--#endregion Filter Option-->
 
                         <!--#region Panel Toggle-->

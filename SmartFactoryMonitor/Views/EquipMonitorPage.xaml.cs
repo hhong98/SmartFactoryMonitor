@@ -22,7 +22,7 @@ namespace SmartFactoryMonitor.Views
     {
         public List<string> FilterOptions => new List<string>
         {
-            "정상", "주의", "위험", "연결 끊김"
+            "전체", "정상", "주의", "위험", "연결 끊김"
         };
 
         public EquipMonitorPage()

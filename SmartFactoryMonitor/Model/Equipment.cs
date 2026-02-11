@@ -164,6 +164,17 @@ namespace SmartFactoryMonitor.Model
                     IsActive = equip.IsActive,
                     CreateDate = equip.CreateDate,
                 };
+
+            public void Apply(Equipment target)
+            {
+                target.EquipName = EquipName;
+                target.IpAddress = IpAddress;
+                target.Port = Port;
+                target.MinTemp = MinTemp;
+                target.MaxTemp = MaxTemp;
+                target.Location = Location;
+                target.IsActive = IsActive;
+            }
         }
 
         #endregion DTO

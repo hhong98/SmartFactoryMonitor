@@ -90,6 +90,20 @@ namespace SmartFactoryMonitor.ViewModels
             }
         }
 
+        private string filterOption;
+
+        public string FilterOption
+        {
+            get => filterOption;
+            set
+            {
+                if (SetProperty(ref filterOption, value))
+                {
+                    FilteredMonitors.Refresh();
+                }
+            }
+        }
+
         public MonitoringViewModel(EquipRepository equipRepository, MonitoringService mService)
         {
             //임시로 세팅값 초기화하는 경우 사용! (평소에는 주석처리)
@@ -126,9 +140,20 @@ namespace SmartFactoryMonitor.ViewModels
         {
             if (!(obj is Equipment equip)) return false;
             if (equip.IsActive != "Y") return false;
-            if (string.IsNullOrWhiteSpace(SearchTxt)) return true;
 
-            return equip.EquipName.IndexOf(SearchTxt, StringComparison.OrdinalIgnoreCase) >= 0;
+            bool matchSearch = string.IsNullOrWhiteSpace(SearchTxt) ||
+               equip.EquipName.IndexOf(SearchTxt, StringComparison.OrdinalIgnoreCase) >= 0;
+
+            bool matchStatus = string.IsNullOrWhiteSpace(FilterOption) ||
+                FilterOption is "전체";
+
+            if (!matchStatus)
+            {
+                string status = Common.Utils.ConvertToStatus(FilterOption);
+                matchStatus = equip.Status == status;
+            }
+
+            return matchSearch && matchStatus;
         }
 
         // 설비 온도 모니터링 시작

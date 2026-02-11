@@ -43,7 +43,7 @@ namespace SmartFactoryMonitor.Controls
                 "SelectedOption",
                 typeof(string),
                 typeof(OptionComboBox),
-                new PropertyMetadata(null));
+               new FrameworkPropertyMetadata(null, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
 
         public object SelectedOption
         {

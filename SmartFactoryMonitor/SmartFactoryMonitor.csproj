@@ -71,7 +71,7 @@
     <Compile Include="Common\ActiveConverter.cs" />
     <Compile Include="Common\RateToBrushConverter.cs" />
     <Compile Include="Common\StatusToBrushConverter.cs" />
-    <Compile Include="Common\StatusConverter.cs" />
+    <Compile Include="Common\Utils.cs" />
     <Compile Include="Controls\DashboardCard.xaml.cs">
       <DependentUpon>DashboardCard.xaml</DependentUpon>
     </Compile>

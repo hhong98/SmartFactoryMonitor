@@ -30,8 +30,9 @@ namespace SmartFactoryMonitor.ViewModels
             {
                 if (SetProperty(ref selectedEquip, value))
                 {
-                    if (value != null)
-                        EditingEquip = Equipment.DTO.Convert(value);
+                    EditingEquip = value is null
+                        ? null
+                        : Equipment.DTO.Convert(value);
 
                     OnPropertyChanged(nameof(FormHeaderTxt));
                 }
@@ -46,15 +47,10 @@ namespace SmartFactoryMonitor.ViewModels
             set => SetProperty(ref editingEquip, value);
         }
 
-        public string FormHeaderTxt
-        {
-            get
-            {
-                if (SelectedEquip is null) return "설비를 선택하세요";
-                if (string.IsNullOrEmpty(SelectedEquip.EquipId)) return "새로운 설비 등록";
-                return SelectedEquip.EquipName;
-            }
-        }
+        public string FormHeaderTxt =>
+            SelectedEquip is null ? "설비를 선택하세요" :
+            string.IsNullOrEmpty(SelectedEquip.EquipId) ? "새로운 설비 등록" :
+            SelectedEquip.EquipName;
 
         private string searchTxt;
 
@@ -70,13 +66,27 @@ namespace SmartFactoryMonitor.ViewModels
             }
         }
 
+        private string filterOption;
+
+        public string FilterOption
+        {
+            get => filterOption;
+            set
+            {
+                if (SetProperty(ref filterOption, value))
+                {
+                    FilteredEquipments.Refresh();
+                }
+            }
+        }
+
         public EquipManageViewModel(EquipRepository equipRepository, EquipService eService)
         {
             _repo = equipRepository;
             _eService = eService;
 
             FilteredEquipments = new ListCollectionView(Equipments);
-            FilteredEquipments.Filter = FilterEquips;
+            FilteredEquipments.Filter = FilterEquip;
         }
 
         #region Equipment Add, Update, Delete
@@ -132,13 +142,28 @@ namespace SmartFactoryMonitor.ViewModels
                     if (result.IsSuccess)
                     {
                         MessageBox.Show("수정 성공했습니다");
+
+                        editingEquip.Apply(selectedEquip);
+                        FilteredEquipments.Refresh();
                     }
                     else
                     {
                         MessageBox.Show($"수정 실패: {result.Message}");
                     }
-
                     await _repo.LoadAll();
+
+                    // FilteredEquipments.Refresh();
+                    // TODO : MatchEquip 결과에 따라 ListView에서 직접 제외시켜버릴까?
+
+                    bool isFilterActive = !string.IsNullOrWhiteSpace(FilterOption) && FilterOption != "전체";
+
+                    if (isFilterActive)
+                    {
+                        if (!FilteredEquipments.Cast<Equipment>().Any(e => e.EquipId == selectedEquip?.EquipId))
+                        {
+                            ClearSelection();
+                        }
+                    }
                 }
                 catch (Exception ex)
                 {
@@ -263,12 +288,28 @@ namespace SmartFactoryMonitor.ViewModels
             EditingEquip = null;
         }
 
-        private bool FilterEquips(object obj)
+        private bool FilterEquip(object obj)
         {
             if (!(obj is Equipment equip)) return false;
-            if (string.IsNullOrWhiteSpace(SearchTxt)) return true;
 
-            return equip.EquipName.IndexOf(SearchTxt, StringComparison.OrdinalIgnoreCase) >= 0;
+            return MatchEquip(equip);
+        }
+
+        private bool MatchEquip(Equipment equip)
+        {
+            bool matchSearch = string.IsNullOrWhiteSpace(SearchTxt) ||
+              equip.EquipName.IndexOf(SearchTxt, StringComparison.OrdinalIgnoreCase) >= 0;
+
+            bool matchActive = string.IsNullOrWhiteSpace(FilterOption) ||
+                FilterOption is "전체";
+
+            if (!matchActive)
+            {
+                string isActive = Common.Utils.ConvertToActive(FilterOption);
+                matchActive = equip.IsActive == isActive;
+            }
+
+            return matchSearch && matchActive;
         }
 
         public bool ValidateForm(out string errorMessage)

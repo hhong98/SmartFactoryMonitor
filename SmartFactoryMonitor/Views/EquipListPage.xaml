@@ -97,7 +97,8 @@
                             Height="30"
                             Margin="5,0"
                             ItemsSource="{Binding FilterOptions, ElementName=Root}"
-                            Placeholder="전체" />
+                            Placeholder="전체"
+                            SelectedOption="{Binding EquipManageVM.FilterOption}" />
                         <!--#endregion Filter Option-->
 
                         <!--#region Panel Toggle-->
@@ -133,9 +134,9 @@
                 <!--#region Content List-->
                 <Grid Grid.Row="1">
                     <Grid.RowDefinitions>
-                        <!--  리스트 헤더  -->
+                        <!--  List Header Row  -->
                         <RowDefinition Height="40" />
-                        <!--  리스트 바디  -->
+                        <!--  List Body Row  -->
                         <RowDefinition Height="*" />
                     </Grid.RowDefinitions>
 
