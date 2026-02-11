@@ -55,6 +55,7 @@
                     <Button
                         Margin="5,0"
                         Background="{StaticResource StatusNoDataBrush}"
+                        Click="Export_Click"
                         Content="내보내기"
                         Foreground="{StaticResource StatusNoDataTintBrush}" />
                     <Button

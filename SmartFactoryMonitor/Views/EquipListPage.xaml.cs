@@ -57,6 +57,10 @@ namespace SmartFactoryMonitor.Views
             mainVM.EquipManageVM.ResetSelection();
             mainVM.IsPanelOpened = true;
         }
+
+        private void Export_Click(object sender, RoutedEventArgs e)
+        {
+        }
     }
 
     /*
