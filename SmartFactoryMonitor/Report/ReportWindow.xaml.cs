@@ -10,19 +10,16 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 namespace SmartFactoryMonitor.Report
 {
     /// <summary>
-    /// Interaction logic for EquipListReport.xaml
+    /// Interaction logic for ReportWindow.xaml
     /// </summary>
-    public partial class EquipListReport : UserControl
+    public partial class ReportWindow : Window
     {
-        public DateTime Now => DateTime.Now;
-
-        public EquipListReport()
+        public ReportWindow()
         {
             InitializeComponent();
         }

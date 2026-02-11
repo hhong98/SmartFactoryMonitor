@@ -188,7 +188,7 @@
                             <TextBlock
                                 Grid.Column="4"
                                 HorizontalAlignment="Center"
-                                Text="사용 유무" />
+                                Text="가동" />
                             <TextBlock
                                 Grid.Column="5"
                                 HorizontalAlignment="Center"

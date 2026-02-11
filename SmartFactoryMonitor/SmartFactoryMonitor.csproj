@@ -117,6 +117,9 @@
     <Compile Include="Views\EquipMonitorPage.xaml.cs">
       <DependentUpon>EquipMonitorPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Report\ReportWindow.xaml.cs">
+      <DependentUpon>ReportWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="Controls\DashboardCard.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -178,6 +181,10 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Views\EquipMonitorPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Report\ReportWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

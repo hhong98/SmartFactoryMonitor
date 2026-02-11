@@ -20,6 +20,10 @@ namespace SmartFactoryMonitor.ViewModels
 
         public ObservableCollection<Equipment> Equipments => _repo.Equipments;
         public ICollectionView FilteredEquipments { get; }
+        public IEnumerable<Equipment> ActiveEquipments =>
+            Equipments.Where(e => e.IsActive is "Y");
+        public IEnumerable<Equipment> InactiveEquipments =>
+            Equipments.Where(e => e.IsActive is "N");
 
         private Equipment selectedEquip;
 
