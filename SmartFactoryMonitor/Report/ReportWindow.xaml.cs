@@ -20,29 +20,23 @@ namespace SmartFactoryMonitor.Report
     /// </summary>
     public partial class ReportWindow : Window
     {
-        public ReportWindow(UserControl report)
+        public ReportWindow(IReportGenerator generator)
         {
             InitializeComponent();
 
-            LoadReport(report);
+            docReader.Document = generator.GenerateDocument();
         }
 
-        private void LoadReport(UserControl report)
+        private void BtnPrintClick(object sender, RoutedEventArgs e)
         {
-            FixedDocument fixedDoc = new FixedDocument();
-            fixedDoc.DocumentPaginator.PageSize = new Size(794, 1123); // A4 사이즈
+            // TODO : Print Dialog 띄우기
+            MessageBox.Show("출력이 완료되었습니다");
+        }
 
-            FixedPage fixedPage = new FixedPage { Width = 794, Height = 1123 };
-
-            report.Width = 794;
-            report.Height = 1123;
-            fixedPage.Children.Add(report);
-
-            PageContent content = new PageContent();
-            ((IAddChild)content).AddChild(fixedPage);
-            fixedDoc.Pages.Add(content);
-
-            docViewer.Document = fixedDoc;
+        private void BtnSavePdf_Click(object sender, RoutedEventArgs e)
+        {
+            // TODO : File Dialog 띄우기
+            MessageBox.Show("PDF가 저장되었습니다");
         }
     }
 }

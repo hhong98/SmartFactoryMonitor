@@ -62,8 +62,11 @@ namespace SmartFactoryMonitor.Views
 
         private void Export_Click(object sender, RoutedEventArgs e)
         {
-            // 실제 출력(A4) : 794 x 1123
-            var reportWin = new ReportWindow(new EquipListReport());
+            var generator = new EquipReportGenerator(
+                mainVM.EquipManageVM.ActiveEquipments.ToList(),
+                mainVM.EquipManageVM.InactiveEquipments.ToList());
+
+            var reportWin = new ReportWindow(generator);
             reportWin.WindowStartupLocation = WindowStartupLocation.CenterScreen;
             reportWin.Show();
         }

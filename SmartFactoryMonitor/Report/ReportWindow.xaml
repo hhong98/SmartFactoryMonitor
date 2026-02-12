@@ -17,10 +17,13 @@
         </Grid.RowDefinitions>
 
         <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Click="BtnPrint_Click" Content="인쇄" />
+            <Button Click="BtnPrintClick" Content="출력" />
             <Button Click="BtnSavePdf_Click" Content="PDF 저장" />
         </StackPanel>
 
-        <DocumentViewer x:Name="docViewer" Grid.Row="1" />
+        <FlowDocumentReader
+            x:Name="docReader"
+            Grid.Row="1"
+            ViewingMode="Scroll" />
     </Grid>
 </Window>

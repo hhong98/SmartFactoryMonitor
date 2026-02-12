@@ -100,6 +100,9 @@
     <Compile Include="Report\EquipListReport.xaml.cs">
       <DependentUpon>EquipListReport.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Report\EquipReportGenerator.cs" />
+    <Compile Include="Report\IReportGenerator.cs" />
+    <Compile Include="Report\ReportStlyer.cs" />
     <Compile Include="Server\Api.cs" />
     <Compile Include="Model\DbResult.cs" />
     <Compile Include="Model\Equipment.cs" />
