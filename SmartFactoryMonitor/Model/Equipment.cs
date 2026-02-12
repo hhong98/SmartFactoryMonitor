@@ -98,7 +98,7 @@ namespace SmartFactoryMonitor.Model
         }
 
         public string ReportUpdateTimeTxt
-            => LastUpdateTime == default ? "-" : LastUpdateTime.ToString("MM-dd HH:mm");
+            => LastUpdateTime == default ? "-" : LastUpdateTime.ToString("MM-dd HH:mm:ss");
 
         private TimeSpan totalRuntime;
 

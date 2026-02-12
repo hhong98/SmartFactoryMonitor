@@ -182,6 +182,7 @@ namespace SmartFactoryMonitor.ViewModels
                             if (info.equipId is null || info.status is "NO DATA")
                             {
                                 equip.Status = "NO DATA";
+                                equip.LastUpdateTime = info.logTime;
                                 continue;
                             }
 

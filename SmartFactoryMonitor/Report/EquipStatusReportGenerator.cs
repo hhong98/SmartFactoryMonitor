@@ -26,10 +26,10 @@ namespace SmartFactoryMonitor.Report
 
         protected override void CreateBody(FlowDocument doc)
         {
-            doc.Blocks.Add(ReportStlyer.CreateSectionHeader("가동현황 요약"));
+            doc.Blocks.Add(ReportStlyer.CreateSectionHeader("[가동현황 요약]"));
             doc.Blocks.Add(CreateDashboardSection());
 
-            doc.Blocks.Add(ReportStlyer.CreateSectionHeader("상세 가동 내역"));
+            doc.Blocks.Add(ReportStlyer.CreateSectionHeader("[상세 가동 내역]"));
             doc.Blocks.Add(CreateStatusTable());
         }
 
@@ -37,7 +37,8 @@ namespace SmartFactoryMonitor.Report
         {
             Table table = new Table()
             {
-                CellSpacing = 10
+                CellSpacing = 10,
+                Margin = new Thickness(0, 5, 0, 5)
             };
             table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
             table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
@@ -50,9 +51,9 @@ namespace SmartFactoryMonitor.Report
                 "가동 현황",
                 $"총 가동 설비: {statusList.Count}대",
                 $"정상: {statusList.Where(s => s.Status is "STABLE").Count()} / "
-                    + $"주의: {statusList.Where(s => s.Status is "WARN").Count()}&#x0a;"
+                    + $"주의: {statusList.Where(s => s.Status is "WARN").Count()} / "
                     + $"위험: {statusList.Where(s => s.Status is "ERROR").Count()} / "
-                    + $"연결 x: {statusList.Where(s => s.Status is "NO DATA").Count()})");
+                    + $"연결 x: {statusList.Where(s => s.Status is "NO DATA").Count()}");
             row.Cells.Add(new TableCell(new BlockUIContainer(leftBox)));
 
             // 오른쪽 박스 : 전체 평균 가동률
@@ -77,7 +78,8 @@ namespace SmartFactoryMonitor.Report
             {
                 CellSpacing = 0,
                 BorderBrush = Brushes.LightGray,
-                BorderThickness = new Thickness(0, 1, 0, 1)
+                BorderThickness = new Thickness(0, 1, 0, 1),
+                Margin = new Thickness(0, 10, 0, 0)
             };
 
             // 열 비율 설정
@@ -108,13 +110,13 @@ namespace SmartFactoryMonitor.Report
                 TableRow row = new TableRow();
 
                 // 설비명 + 위치 (2줄)
-                row.Cells.Add(ReportStlyer.CreateMultiLineCell(status.EquipName, status.Location, true));
+                row.Cells.Add(ReportStlyer.CreateMultiLineCell(status.EquipName, $"({status.Location})", true));
 
                 // 통신상태 + 시간
                 string connection = string.Equals(status.Status, "NO DATA") ? "○ 끊김" : "● 정상";
                 row.Cells.Add(ReportStlyer.CreateMultiLineCell(
                     connection,
-                    status.ReportUpdateTimeTxt,
+                    $"({status.ReportUpdateTimeTxt})",
                     false,
                     string.Equals(status.Status, "NO DATA") ? Brushes.Red : Brushes.Green));
 

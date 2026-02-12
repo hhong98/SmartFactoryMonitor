@@ -62,7 +62,7 @@ namespace SmartFactoryMonitor.Report
             Paragraph p = new Paragraph(new Run(text));
             p.TextAlignment = align;
             p.FontWeight = FontWeights.Bold;
-            p.FontSize = 11;
+            p.FontSize = 13;
             p.Foreground = (SolidColorBrush)Application.Current.TryFindResource("TextSecondaryBrush")
                 ?? Brushes.White;
             p.Margin = new Thickness(0);
@@ -82,7 +82,7 @@ namespace SmartFactoryMonitor.Report
             Paragraph p = new Paragraph(new Run(text));
             p.TextAlignment = align;
             p.FontWeight = FontWeights.SemiBold;
-            p.FontSize = 10;
+            p.FontSize = 13;
             p.Foreground = Brushes.Black;
             p.Margin = new Thickness(0);
 
@@ -102,7 +102,7 @@ namespace SmartFactoryMonitor.Report
             panel.Children.Add(new TextBlock
             {
                 Text = mainText,
-                FontSize = 11,
+                FontSize = 13,
                 FontWeight = mainBold ? FontWeights.Bold : FontWeights.Normal,
                 Foreground = mainColor ?? Brushes.Black,
                 HorizontalAlignment = HorizontalAlignment.Center,
@@ -113,8 +113,8 @@ namespace SmartFactoryMonitor.Report
             panel.Children.Add(new TextBlock
             {
                 Text = subText,
-                FontSize = 10,
-                Foreground = Brushes.Gray,
+                FontSize = 11,
+                Foreground = Brushes.Black,
                 HorizontalAlignment = HorizontalAlignment.Center
             });
 
@@ -128,7 +128,10 @@ namespace SmartFactoryMonitor.Report
 
         public static Border CreateSummaryBox(string title, string content, string subContent = "", bool isHighlight = false)
         {
-            StackPanel panel = new StackPanel();
+            StackPanel panel = new StackPanel()
+            {
+                VerticalAlignment = VerticalAlignment.Center
+            };
 
             // 제목
             panel.Children.Add(new TextBlock
@@ -136,7 +139,7 @@ namespace SmartFactoryMonitor.Report
                 Text = title,
                 FontWeight = FontWeights.Bold,
                 FontSize = 14,
-                Margin = new Thickness(0, 0, 0, 10),
+                Margin = new Thickness(0, 0, 0, 5),
                 HorizontalAlignment = HorizontalAlignment.Center
             });
 
@@ -144,7 +147,7 @@ namespace SmartFactoryMonitor.Report
             panel.Children.Add(new TextBlock
             {
                 Text = content,
-                FontSize = isHighlight ? 30 : 22,
+                FontSize = isHighlight ? 25 : 23,
                 FontWeight = FontWeights.Bold,
                 Foreground = Brushes.Black,
                 HorizontalAlignment = HorizontalAlignment.Center
@@ -157,8 +160,8 @@ namespace SmartFactoryMonitor.Report
                 {
                     Text = subContent,
                     FontSize = 12,
-                    Foreground = Brushes.Gray,
-                    Margin = new Thickness(0, 5, 0, 0),
+                    Foreground = Brushes.Black,
+                    Margin = new Thickness(0, 2, 0, 0),
                     HorizontalAlignment = HorizontalAlignment.Center
                 });
             }
@@ -166,10 +169,12 @@ namespace SmartFactoryMonitor.Report
             // 모서리
             return new Border
             {
-                Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F8F9FA")),
+                Background = Brushes.LightGray,
                 CornerRadius = new CornerRadius(12),
-                Padding = new Thickness(20),
-                Margin = new Thickness(5)
+                Padding = new Thickness(10),
+                Margin = new Thickness(0),
+                Height = 100,
+                Child = panel
             };
         }
     }
