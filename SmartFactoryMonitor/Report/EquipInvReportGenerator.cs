@@ -57,11 +57,11 @@ namespace SmartFactoryMonitor.Report
             // Grid Width="*"  -> new GridLength(1, GridUnitType.Star)
             // Grid Width="50" -> new GridLength(50)
             // 열 비율 설정
+            table.Columns.Add(new TableColumn { Width = new GridLength(1.3, GridUnitType.Star) });
+            table.Columns.Add(new TableColumn { Width = new GridLength(1.2, GridUnitType.Star) });
+            table.Columns.Add(new TableColumn { Width = new GridLength(0.5, GridUnitType.Star) });
             table.Columns.Add(new TableColumn { Width = new GridLength(1.5, GridUnitType.Star) });
             table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
-            table.Columns.Add(new TableColumn { Width = new GridLength(0.5, GridUnitType.Star) });
-            table.Columns.Add(new TableColumn { Width = new GridLength(1.5, GridUnitType.Star) });
-            table.Columns.Add(new TableColumn { Width = new GridLength(0.5, GridUnitType.Star) });
             table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
 
             // 헤더 행
@@ -75,7 +75,7 @@ namespace SmartFactoryMonitor.Report
             headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("IP 주소", TextAlignment.Left));
             headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("포트"));
             headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("설치 위치"));
-            headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("가동"));
+            headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("등록일"));
             headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("비고"));
 
             headerGroup.Rows.Add(headerRow);
@@ -91,7 +91,8 @@ namespace SmartFactoryMonitor.Report
                 row.Cells.Add(ReportStlyer.CreateDataCell(item.IpAddress, TextAlignment.Left));
                 row.Cells.Add(ReportStlyer.CreateDataCell(item.Port.ToString()));
                 row.Cells.Add(ReportStlyer.CreateDataCell(item.Location));
-                row.Cells.Add(ReportStlyer.CreateDataCell(item.IsActive));
+                row.Cells.Add(ReportStlyer.CreateDataCell(
+                    DateTime.Parse(item.CreateDate).ToString("yyyy-MM-dd\nHH:mm")));
                 row.Cells.Add(ReportStlyer.CreateDataCell(""));
 
                 dataGroup.Rows.Add(row);
