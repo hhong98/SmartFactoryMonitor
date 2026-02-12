@@ -1,4 +1,5 @@
 ﻿using SmartFactoryMonitor.Model;
+using SmartFactoryMonitor.Report;
 using SmartFactoryMonitor.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
@@ -56,6 +58,17 @@ namespace SmartFactoryMonitor.Views
 
             mainVM.EquipManageVM.ResetSelection();
             mainVM.IsPanelOpened = true;
+        }
+
+        private void Export_Click(object sender, RoutedEventArgs e)
+        {
+            var generator = new EquipInvReportGenerator(
+                mainVM.EquipManageVM.ActiveEquipments.ToList(),
+                mainVM.EquipManageVM.InactiveEquipments.ToList());
+
+            var reportWin = new ReportWindow(generator);
+            reportWin.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            reportWin.Show();
         }
     }
 

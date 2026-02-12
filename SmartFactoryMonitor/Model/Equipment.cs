@@ -84,7 +84,7 @@ namespace SmartFactoryMonitor.Model
             }
         }
 
-        public string UpdateTimeTxt
+        public string ListUpdateTimeTxt
         {
             get
             {
@@ -96,6 +96,9 @@ namespace SmartFactoryMonitor.Model
                 return LastUpdateTime.ToString("MM-dd HH:mm");
             }
         }
+
+        public string ReportUpdateTimeTxt
+            => LastUpdateTime == default ? "-" : LastUpdateTime.ToString("MM-dd HH:mm:ss");
 
         private TimeSpan totalRuntime;
 
@@ -179,6 +182,6 @@ namespace SmartFactoryMonitor.Model
 
         #endregion DTO
 
-        public void RefreshUpdateTime() => OnPropertyChanged(nameof(UpdateTimeTxt));
+        public void RefreshUpdateTime() => OnPropertyChanged(nameof(ListUpdateTimeTxt));
     }
 }

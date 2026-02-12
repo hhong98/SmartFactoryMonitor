@@ -55,6 +55,7 @@
                     <Button
                         Margin="5,0"
                         Background="{StaticResource StatusNoDataBrush}"
+                        Click="Export_Click"
                         Content="내보내기"
                         Foreground="{StaticResource StatusNoDataTintBrush}" />
                     <Button
@@ -187,7 +188,7 @@
                             <TextBlock
                                 Grid.Column="4"
                                 HorizontalAlignment="Center"
-                                Text="사용 유무" />
+                                Text="가동" />
                             <TextBlock
                                 Grid.Column="5"
                                 HorizontalAlignment="Center"

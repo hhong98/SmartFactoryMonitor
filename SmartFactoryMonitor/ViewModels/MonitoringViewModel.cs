@@ -31,11 +31,13 @@ namespace SmartFactoryMonitor.ViewModels
 
         /* 대시보드 요약 */
         public int TotalCount => Equipments.Count;
-        public int ActiveCount => Equipments.Count(e => e.IsActive == "Y");
+        public int ActiveCount => Equipments.Count(e => e.IsActive is "Y");
+        public int InActiveCount => Equipments.Count(e => e.IsActive is "N");
+
         public int StableCount => ActiveCount - (WarnCount + DangerCount + DisConnectCount);
-        public int WarnCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "WARN");
-        public int DangerCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "ERROR");
-        public int DisConnectCount => Equipments.Count(e => e.IsActive == "Y" && e.Status == "NO DATA");
+        public int WarnCount => Equipments.Count(e => e.IsActive is "Y" && e.Status is "WARN");
+        public int DangerCount => Equipments.Count(e => e.IsActive is "Y" && e.Status is "ERROR");
+        public int DisConnectCount => Equipments.Count(e => e.IsActive is "Y" && e.Status is "NO DATA");
 
         public DateTime WorkStart => DateTime.Today.Add(Properties.Settings.Default.WorkStartTime);
         public DateTime WorkEnd => DateTime.Today.Add(Properties.Settings.Default.WorkEndTime);
@@ -180,6 +182,7 @@ namespace SmartFactoryMonitor.ViewModels
                             if (info.equipId is null || info.status is "NO DATA")
                             {
                                 equip.Status = "NO DATA";
+                                equip.LastUpdateTime = info.logTime;
                                 continue;
                             }
 
