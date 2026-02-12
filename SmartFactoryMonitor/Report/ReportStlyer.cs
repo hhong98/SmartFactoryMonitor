@@ -34,6 +34,7 @@ namespace SmartFactoryMonitor.Report
             p.FontSize = 30;
             p.FontWeight = FontWeights.Bold;
             p.TextAlignment = TextAlignment.Left;
+            p.Margin = new Thickness(0);
 
             return p;
         }
@@ -50,7 +51,7 @@ namespace SmartFactoryMonitor.Report
                 ?? Brushes.DarkBlue;
 
             p.Padding = new Thickness(5);
-            p.Margin = new Thickness(0, 20, 0, 5);
+            p.Margin = new Thickness(0);
 
             return p;
         }

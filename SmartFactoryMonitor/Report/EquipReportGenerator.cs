@@ -29,7 +29,12 @@ namespace SmartFactoryMonitor.Report
 
             // 2. 제목
             doc.Blocks.Add(ReportStlyer.CreateTitle("설비 보유현황 보고서"));
-            doc.Blocks.Add(new BlockUIContainer(new Separator()));
+            doc.Blocks.Add(new BlockUIContainer(new Separator()
+            {
+                Margin = new Thickness(0, 5, 0, 0),
+                Background = (SolidColorBrush)Application.Current.TryFindResource("TextSecondaryBrush")
+                            ?? Brushes.Gray
+            }));
 
             // -------------------------------------------------------
             // 3. 메타 정보
@@ -39,6 +44,7 @@ namespace SmartFactoryMonitor.Report
             metaInfo.FontSize = 13;
             metaInfo.FontWeight = FontWeights.SemiBold;
             metaInfo.LineHeight = 20;
+            metaInfo.Margin = new Thickness(0, 10, 0, 20);
 
             string date = DateTime.Now.ToString("yyyy년 MM월 dd일 HH mm분");
             metaInfo.Inlines.Add(new Run($"출력 일시: {date}"));
