@@ -30,7 +30,16 @@ namespace SmartFactoryMonitor.Report
         private void BtnPrintClick(object sender, RoutedEventArgs e)
         {
             // TODO : Print Dialog 띄우기
-            MessageBox.Show("출력이 완료되었습니다");
+            PrintDialog printDialog = new PrintDialog();
+
+            if (printDialog.ShowDialog() is true)
+            {
+                IDocumentPaginatorSource idp = docReader.Document as IDocumentPaginatorSource;
+                if (idp is null) { MessageBox.Show("올바르지 않는 형식입니다\n다시 시도하세요"); return; }
+
+                printDialog.PrintDocument(idp.DocumentPaginator, "Smart Factory Report");
+                MessageBox.Show("출력이 요청되었습니다");
+            }
         }
 
         private void BtnSavePdf_Click(object sender, RoutedEventArgs e)

@@ -62,7 +62,7 @@ namespace SmartFactoryMonitor.Views
 
         private void Export_Click(object sender, RoutedEventArgs e)
         {
-            var generator = new EquipReportGenerator(
+            var generator = new EquipInvReportGenerator(
                 mainVM.EquipManageVM.ActiveEquipments.ToList(),
                 mainVM.EquipManageVM.InactiveEquipments.ToList());
 

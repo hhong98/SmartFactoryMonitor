@@ -97,7 +97,9 @@
       <DependentUpon>SearchBox.xaml</DependentUpon>
     </Compile>
     <Compile Include="Model\SimulatorTempDto.cs" />
-    <Compile Include="Report\EquipReportGenerator.cs" />
+    <Compile Include="Report\BaseReportGenerator.cs" />
+    <Compile Include="Report\EquipInvReportGenerator.cs" />
+    <Compile Include="Report\EquipStatusReportGenerator.cs" />
     <Compile Include="Report\IReportGenerator.cs" />
     <Compile Include="Report\ReportStlyer.cs" />
     <Compile Include="Server\Api.cs" />

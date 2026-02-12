@@ -1,4 +1,6 @@
-﻿using System;
+﻿using SmartFactoryMonitor.Report;
+using SmartFactoryMonitor.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -20,6 +22,8 @@ namespace SmartFactoryMonitor.Views
     /// </summary>
     public partial class EquipMonitorPage : Page
     {
+        private MainViewModel mainVM;
+
         public List<string> FilterOptions => new List<string>
         {
             "전체", "정상", "주의", "위험", "연결 끊김"
@@ -28,6 +32,22 @@ namespace SmartFactoryMonitor.Views
         public EquipMonitorPage()
         {
             InitializeComponent();
+
+            mainVM = DataContext is MainViewModel vm
+                ? vm
+                : null;
+        }
+
+        private void Export_Click(object sender, RoutedEventArgs e)
+        {
+            if (mainVM is null) return;
+
+            var generator = new EquipStatusReportGenerator(
+                mainVM.EquipManageVM.ActiveEquipments.ToList());
+
+            var reportWin = new ReportWindow(generator);
+            reportWin.WindowStartupLocation = WindowStartupLocation.CenterScreen;
+            reportWin.Show();
         }
     }
 }
