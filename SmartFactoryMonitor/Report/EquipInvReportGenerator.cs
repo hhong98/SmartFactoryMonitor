@@ -57,11 +57,11 @@ namespace SmartFactoryMonitor.Report
             // Grid Width="*"  -> new GridLength(1, GridUnitType.Star)
             // Grid Width="50" -> new GridLength(50)
             // 열 비율 설정
+            table.Columns.Add(new TableColumn { Width = new GridLength(1.5, GridUnitType.Star) });
             table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
-            table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
-            table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
-            table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
-            table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
+            table.Columns.Add(new TableColumn { Width = new GridLength(0.5, GridUnitType.Star) });
+            table.Columns.Add(new TableColumn { Width = new GridLength(1.5, GridUnitType.Star) });
+            table.Columns.Add(new TableColumn { Width = new GridLength(0.5, GridUnitType.Star) });
             table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
 
             // 헤더 행
