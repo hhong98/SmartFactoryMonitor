@@ -16,9 +16,22 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <StackPanel Grid.Row="0" Orientation="Horizontal">
-            <Button Click="BtnPrintClick" Content="출력" />
-            <Button Click="BtnSavePdf_Click" Content="PDF 저장" />
+        <StackPanel
+            Grid.Row="0"
+            Margin="0,0,0,5"
+            HorizontalAlignment="Right"
+            Orientation="Horizontal">
+            <Button
+                Width="35"
+                Height="35"
+                HorizontalContentAlignment="Center"
+                VerticalContentAlignment="Center"
+                Background="Transparent"
+                BorderThickness="0"
+                Click="BtnPrintClick"
+                Content="🖨"
+                Cursor="Hand"
+                FontSize="25" />
         </StackPanel>
 
         <FlowDocumentReader
