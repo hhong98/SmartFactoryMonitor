@@ -13,59 +13,64 @@ namespace SmartFactoryMonitor.Report
     public class ReportStlyer
     {
         public static FlowDocument CreateReportBase()
-        {
-            FlowDocument doc = new FlowDocument();
+            => new FlowDocument
+            {
+                // A4 사이즈
+                PageWidth = 794,
+                PageHeight = 1123,
+                //ColumnWidth = double.PositiveInfinity,
+                //ColumnWidth = 734,
+                ColumnWidth = double.NaN,
+                FontFamily = new FontFamily("Malgun Gothic"),
 
-            // A4 사이즈
-            doc.PageWidth = 794;
-            doc.PageHeight = 1123;
-            doc.ColumnWidth = double.PositiveInfinity;
-            doc.FontFamily = new FontFamily("Malgun Gothic");
-
-            doc.PagePadding = new Thickness(30);
-            doc.Background = (SolidColorBrush)Application.Current.TryFindResource("MainBackgroundBrush")
-                ?? Brushes.Gray;
-
-            return doc;
-        }
+                PagePadding = new Thickness(30),
+                Background = (SolidColorBrush)Application.Current.TryFindResource("MainBackgroundBrush")
+                    ?? Brushes.Gray
+            };
 
         public static Paragraph CreateTitle(string text)
         {
-            Paragraph p = new Paragraph(new Run(text));
-            p.FontSize = 30;
-            p.FontWeight = FontWeights.Bold;
-            p.TextAlignment = TextAlignment.Left;
-            p.Margin = new Thickness(0);
+            Paragraph p = new Paragraph(new Run(text))
+            {
+                FontSize = 30,
+                FontWeight = FontWeights.Bold,
+                TextAlignment = TextAlignment.Left,
+                Margin = new Thickness(0)
+            };
 
             return p;
         }
 
         public static Paragraph CreateSectionHeader(string text)
         {
-            Paragraph p = new Paragraph(new Run(text));
-            p.FontSize = 14;
-            p.FontWeight = FontWeights.Bold;
-            p.TextAlignment = TextAlignment.Center;
-            p.Foreground = (SolidColorBrush)Application.Current.TryFindResource("TextOnPrimaryBrush")
-                ?? Brushes.White;
-            p.Background = (SolidColorBrush)Application.Current.TryFindResource("PrimaryBlueDarkBrush")
-                ?? Brushes.DarkBlue;
+            Paragraph p = new Paragraph(new Run(text))
+            {
+                FontSize = 14,
+                FontWeight = FontWeights.Bold,
+                TextAlignment = TextAlignment.Center,
+                Foreground = (SolidColorBrush)Application.Current.TryFindResource("TextOnPrimaryBrush")
+                ?? Brushes.White,
+                Background = (SolidColorBrush)Application.Current.TryFindResource("PrimaryBlueDarkBrush")
+                ?? Brushes.DarkBlue,
 
-            p.Padding = new Thickness(5);
-            p.Margin = new Thickness(0);
+                Padding = new Thickness(5),
+                Margin = new Thickness(0)
+            };
 
             return p;
         }
 
         public static TableCell CreateHeaderCell(string text, TextAlignment align = TextAlignment.Center)
         {
-            Paragraph p = new Paragraph(new Run(text));
-            p.TextAlignment = align;
-            p.FontWeight = FontWeights.Bold;
-            p.FontSize = 13;
-            p.Foreground = (SolidColorBrush)Application.Current.TryFindResource("TextSecondaryBrush")
-                ?? Brushes.White;
-            p.Margin = new Thickness(0);
+            Paragraph p = new Paragraph(new Run(text))
+            {
+                TextAlignment = align,
+                FontWeight = FontWeights.Bold,
+                FontSize = 13,
+                Foreground = (SolidColorBrush)Application.Current.TryFindResource("TextSecondaryBrush")
+                ?? Brushes.White,
+                Margin = new Thickness(0)
+            };
 
             return new TableCell(p)
             {
@@ -79,12 +84,14 @@ namespace SmartFactoryMonitor.Report
 
         public static TableCell CreateDataCell(string text, TextAlignment align = TextAlignment.Center)
         {
-            Paragraph p = new Paragraph(new Run(text));
-            p.TextAlignment = align;
-            p.FontWeight = FontWeights.SemiBold;
-            p.FontSize = 13;
-            p.Foreground = Brushes.Black;
-            p.Margin = new Thickness(0);
+            Paragraph p = new Paragraph(new Run(text))
+            {
+                TextAlignment = align,
+                FontWeight = FontWeights.SemiBold,
+                FontSize = 13,
+                Foreground = Brushes.Black,
+                Margin = new Thickness(0)
+            };
 
             return new TableCell(p)
             {
@@ -96,29 +103,27 @@ namespace SmartFactoryMonitor.Report
 
         public static TableCell CreateMultiLineCell(string mainText, string subText, bool mainBold = false, Brush mainColor = null)
         {
-            StackPanel panel = new StackPanel();
-
-            // 윗줄
-            panel.Children.Add(new TextBlock
+            Paragraph p = new Paragraph()
             {
-                Text = mainText,
+                TextAlignment = TextAlignment.Center
+            };
+
+            p.Inlines.Add(new Run(mainText)
+            {
                 FontSize = 13,
                 FontWeight = mainBold ? FontWeights.Bold : FontWeights.Normal,
                 Foreground = mainColor ?? Brushes.Black,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Margin = new Thickness(0, 0, 0, 2)
             });
 
-            // 아랫줄
-            panel.Children.Add(new TextBlock
+            p.Inlines.Add(new LineBreak());
+
+            p.Inlines.Add(new Run(subText)
             {
-                Text = subText,
                 FontSize = 11,
-                Foreground = Brushes.Black,
-                HorizontalAlignment = HorizontalAlignment.Center
+                Foreground = Brushes.Black
             });
 
-            return new TableCell(new BlockUIContainer(panel))
+            return new TableCell(p)
             {
                 Padding = new Thickness(5, 10, 5, 10),
                 BorderBrush = Brushes.LightGray,

@@ -20,32 +20,28 @@ namespace SmartFactoryMonitor.Report
     /// </summary>
     public partial class ReportWindow : Window
     {
+        private readonly IReportGenerator generator;
+
         public ReportWindow(IReportGenerator generator)
         {
             InitializeComponent();
 
-            docReader.Document = generator.GenerateDocument();
+            this.generator = generator;
+
+            docReader.Document = generator.GenerateDocument(); // 표시용 문서
         }
 
         private void BtnPrintClick(object sender, RoutedEventArgs e)
         {
-            // TODO : Print Dialog 띄우기
             PrintDialog printDialog = new PrintDialog();
-
             if (printDialog.ShowDialog() is true)
             {
-                IDocumentPaginatorSource idp = docReader.Document as IDocumentPaginatorSource;
+                IDocumentPaginatorSource idp = generator.GenerateDocument(); // 출력용 문서
                 if (idp is null) { MessageBox.Show("올바르지 않는 형식입니다\n다시 시도하세요"); return; }
 
-                printDialog.PrintDocument(idp.DocumentPaginator, "Smart Factory Report");
                 MessageBox.Show("출력이 요청되었습니다");
+                printDialog.PrintDocument(idp.DocumentPaginator, "Smart Factory Report");
             }
-        }
-
-        private void BtnSavePdf_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO : File Dialog 띄우기
-            MessageBox.Show("PDF가 저장되었습니다");
         }
     }
 }
