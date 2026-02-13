@@ -83,10 +83,11 @@ namespace SmartFactoryMonitor.Report
             };
 
             // 열 비율 설정
-            table.Columns.Add(new TableColumn { Width = new GridLength(2, GridUnitType.Star) });
-            table.Columns.Add(new TableColumn { Width = new GridLength(1.5, GridUnitType.Star) });
-            table.Columns.Add(new TableColumn { Width = new GridLength(1.5, GridUnitType.Star) });
-            table.Columns.Add(new TableColumn { Width = new GridLength(1.5, GridUnitType.Star) });
+            table.Columns.Add(new TableColumn { Width = new GridLength(0.5, GridUnitType.Star) });
+            table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
+            table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
+            table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
+            table.Columns.Add(new TableColumn { Width = new GridLength(1, GridUnitType.Star) });
 
             // 헤더 열
             TableRowGroup headerGroup = new TableRowGroup();
@@ -95,7 +96,8 @@ namespace SmartFactoryMonitor.Report
                 Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E2E6EA"))
             };
 
-            headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("설비명 (위치)"));
+            headerRow.Cells.Add(ReportStlyer.CreateHeaderCell(" "));
+            headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("설비명 (위치)", TextAlignment.Left));
             headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("통신 (수신)"));
             headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("온도 (범위)"));
             headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("가동률 (누적)"));
@@ -105,26 +107,37 @@ namespace SmartFactoryMonitor.Report
 
             // 데이터 행
             TableRowGroup dataGroup = new TableRowGroup();
-            foreach (var status in statusList)
+            foreach (var item in statusList.Select((value, i) => new { status = value, Index = i + 1 }))
             {
                 TableRow row = new TableRow();
 
+                row.Cells.Add(ReportStlyer.CreateMultiLineCell(item.Index.ToString(), string.Empty, true));
+
                 // 설비명 + 위치 (2줄)
-                row.Cells.Add(ReportStlyer.CreateMultiLineCell(status.EquipName, $"({status.Location})", true));
+                row.Cells.Add(ReportStlyer.CreateMultiLineCell(
+                    item.status.EquipName,
+                    $"({item.status.Location})",
+                    true,
+                    TextAlignment.Left));
 
                 // 통신상태 + 시간
-                string connection = string.Equals(status.Status, "NO DATA") ? "○ 끊김" : "● 정상";
+                string connection = string.Equals(item.status.Status, "NO DATA") ? "○ 끊김" : "● 정상";
                 row.Cells.Add(ReportStlyer.CreateMultiLineCell(
                     connection,
-                    $"({status.ReportUpdateTimeTxt})",
+                    $"({item.status.ReportUpdateTimeTxt})",
                     false,
-                    string.Equals(status.Status, "NO DATA") ? Brushes.Red : Brushes.Green));
+                    TextAlignment.Center,
+                    string.Equals(item.status.Status, "NO DATA") ? Brushes.Red : Brushes.Green));
 
                 // 온도 + 범위
-                row.Cells.Add(ReportStlyer.CreateMultiLineCell($"{status.CurrentTemp:F1}℃", $"({status.MinTemp:F1}~{status.MaxTemp:F1})"));
+                row.Cells.Add(ReportStlyer.CreateMultiLineCell(
+                    $"{item.status.CurrentTemp:F1}℃",
+                    $"({item.status.MinTemp:F1}~{item.status.MaxTemp:F1})"));
 
                 // 가동률 + 시간
-                row.Cells.Add(ReportStlyer.CreateMultiLineCell($"{status.OperatingRate}%", $"({status.TotalRuntime})"));
+                row.Cells.Add(ReportStlyer.CreateMultiLineCell(
+                    $"{item.status.OperatingRate}%",
+                    $"({item.status.TotalRuntime})"));
 
                 dataGroup.Rows.Add(row);
             }

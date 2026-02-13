@@ -165,7 +165,7 @@ namespace SmartFactoryMonitor.Model
                     MaxTemp = equip.MaxTemp,
                     Location = equip.Location,
                     IsActive = equip.IsActive,
-                    CreateDate = equip.CreateDate.ToString(),
+                    CreateDate = equip.CreateDate,
                 };
 
             public void Apply(Equipment target)

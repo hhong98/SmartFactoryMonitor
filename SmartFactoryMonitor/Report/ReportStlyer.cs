@@ -18,9 +18,7 @@ namespace SmartFactoryMonitor.Report
                 // A4 사이즈
                 PageWidth = 794,
                 PageHeight = 1123,
-                //ColumnWidth = double.PositiveInfinity,
-                //ColumnWidth = 734,
-                ColumnWidth = double.NaN,
+                ColumnWidth = double.PositiveInfinity,
                 FontFamily = new FontFamily("Malgun Gothic"),
 
                 PagePadding = new Thickness(30),
@@ -101,11 +99,11 @@ namespace SmartFactoryMonitor.Report
             };
         }
 
-        public static TableCell CreateMultiLineCell(string mainText, string subText, bool mainBold = false, Brush mainColor = null)
+        public static TableCell CreateMultiLineCell(string mainText, string subText, bool mainBold = false, TextAlignment align = TextAlignment.Center, Brush mainColor = null)
         {
             Paragraph p = new Paragraph()
             {
-                TextAlignment = TextAlignment.Center
+                TextAlignment = align
             };
 
             p.Inlines.Add(new Run(mainText)

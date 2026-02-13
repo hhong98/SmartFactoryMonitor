@@ -25,7 +25,6 @@ namespace SmartFactoryMonitor.Report
         public ReportWindow(IReportGenerator generator)
         {
             InitializeComponent();
-
             this.generator = generator;
 
             docReader.Document = generator.GenerateDocument(); // 표시용 문서

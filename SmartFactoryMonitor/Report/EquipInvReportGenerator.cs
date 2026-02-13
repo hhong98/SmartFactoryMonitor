@@ -51,12 +51,13 @@ namespace SmartFactoryMonitor.Report
                 CellSpacing = 0,
                 Margin = new Thickness(0),
                 BorderBrush = Brushes.LightGray,
-                BorderThickness = new Thickness(1)
+                BorderThickness = new Thickness(0, 1, 0, 1),
             };
 
             // Grid Width="*"  -> new GridLength(1, GridUnitType.Star)
             // Grid Width="50" -> new GridLength(50)
             // 열 비율 설정
+            table.Columns.Add(new TableColumn { Width = new GridLength(0.3, GridUnitType.Star) });
             table.Columns.Add(new TableColumn { Width = new GridLength(1.3, GridUnitType.Star) });
             table.Columns.Add(new TableColumn { Width = new GridLength(1.2, GridUnitType.Star) });
             table.Columns.Add(new TableColumn { Width = new GridLength(0.5, GridUnitType.Star) });
@@ -71,6 +72,7 @@ namespace SmartFactoryMonitor.Report
                 Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E2E6EA"))
             };
 
+            headerRow.Cells.Add(ReportStlyer.CreateHeaderCell(" "));
             headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("설비명", TextAlignment.Left));
             headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("IP 주소", TextAlignment.Left));
             headerRow.Cells.Add(ReportStlyer.CreateHeaderCell("포트"));
@@ -83,16 +85,17 @@ namespace SmartFactoryMonitor.Report
 
             // 데이터 행
             TableRowGroup dataGroup = new TableRowGroup();
-            foreach (var item in dataList)
+            foreach (var item in dataList.Select((value, i) => new { equip = value, Index = i + 1 }))
             {
                 TableRow row = new TableRow();
 
-                row.Cells.Add(ReportStlyer.CreateDataCell(item.EquipName, TextAlignment.Left));
-                row.Cells.Add(ReportStlyer.CreateDataCell(item.IpAddress, TextAlignment.Left));
-                row.Cells.Add(ReportStlyer.CreateDataCell(item.Port.ToString()));
-                row.Cells.Add(ReportStlyer.CreateDataCell(item.Location));
+                row.Cells.Add(ReportStlyer.CreateDataCell(item.Index.ToString()));
+                row.Cells.Add(ReportStlyer.CreateDataCell(item.equip.EquipName, TextAlignment.Left));
+                row.Cells.Add(ReportStlyer.CreateDataCell(item.equip.IpAddress, TextAlignment.Left));
+                row.Cells.Add(ReportStlyer.CreateDataCell(item.equip.Port.ToString()));
+                row.Cells.Add(ReportStlyer.CreateDataCell(item.equip.Location));
                 row.Cells.Add(ReportStlyer.CreateDataCell(
-                    DateTime.Parse(item.CreateDate).ToString("yyyy-MM-dd\nHH:mm")));
+                    DateTime.Parse(item.equip.CreateDate).ToString("yyyy-MM-dd\nHH:mm")));
                 row.Cells.Add(ReportStlyer.CreateDataCell(""));
 
                 dataGroup.Rows.Add(row);
