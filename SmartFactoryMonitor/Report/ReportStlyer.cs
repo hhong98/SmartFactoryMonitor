@@ -88,7 +88,7 @@ namespace SmartFactoryMonitor.Report
                 FontWeight = FontWeights.SemiBold,
                 FontSize = 13,
                 Foreground = Brushes.Black,
-                Margin = new Thickness(0,5,0,0)
+                Margin = new Thickness(0, 5, 0, 0)
             };
 
             return new TableCell(p)
