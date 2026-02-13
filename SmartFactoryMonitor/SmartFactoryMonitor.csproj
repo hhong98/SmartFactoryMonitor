@@ -69,8 +69,10 @@
     </ApplicationDefinition>
     <Compile Include="Common\AppConstants.cs" />
     <Compile Include="Common\ActiveConverter.cs" />
+    <Compile Include="Common\InverseBooleanToVisibilityConverter.cs" />
     <Compile Include="Common\RateToBrushConverter.cs" />
     <Compile Include="Common\StatusToBrushConverter.cs" />
+    <Compile Include="Common\TotalDashboardMsgConverter.cs" />
     <Compile Include="Common\Utils.cs" />
     <Compile Include="Controls\DashboardCard.xaml.cs">
       <DependentUpon>DashboardCard.xaml</DependentUpon>

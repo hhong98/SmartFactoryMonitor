@@ -2,6 +2,7 @@
     x:Class="SmartFactoryMonitor.Views.EquipMonitorPage"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:common="clr-namespace:SmartFactoryMonitor.Common"
     xmlns:custom="clr-namespace:SmartFactoryMonitor.Controls"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:SmartFactoryMonitor.Views"
@@ -12,6 +13,9 @@
     d:DesignWidth="995"
     DataContext="{StaticResource MainVM}"
     mc:Ignorable="d">
+    <Page.Resources>
+        <common:TotalDashboardMsgConverter x:Key="TotalMsgConverter" />
+    </Page.Resources>
 
     <Grid Background="{StaticResource MainBackgroundBrush}">
         <Grid.ColumnDefinitions>
@@ -101,7 +105,8 @@
                         CardName="가동 설비"
                         CardTextColor="Black">
                         <custom:DashboardCard.CardMessage>
-                            <MultiBinding StringFormat="{}{0}/{1}">
+                            <MultiBinding Converter="{StaticResource TotalMsgConverter}">
+                                <Binding Path="IsPanelOpened" />
                                 <Binding Path="MonitorVM.ActiveCount" />
                                 <Binding Path="MonitorVM.TotalCount" />
                             </MultiBinding>
@@ -206,21 +211,10 @@
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="3" />
                                 <ColumnDefinition Width="180" />
-                                <ColumnDefinition Width="150" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition Width="100" />
-                                <ColumnDefinition>
-                                    <ColumnDefinition.Style>
-                                        <Style TargetType="ColumnDefinition">
-                                            <Setter Property="Width" Value="100" />
-                                            <Style.Triggers>
-                                                <DataTrigger Binding="{Binding IsPanelOpened}" Value="True">
-                                                    <Setter Property="Width" Value="0" />
-                                                </DataTrigger>
-                                            </Style.Triggers>
-                                        </Style>
-                                    </ColumnDefinition.Style>
-                                </ColumnDefinition>
+                                <ColumnDefinition Width="180" />
+                                <ColumnDefinition Width="80" />
+                                <ColumnDefinition Width="60" />
+                                <ColumnDefinition Width="120" />
                             </Grid.ColumnDefinitions>
 
                             <Grid.Resources>
@@ -247,8 +241,9 @@
                                 Text="연결" />
                             <TextBlock
                                 Grid.Column="5"
-                                HorizontalAlignment="Center"
-                                Text="수신" />
+                                Text="수신"
+                                TextAlignment="Center"
+                                Visibility="{Binding IsPanelOpened, Converter={StaticResource InvBoolToVis}}" />
                         </Grid>
                     </Border>
                     <!--#endregion List Header-->
