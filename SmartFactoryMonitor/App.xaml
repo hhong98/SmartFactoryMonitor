@@ -20,6 +20,7 @@
             <!--#region Converter-->
             <common:RateToBrushConverter x:Key="RateToBrushConverter" />
             <common:StatusToBrushConverter x:Key="StatusToBrushConverter" />
+            <BooleanToVisibilityConverter x:Key="BoolToVis" />
             <!--#endregion Converter-->
 
             <!--#region Style-->

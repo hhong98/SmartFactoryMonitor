@@ -13,9 +13,14 @@
     DataContext="{StaticResource MainVM}"
     mc:Ignorable="d">
 
-    <StackPanel Background="{StaticResource MainBackgroundBrush}" Orientation="Horizontal">
+    <Grid Background="{StaticResource MainBackgroundBrush}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
         <!--#region Main Body-->
-        <Grid Margin="20,5,20,15">
+        <Grid Grid.Column="0" Margin="20,5,10,15">
             <Grid.RowDefinitions>
                 <RowDefinition Height="50" />
                 <RowDefinition Height="*" />
@@ -282,7 +287,11 @@
         <!--#endregion Main Body-->
 
         <!--#region Side Panel-->
-        <custom:EquipMonitorPanel x:Name="MonitorPanel" Margin="10,0,0,0" />
+        <custom:EquipMonitorPanel
+            x:Name="MonitorPanel"
+            Grid.Column="1"
+            Margin="0,0,10,0"
+            Visibility="{Binding IsPanelOpened, Converter={StaticResource BoolToVis}}" />
         <!--#endregion Side Panel-->
-    </StackPanel>
+    </Grid>
 </Page>
